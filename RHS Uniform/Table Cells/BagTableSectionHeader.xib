@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Arial.ttf">
+            <string>ArialMT</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BagTableSectionHeader" customModule="RHS_Uniform" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BagTableSectionHeader" customModule="RHS_Uniform" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4jv-qV-xXb">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiM-qi-RDJ">
+                            <rect key="frame" x="8" y="8" width="359" height="28"/>
+                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                            <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jSs-Pn-UX0">
+                            <rect key="frame" x="8" y="8" width="359" height="28"/>
+                            <color key="backgroundColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapCheckoutButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="f7l-57-sym"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="qiM-qi-RDJ" firstAttribute="leading" secondItem="5vV-Uz-KOb" secondAttribute="leading" constant="8" id="1G3-XR-Q1W"/>
+                        <constraint firstItem="5vV-Uz-KOb" firstAttribute="bottom" secondItem="qiM-qi-RDJ" secondAttribute="bottom" constant="8" id="54A-dB-9M7"/>
+                        <constraint firstItem="5vV-Uz-KOb" firstAttribute="bottom" secondItem="jSs-Pn-UX0" secondAttribute="bottom" constant="8" id="Cjl-U7-ZJ6"/>
+                        <constraint firstItem="jSs-Pn-UX0" firstAttribute="leading" secondItem="5vV-Uz-KOb" secondAttribute="leading" constant="8" id="PHO-C3-mIa"/>
+                        <constraint firstItem="5vV-Uz-KOb" firstAttribute="trailing" secondItem="qiM-qi-RDJ" secondAttribute="trailing" constant="8" id="RCe-bf-abw"/>
+                        <constraint firstItem="5vV-Uz-KOb" firstAttribute="trailing" secondItem="jSs-Pn-UX0" secondAttribute="trailing" constant="8" id="cCj-AW-Rq1"/>
+                        <constraint firstItem="qiM-qi-RDJ" firstAttribute="top" secondItem="5vV-Uz-KOb" secondAttribute="top" constant="8" id="ofv-SM-rQd"/>
+                        <constraint firstItem="jSs-Pn-UX0" firstAttribute="top" secondItem="5vV-Uz-KOb" secondAttribute="top" constant="8" id="xpe-Je-aAO"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="5vV-Uz-KOb"/>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="4jv-qV-xXb" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="AHP-uE-kel"/>
+                <constraint firstItem="4jv-qV-xXb" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Ofj-zL-9bS"/>
+                <constraint firstItem="4jv-qV-xXb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Tp5-GX-7u9"/>
+                <constraint firstItem="4jv-qV-xXb" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="zf2-g5-STE"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="bagEmptyLabel" destination="qiM-qi-RDJ" id="ukR-UP-4wl"/>
+                <outlet property="checkoutButton" destination="jSs-Pn-UX0" id="Vpu-1n-8hb"/>
+            </connections>
+        </view>
+    </objects>
+</document>

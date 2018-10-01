@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D47" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BagItem" representedClassName="BagItem" syncable="YES" codeGenerationType="class">
+        <attribute name="itemQuantity" attributeType="Integer 32" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="uniformStock" maxCount="1" deletionRule="Nullify" destinationEntity="UniformStock" inverseName="bagItem" inverseEntity="UniformStock" syncable="YES"/>
+    </entity>
+    <entity name="School" representedClassName="School" syncable="YES" codeGenerationType="class">
+        <attribute name="schoolName" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="uniformYears" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformYear" inverseName="school" inverseEntity="UniformYear" syncable="YES"/>
+    </entity>
+    <entity name="UniformCategory" representedClassName="UniformCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryName" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="uniformItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformItem" inverseName="uniformCategory" inverseEntity="UniformItem" syncable="YES"/>
+    </entity>
+    <entity name="UniformItem" representedClassName="UniformItem" syncable="YES" codeGenerationType="class">
+        <attribute name="itemColor" attributeType="String" syncable="YES"/>
+        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemGender" attributeType="String" syncable="YES"/>
+        <attribute name="itemImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemName" attributeType="String" syncable="YES"/>
+        <attribute name="itemPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="uniformCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UniformCategory" inverseName="uniformItems" inverseEntity="UniformCategory" syncable="YES"/>
+        <relationship name="uniformStocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UniformStock" inverseName="uniformItem" inverseEntity="UniformStock" syncable="YES"/>
+        <relationship name="uniformYears" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UniformYear" inverseName="uniformItems" inverseEntity="UniformYear" syncable="YES"/>
+    </entity>
+    <entity name="UniformSize" representedClassName="UniformSize" syncable="YES" codeGenerationType="class">
+        <attribute name="sizeName" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="uniformStocks" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformStock" inverseName="uniformSize" inverseEntity="UniformStock" syncable="YES"/>
+    </entity>
+    <entity name="UniformStock" representedClassName="UniformStock" syncable="YES" codeGenerationType="class">
+        <attribute name="stockLevel" attributeType="Integer 32" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="bagItem" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BagItem" inverseName="uniformStock" inverseEntity="BagItem" syncable="YES"/>
+        <relationship name="uniformItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UniformItem" inverseName="uniformStocks" inverseEntity="UniformItem" syncable="YES"/>
+        <relationship name="uniformSize" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UniformSize" inverseName="uniformStocks" inverseEntity="UniformSize" syncable="YES"/>
+    </entity>
+    <entity name="UniformYear" representedClassName="UniformYear" syncable="YES" codeGenerationType="class">
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="yearName" attributeType="String" syncable="YES"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="School" inverseName="uniformYears" inverseEntity="School" syncable="YES"/>
+        <relationship name="uniformItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformItem" inverseName="uniformYears" inverseEntity="UniformItem" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BagItem" positionX="-135" positionY="-511" width="128" height="88"/>
+        <element name="UniformCategory" positionX="-315" positionY="-364" width="128" height="103"/>
+        <element name="UniformItem" positionX="-137" positionY="-396" width="128" height="208"/>
+        <element name="UniformSize" positionX="214" positionY="-396" width="128" height="103"/>
+        <element name="UniformStock" positionX="36" positionY="-397" width="128" height="133"/>
+        <element name="UniformYear" positionX="34" positionY="-234" width="128" height="118"/>
+        <element name="School" positionX="214" positionY="-223" width="128" height="103"/>
+    </elements>
+</model>
