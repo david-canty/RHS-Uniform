@@ -22,9 +22,6 @@ class ContainerViewController: UIViewController {
     let sideMenuTransitioningDelegate = SideMenuTransitioningDelegate()
     let notificationCenter = NotificationCenter.default
     
-    let backButtonHiddenXCoord = -22.0
-    let backButtonShownXCoord = 2.0
-    
     @IBOutlet weak var backButtonView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var searchButton: UIButton!

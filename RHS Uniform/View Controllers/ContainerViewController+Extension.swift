@@ -12,6 +12,9 @@ extension ContainerViewController: YearsDelegate {
     
     func toggleBackButton() {
         
+        let backButtonHiddenXCoord = -44.0
+        let backButtonShownXCoord = 8.0
+        
         let navigationCount = embeddedNavigationController.viewControllers.count
         
         if navigationCount > 1 {
@@ -19,7 +22,7 @@ extension ContainerViewController: YearsDelegate {
             // Show back button
             UIView.animate(withDuration: 0.3, animations: {
                 
-                self.backButtonView.frame = CGRect(x: self.backButtonShownXCoord, y: 11.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
+                self.backButtonView.frame = CGRect(x: backButtonShownXCoord, y: 0.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
             })
             
         } else {
@@ -27,7 +30,7 @@ extension ContainerViewController: YearsDelegate {
             // Hide back button
             UIView.animate(withDuration: 0.3, animations: {
                 
-                self.backButtonView.frame = CGRect(x: self.backButtonHiddenXCoord, y: 11.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
+                self.backButtonView.frame = CGRect(x: backButtonHiddenXCoord, y: 0.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
             })
         }
     }
