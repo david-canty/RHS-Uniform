@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="School" representedClassName="School" syncable="YES" codeGenerationType="class">
-        <attribute name="schoolName" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="uniqueId" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="uniformYears" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformYear" inverseName="school" inverseEntity="UniformYear" syncable="YES"/>
-    </entity>
     <entity name="SUCategory" representedClassName="SUCategory" syncable="YES" codeGenerationType="class">
         <attribute name="categoryName" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="sortOrder" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="items" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformItem" inverseName="uniformCategory" inverseEntity="UniformItem" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUItem" inverseName="category" inverseEntity="SUItem" syncable="YES"/>
     </entity>
     <entity name="SUCustomer" representedClassName="SUCustomer" syncable="YES" codeGenerationType="class">
         <attribute name="addressLine1" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,25 +21,54 @@
         <attribute name="tel" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="orders" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrder" inverseName="customer" inverseEntity="SUOrder" syncable="YES"/>
     </entity>
+    <entity name="SUImage" representedClassName="SUImage" syncable="YES" codeGenerationType="class">
+        <attribute name="filename" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="sortOrder" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="SUItem" inverseName="images" inverseEntity="SUItem" syncable="YES"/>
+    </entity>
+    <entity name="SUItem" representedClassName="SUItem" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="itemColor" attributeType="String" syncable="YES"/>
+        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemGender" attributeType="String" syncable="YES"/>
+        <attribute name="itemImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemName" attributeType="String" syncable="YES"/>
+        <attribute name="itemPrice" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUCategory" inverseName="items" inverseEntity="SUCategory" syncable="YES"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUImage" inverseName="item" inverseEntity="SUImage" syncable="YES"/>
+        <relationship name="orderItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="item" inverseEntity="SUOrderItem" syncable="YES"/>
+        <relationship name="sizes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUItemSize" inverseName="item" inverseEntity="SUItemSize" syncable="YES"/>
+        <relationship name="years" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SUYear" inverseName="items" inverseEntity="SUYear" syncable="YES"/>
+    </entity>
     <entity name="SUItemSize" representedClassName="SUItemSize" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="stock" attributeType="Integer 64" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UniformItem" inverseName="sizes" inverseEntity="UniformItem" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUItem" inverseName="sizes" inverseEntity="SUItem" syncable="YES"/>
         <relationship name="size" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUSize" inverseName="items" inverseEntity="SUSize" syncable="YES"/>
     </entity>
     <entity name="SUOrder" representedClassName="SUOrder" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="orderDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="status" attributeType="String" syncable="YES"/>
         <relationship name="customer" maxCount="1" deletionRule="Nullify" destinationEntity="SUCustomer" inverseName="orders" inverseEntity="SUCustomer" syncable="YES"/>
         <relationship name="orderItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="order" inverseEntity="SUOrderItem" syncable="YES"/>
     </entity>
     <entity name="SUOrderItem" representedClassName="SUOrderItem" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="quantity" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="UniformItem" inverseName="orderItems" inverseEntity="UniformItem" syncable="YES"/>
+        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="SUItem" inverseName="orderItems" inverseEntity="SUItem" syncable="YES"/>
         <relationship name="order" maxCount="1" deletionRule="Nullify" destinationEntity="SUOrder" inverseName="orderItems" inverseEntity="SUOrder" syncable="YES"/>
         <relationship name="size" maxCount="1" deletionRule="Nullify" destinationEntity="SUSize" inverseName="orderItems" inverseEntity="SUSize" syncable="YES"/>
+    </entity>
+    <entity name="SUSchool" representedClassName="SUSchool" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="schoolName" attributeType="String" syncable="YES"/>
+        <attribute name="sortOrder" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="years" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUYear" inverseName="school" inverseEntity="SUYear" syncable="YES"/>
     </entity>
     <entity name="SUSize" representedClassName="SUSize" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
@@ -55,36 +78,24 @@
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUItemSize" inverseName="size" inverseEntity="SUItemSize" syncable="YES"/>
         <relationship name="orderItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="size" inverseEntity="SUOrderItem" syncable="YES"/>
     </entity>
-    <entity name="UniformItem" representedClassName="UniformItem" syncable="YES" codeGenerationType="class">
-        <attribute name="itemColor" attributeType="String" syncable="YES"/>
-        <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="itemGender" attributeType="String" syncable="YES"/>
-        <attribute name="itemImage" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="itemName" attributeType="String" syncable="YES"/>
-        <attribute name="itemPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    <entity name="SUYear" representedClassName="SUYear" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="sortOrder" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="orderItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="item" inverseEntity="SUOrderItem" syncable="YES"/>
-        <relationship name="sizes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUItemSize" inverseName="item" inverseEntity="SUItemSize" syncable="YES"/>
-        <relationship name="uniformCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUCategory" inverseName="items" inverseEntity="SUCategory" syncable="YES"/>
-        <relationship name="uniformYears" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UniformYear" inverseName="uniformItems" inverseEntity="UniformYear" syncable="YES"/>
-    </entity>
-    <entity name="UniformYear" representedClassName="UniformYear" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="uniqueId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="yearName" attributeType="String" syncable="YES"/>
-        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="School" inverseName="uniformYears" inverseEntity="School" syncable="YES"/>
-        <relationship name="uniformItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="UniformItem" inverseName="uniformYears" inverseEntity="UniformItem" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUItem" inverseName="years" inverseEntity="SUItem" syncable="YES"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUSchool" inverseName="years" inverseEntity="SUSchool" syncable="YES"/>
     </entity>
     <elements>
-        <element name="School" positionX="214" positionY="-223" width="128" height="105"/>
-        <element name="SUCategory" positionX="-315" positionY="-364" width="128" height="120"/>
-        <element name="UniformItem" positionX="-137" positionY="-396" width="128" height="225"/>
-        <element name="SUSize" positionX="214" positionY="-396" width="128" height="135"/>
-        <element name="SUItemSize" positionX="36" positionY="-397" width="128" height="120"/>
-        <element name="UniformYear" positionX="34" positionY="-234" width="128" height="118"/>
+        <element name="SUSchool" positionX="225" positionY="-234" width="128" height="120"/>
+        <element name="SUCategory" positionX="-315" positionY="-291" width="128" height="120"/>
+        <element name="SUItem" positionX="-137" positionY="-396" width="128" height="240"/>
+        <element name="SUSize" positionX="226" positionY="-403" width="128" height="135"/>
+        <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
+        <element name="SUYear" positionX="34" positionY="-234" width="128" height="135"/>
         <element name="SUCustomer" positionX="-268.10546875" positionY="-744.09375" width="128" height="225"/>
-        <element name="SUOrder" positionX="16.69140625" positionY="-725.921875" width="128" height="105"/>
+        <element name="SUOrder" positionX="16.69140625" positionY="-725.921875" width="128" height="120"/>
         <element name="SUOrderItem" positionX="18.41796875" positionY="-571.3515625" width="128" height="120"/>
+        <element name="SUImage" positionX="-316.10546875" positionY="-431.2578125" width="128" height="105"/>
     </elements>
 </model>
