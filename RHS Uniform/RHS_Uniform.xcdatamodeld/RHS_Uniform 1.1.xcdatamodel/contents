@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="SUBagItem" representedClassName="SUBagItem" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="quantity" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" syncable="YES"/>
+        <relationship name="relationship1" optional="YES" maxCount="1" deletionRule="Nullify" syncable="YES"/>
+    </entity>
     <entity name="SUCategory" representedClassName="SUCategory" syncable="YES" codeGenerationType="class">
         <attribute name="categoryName" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
@@ -97,5 +103,6 @@
         <element name="SUOrder" positionX="9.921875" positionY="-720.28125" width="128" height="135"/>
         <element name="SUOrderItem" positionX="28.41796875" positionY="-543.3515625" width="128" height="120"/>
         <element name="SUImage" positionX="-309.01953125" positionY="-279.6953125" width="128" height="105"/>
+        <element name="SUBagItem" positionX="224.3203125" positionY="-543.390625" width="128" height="105"/>
     </elements>
 </model>

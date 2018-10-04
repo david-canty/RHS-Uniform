@@ -1,8 +1,8 @@
 //
-//  BagItem.swift
+//  Customer+Extension.swift
 //  RHS Uniform
 //
-//  Created by David Canty on 01/03/2018.
+//  Created by David Canty on 04/10/2018.
 //  Copyright © 2018 ddijitall. All rights reserved.
 //
 
@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 import CoreData
 
-extension BagItem {
-
-    class func getObjectWith(uniformStockId: Int32) -> BagItem? {
+extension SUCustomer {
+    
+    class func getObjectWithId(_ id: UUID) -> SUCustomer? {
         
-        var bagItem: BagItem?
+        var customer: SUCustomer?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<BagItem> = BagItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUCustomer> = SUCustomer.fetchRequest()
         
-        let predicate = NSPredicate(format: "uniformStock.uniqueId == %i", uniformStockId)
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
@@ -27,15 +27,15 @@ extension BagItem {
             let results = try context.fetch(fetchRequest)
             
             if !results.isEmpty {
-                bagItem = results[0]
+                customer = results[0]
             }
             
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting bag item uniform stock with unique id: \(uniformStockId)")
+            print("Error getting customer with id: \(id)")
         }
         
-        return bagItem
+        return customer
     }
 }
