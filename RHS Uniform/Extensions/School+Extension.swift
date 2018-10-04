@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-extension School {
+extension SUSchool {
     
-    class func getObjectWithUniqueId(_ uniqueId: UUID) -> School? {
+    class func getObjectWithId(_ id: UUID) -> SUSchool? {
         
-        var school: School?
+        var school: SUSchool?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<School> = School.fetchRequest()
-        let predicate = NSPredicate(format: "uniqueId == %@", uniqueId as CVarArg)
+        let fetchRequest: NSFetchRequest<SUSchool> = SUSchool.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
@@ -32,7 +32,7 @@ extension School {
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting school with unique id: \(uniqueId)")
+            print("Error getting school with id: \(id)")
         }
         
         return school

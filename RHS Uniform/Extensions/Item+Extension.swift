@@ -1,8 +1,8 @@
 //
-//  UniformSize.swift
+//  UniformItem.swift
 //  RHS Uniform
 //
-//  Created by David Canty on 16/02/2018.
+//  Created by David Canty on 14/02/2018.
 //  Copyright © 2018 ddijitall. All rights reserved.
 //
 
@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-extension UniformSize {
+extension SUItem {
     
-    class func getObjectWithUniqueId(_ uniqueId: Int32) -> UniformSize? {
+    class func getObjectWithId(_ id: UUID) -> SUItem? {
         
-        var uniformSize: UniformSize?
+        var item: SUItem?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<UniformSize> = UniformSize.fetchRequest()
-        let predicate = NSPredicate(format: "uniqueId == %i", uniqueId)
+        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
@@ -26,15 +26,15 @@ extension UniformSize {
             let results = try context.fetch(fetchRequest)
             
             if !results.isEmpty {
-                uniformSize = results[0]
+                item = results[0]
             }
             
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting uniform size with unique id: \(uniqueId)")
+            print("Error getting item with id: \(id)")
         }
         
-        return uniformSize
+        return uniformItem
     }
 }

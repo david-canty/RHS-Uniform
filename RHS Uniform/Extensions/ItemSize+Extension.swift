@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-extension UniformStock {
+extension SUItemSize {
     
-    class func getObjectWithUniqueId(_ uniqueId: Int32) -> UniformStock? {
+    class func getObjectWithId(_ id: UUID) -> SUItemSize? {
         
-        var uniformStock: UniformStock?
+        var itemSize: SUItemSize?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<UniformStock> = UniformStock.fetchRequest()
-        let predicate = NSPredicate(format: "uniqueId == %i", uniqueId)
+        let fetchRequest: NSFetchRequest<SUItemSize> = SUItemSize.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
@@ -26,27 +26,27 @@ extension UniformStock {
             let results = try context.fetch(fetchRequest)
             
             if !results.isEmpty {
-                uniformStock = results[0]
+                itemSize = results[0]
             }
             
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting uniform stock with unique id: \(uniqueId)")
+            print("Error getting item size with id: \(id)")
         }
         
-        return uniformStock
+        return itemSize
     }
     
-    class func getObjectWithItemId(_ itemId: Int32, sizeId: Int32) -> UniformStock? {
+    class func getObjectWithItemId(_ itemId: UUID, sizeId: UUID) -> SUItemSize? {
      
-        var uniformStock: UniformStock?
+        var itemSize: SUItemSize?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<UniformStock> = UniformStock.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUItemSize> = SUItemSize.fetchRequest()
         
-        let itemPredicate = NSPredicate(format: "uniformItem.uniqueId == %i", itemId)
-        let sizePredicate = NSPredicate(format: "uniformSize.uniqueId == %i", sizeId)
+        let itemPredicate = NSPredicate(format: "item.id == %@", itemId as CVarArg)
+        let sizePredicate = NSPredicate(format: "size.id == %@", sizeId as CVarArg)
         let compoundPredicate = NSCompoundPredicate.init(type: .and, subpredicates: [itemPredicate, sizePredicate])
         fetchRequest.predicate = compoundPredicate
         
@@ -55,15 +55,15 @@ extension UniformStock {
             let results = try context.fetch(fetchRequest)
             
             if !results.isEmpty {
-                uniformStock = results[0]
+                itemSize = results[0]
             }
             
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting uniform stock with item unique id: \(itemId) and size unique id: \(sizeId)")
+            print("Error getting item size with item id: \(itemId) and size id: \(sizeId)")
         }
         
-        return uniformStock
+        return itemSize
     }
 }

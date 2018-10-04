@@ -31,11 +31,11 @@
 		1F2A0A5B205D7DDB0063F9AD /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0A5A205D7DDB0063F9AD /* KeychainConfiguration.swift */; };
 		1F2A0A5D205D83BD0063F9AD /* KeychainSecuredItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0A5C205D83BD0063F9AD /* KeychainSecuredItem.swift */; };
 		1F2A0A60205E73B60063F9AD /* ChangeNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0A5F205E73B60063F9AD /* ChangeNameViewController.swift */; };
-		1F2A114120346E5900B5A26A /* UniformCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A114020346E5900B5A26A /* UniformCategory.swift */; };
-		1F2A11432034785C00B5A26A /* UniformYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11422034785C00B5A26A /* UniformYear.swift */; };
-		1F2A11452034823B00B5A26A /* UniformItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11442034823B00B5A26A /* UniformItem.swift */; };
-		1F2A11472036D36100B5A26A /* UniformSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11462036D36100B5A26A /* UniformSize.swift */; };
-		1F2A11492036D4D600B5A26A /* UniformStock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11482036D4D600B5A26A /* UniformStock.swift */; };
+		1F2A114120346E5900B5A26A /* Category+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A114020346E5900B5A26A /* Category+Extension.swift */; };
+		1F2A11432034785C00B5A26A /* Year+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11422034785C00B5A26A /* Year+Extension.swift */; };
+		1F2A11452034823B00B5A26A /* Item+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11442034823B00B5A26A /* Item+Extension.swift */; };
+		1F2A11472036D36100B5A26A /* Size+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11462036D36100B5A26A /* Size+Extension.swift */; };
+		1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */; };
 		1F2A4CCE20483FB900D12827 /* BagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A4CCD20483FB900D12827 /* BagItem.swift */; };
 		1F2A4CD02048558500D12827 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A4CCF2048558500D12827 /* SettingsViewController.swift */; };
 		1F2A4CD22048975700D12827 /* ContainerViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A4CD12048975700D12827 /* ContainerViewController+Extension.swift */; };
@@ -97,11 +97,11 @@
 		1F2A0A5C205D83BD0063F9AD /* KeychainSecuredItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSecuredItem.swift; sourceTree = "<group>"; };
 		1F2A0A5E205DB61C0063F9AD /* RHS Uniform.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RHS Uniform.entitlements"; sourceTree = "<group>"; };
 		1F2A0A5F205E73B60063F9AD /* ChangeNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNameViewController.swift; sourceTree = "<group>"; };
-		1F2A114020346E5900B5A26A /* UniformCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformCategory.swift; sourceTree = "<group>"; };
-		1F2A11422034785C00B5A26A /* UniformYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformYear.swift; sourceTree = "<group>"; };
-		1F2A11442034823B00B5A26A /* UniformItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformItem.swift; sourceTree = "<group>"; };
-		1F2A11462036D36100B5A26A /* UniformSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformSize.swift; sourceTree = "<group>"; };
-		1F2A11482036D4D600B5A26A /* UniformStock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformStock.swift; sourceTree = "<group>"; };
+		1F2A114020346E5900B5A26A /* Category+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+Extension.swift"; sourceTree = "<group>"; };
+		1F2A11422034785C00B5A26A /* Year+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Year+Extension.swift"; sourceTree = "<group>"; };
+		1F2A11442034823B00B5A26A /* Item+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+Extension.swift"; sourceTree = "<group>"; };
+		1F2A11462036D36100B5A26A /* Size+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Size+Extension.swift"; sourceTree = "<group>"; };
+		1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemSize+Extension.swift"; sourceTree = "<group>"; };
 		1F2A4CCD20483FB900D12827 /* BagItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagItem.swift; sourceTree = "<group>"; };
 		1F2A4CCF2048558500D12827 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F2A4CD12048975700D12827 /* ContainerViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContainerViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -254,11 +254,11 @@
 			isa = PBXGroup;
 			children = (
 				1F2AB35E20544EC30086BD5F /* School+Extension.swift */,
-				1F2A114020346E5900B5A26A /* UniformCategory.swift */,
-				1F2A11422034785C00B5A26A /* UniformYear.swift */,
-				1F2A11442034823B00B5A26A /* UniformItem.swift */,
-				1F2A11462036D36100B5A26A /* UniformSize.swift */,
-				1F2A11482036D4D600B5A26A /* UniformStock.swift */,
+				1F2A114020346E5900B5A26A /* Category+Extension.swift */,
+				1F2A11422034785C00B5A26A /* Year+Extension.swift */,
+				1F2A11442034823B00B5A26A /* Item+Extension.swift */,
+				1F2A11462036D36100B5A26A /* Size+Extension.swift */,
+				1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */,
 				1F2A4CCD20483FB900D12827 /* BagItem.swift */,
 				1F1A6991203F3520001660E0 /* ViewController+Extension.swift */,
 				1F30AFE7204DAD9200246E64 /* Storyboard+Extension.swift */,
@@ -491,28 +491,28 @@
 				1F259A591F750473005E4681 /* RHS_Uniform.xcdatamodeld in Sources */,
 				1F2A0A5D205D83BD0063F9AD /* KeychainSecuredItem.swift in Sources */,
 				1F0E63E61F7D26EE003DF25E /* ItemsTableViewController.swift in Sources */,
-				1F2A11492036D4D600B5A26A /* UniformStock.swift in Sources */,
+				1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */,
 				1FEDC6E6205C5EF7002D4125 /* YourAccountViewController.swift in Sources */,
 				1F30AFE8204DAD9200246E64 /* Storyboard+Extension.swift in Sources */,
 				1F2A0A5B205D7DDB0063F9AD /* KeychainConfiguration.swift in Sources */,
 				1F28CDE7203B28B10074C0D3 /* ModalSelectPresentationController.swift in Sources */,
 				1F259A511F750473005E4681 /* AppDelegate.swift in Sources */,
 				1F202AC8205E748C000C5290 /* ChangeEmailViewController.swift in Sources */,
-				1F2A114120346E5900B5A26A /* UniformCategory.swift in Sources */,
+				1F2A114120346E5900B5A26A /* Category+Extension.swift in Sources */,
 				1F28CDE9203B28CF0074C0D3 /* ModalSelectAnimatedTransitioningController.swift in Sources */,
 				1F30AFEF204DBEBB00246E64 /* ItemFilterPresentationController.swift in Sources */,
 				1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */,
 				1FE9AC402030E13700C05ABC /* APIRouter.swift in Sources */,
 				1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */,
 				1F0E63DE1F7BF259003DF25E /* YearsTableViewCell.swift in Sources */,
-				1F2A11432034785C00B5A26A /* UniformYear.swift in Sources */,
+				1F2A11432034785C00B5A26A /* Year+Extension.swift in Sources */,
 				1F30AFED204DBDFE00246E64 /* ItemFilterTransitioningDelegate.swift in Sources */,
 				1FEED7F020066834001E1358 /* SideMenuTransitioningDelegate.swift in Sources */,
 				1F1A6992203F3520001660E0 /* ViewController+Extension.swift in Sources */,
 				1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */,
 				1FEED7F220066933001E1358 /* SideMenuPresentationController.swift in Sources */,
 				1FEED7EE200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift in Sources */,
-				1F2A11452034823B00B5A26A /* UniformItem.swift in Sources */,
+				1F2A11452034823B00B5A26A /* Item+Extension.swift in Sources */,
 				1F30AFE6204D639200246E64 /* SearchViewController.swift in Sources */,
 				1F1A69982042C266001660E0 /* BagTableViewCell.swift in Sources */,
 				1F2F9FDF2059A0C400049FFB /* RegisterViewController.swift in Sources */,
@@ -524,7 +524,7 @@
 				1F1B9C4520627A2F00E07E6C /* KeychainController.swift in Sources */,
 				1FE9AC3A2030CAD400C05ABC /* APIController.swift in Sources */,
 				1F28CDE3203AECEE0074C0D3 /* ModalSelectViewController.swift in Sources */,
-				1F2A11472036D36100B5A26A /* UniformSize.swift in Sources */,
+				1F2A11472036D36100B5A26A /* Size+Extension.swift in Sources */,
 				1F30AFF1204DCAB000246E64 /* ItemFilterAnimatedTransitioningController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

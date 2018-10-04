@@ -48,11 +48,11 @@ class APIPoll {
         }
         
         queue.async (group: group) {
-            self.apiController.fetchCategories()
+            self.apiController.fetchYears()
         }
         
         queue.async (group: group) {
-            self.apiController.fetchYears()
+            self.apiController.fetchCategories()
         }
         
         queue.async (group: group) {

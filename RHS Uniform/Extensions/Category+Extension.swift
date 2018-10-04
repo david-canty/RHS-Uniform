@@ -1,5 +1,5 @@
 //
-//  UniformYear.swift
+//  UniformCategory.swift
 //  RHS Uniform
 //
 //  Created by David Canty on 14/02/2018.
@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 import CoreData
 
-extension UniformYear {
+extension SUCategory {
     
-    class func getObjectWithUniqueId(_ uniqueId: Int32) -> UniformYear? {
+    class func getObjectWithId(_ id: UUID) -> SUCategory? {
         
-        var uniformYear: UniformYear?
+        var category: SUCategory?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<UniformYear> = UniformYear.fetchRequest()
-        let predicate = NSPredicate(format: "uniqueId == %i", uniqueId)
+        let fetchRequest: NSFetchRequest<SUCategory> = SUCategory.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         
         do {
@@ -26,15 +26,15 @@ extension UniformYear {
             let results = try context.fetch(fetchRequest)
             
             if !results.isEmpty {
-                uniformYear = results[0]
+                category = results[0]
             }
             
         } catch {
             
             print("Error with fetch request: \(error)")
-            print("Error getting uniform year with unique id: \(uniqueId)")
+            print("Error getting category with id: \(id)")
         }
         
-        return uniformYear
+        return category
     }
 }

@@ -32,7 +32,6 @@
         <attribute name="itemColor" attributeType="String" syncable="YES"/>
         <attribute name="itemDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemGender" attributeType="String" syncable="YES"/>
-        <attribute name="itemImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemName" attributeType="String" syncable="YES"/>
         <attribute name="itemPrice" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -88,15 +87,15 @@
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SUSchool" inverseName="years" inverseEntity="SUSchool" syncable="YES"/>
     </entity>
     <elements>
-        <element name="SUSchool" positionX="225" positionY="-234" width="128" height="120"/>
-        <element name="SUCategory" positionX="-315" positionY="-291" width="128" height="120"/>
-        <element name="SUItem" positionX="-137" positionY="-396" width="128" height="240"/>
-        <element name="SUSize" positionX="226" positionY="-403" width="128" height="135"/>
+        <element name="SUSchool" positionX="225" positionY="-236" width="128" height="120"/>
+        <element name="SUCategory" positionX="-302.94921875" positionY="-423.953125" width="128" height="120"/>
+        <element name="SUItem" positionX="-137" positionY="-396" width="128" height="225"/>
+        <element name="SUSize" positionX="228" positionY="-403" width="128" height="135"/>
         <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
-        <element name="SUYear" positionX="34" positionY="-234" width="128" height="135"/>
-        <element name="SUCustomer" positionX="-268.10546875" positionY="-744.09375" width="128" height="225"/>
-        <element name="SUOrder" positionX="16.69140625" positionY="-725.921875" width="128" height="135"/>
-        <element name="SUOrderItem" positionX="18.41796875" positionY="-571.3515625" width="128" height="120"/>
-        <element name="SUImage" positionX="-316.10546875" positionY="-431.2578125" width="128" height="105"/>
+        <element name="SUYear" positionX="34" positionY="-251" width="128" height="135"/>
+        <element name="SUCustomer" positionX="-223.10546875" positionY="-690.09375" width="128" height="225"/>
+        <element name="SUOrder" positionX="9.921875" positionY="-720.28125" width="128" height="135"/>
+        <element name="SUOrderItem" positionX="28.41796875" positionY="-543.3515625" width="128" height="120"/>
+        <element name="SUImage" positionX="-309.01953125" positionY="-279.6953125" width="128" height="105"/>
     </elements>
 </model>
