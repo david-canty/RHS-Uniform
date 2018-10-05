@@ -125,8 +125,8 @@ class ItemViewController: UIViewController {
         
         for i in 0..<availableSizes.count {
             
-            let availableSizeId = availableSizes[i]["itemId"] as! Int32
-            if availableSizeId == selectedSize["itemId"] as! Int32 {
+            let availableSizeId = availableSizes[i]["itemId"] as! UUID
+            if availableSizeId == selectedSize["itemId"] as! UUID {
                 selectedSize["itemLabel"] = availableSizes[i]["itemLabel"]
                 break
             }
@@ -154,9 +154,9 @@ class ItemViewController: UIViewController {
     
     func updateStockLabel() {
         
-        if let itemStock = UniformStock.getObjectWithItemId(item.uniqueId, sizeId: selectedSize["itemId"] as! Int32) {
+        if let itemSize = SUItemSize.getObjectWithItemId(item.id!, sizeId: selectedSize["itemId"] as! UUID) {
             
-            stock = itemStock.stock
+            stock = itemSize.stock
             
             let stockLabelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
             let stockLabelAttributedString = NSMutableAttributedString(string: "Stock: ", attributes: stockLabelAttributes as! [NSAttributedString.Key: NSObject])
@@ -189,11 +189,10 @@ class ItemViewController: UIViewController {
         
         do {
             
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UniformItem")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SUItem")
             fetchRequest.fetchLimit = 1
-            fetchRequest.predicate = NSPredicate(format: "uniqueId == %i", item.uniqueId)
-            var items: [UniformItem]
-            try items = managedObjectContext.fetch(fetchRequest) as! [UniformItem]
+            fetchRequest.predicate = NSPredicate(format: "id == %@", item.id! as CVarArg)
+            let items = try managedObjectContext.fetch(fetchRequest) as! [SUItem]
             
             if items.count == 1 {
                 
@@ -207,7 +206,7 @@ class ItemViewController: UIViewController {
             
         } catch {
          
-            fatalError("Error fetching item with unique id \(item.uniqueId): \(error)")
+            fatalError("Error fetching item with id \(String(describing: item.id)): \(error)")
         }
     }
     
@@ -240,8 +239,8 @@ class ItemViewController: UIViewController {
             var selectedSizeIndex = 0
             for i in 0..<availableSizes.count {
                 
-                let availableSizeId = availableSizes[i]["itemId"] as! Int32
-                if availableSizeId == selectedSize["itemId"] as! Int32 {
+                let availableSizeId = availableSizes[i]["itemId"] as! UUID
+                if availableSizeId == selectedSize["itemId"] as! UUID {
                     selectedSizeIndex = i
                     break
                 }
@@ -274,22 +273,20 @@ class ItemViewController: UIViewController {
         
         prepareFeedback()
         
-        let sizeId = selectedSize["itemId"] as! Int32
+        let sizeId = selectedSize["itemId"] as! UUID
         let quantity = Int32(selectedQuantity["itemId"] as! Int)
         
-        if let uniformStock = UniformStock.getObjectWithItemId(item.uniqueId, sizeId: sizeId) {
+        if let existingBagItem = SUBagItem.getObjectWithItemId(item.id!, sizeId: sizeId) {
+                
+            existingBagItem.quantity += quantity
             
-            if let existingBagItem = BagItem.getObjectWith(uniformStockId: uniformStock.uniqueId) {
-                
-                existingBagItem.itemQuantity += quantity
-                
-            } else {
-                
-                let newBagItem = BagItem(context: managedObjectContext)
-                newBagItem.uniqueId = UUID()
-                newBagItem.itemQuantity = quantity
-                newBagItem.uniformStock = uniformStock
-            }
+        } else {
+            
+            let newBagItem = SUBagItem(context: managedObjectContext)
+            newBagItem.id = UUID()
+            newBagItem.quantity = quantity
+            newBagItem.item = item
+            newBagItem.size = SUSize.getObjectWithId(sizeId)
         }
         
         do {
@@ -365,4 +362,3 @@ extension ItemViewController {
         feedbackGenerator = nil
     }
 }
-

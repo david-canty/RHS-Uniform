@@ -52,21 +52,13 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
     
     func updateTableHeaderLabel() {
         
-        let bagTableSection = fetchedResultsController.sections![0]
-        let bagItems = bagTableSection.objects as! [BagItem]
+        let bagCount = getBagCount()
         
-        if bagItems.count > 0 {
-        
-            var bagItemsCount = 0
-        
-            for bagItem in bagItems {
-                
-                bagItemsCount += 1 * Int(bagItem.itemQuantity)
-            }
+        if bagCount > 0 {
             
             let headerLabelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
-            let itemString = bagItemsCount == 1 ? "item" : "items"
-            let bagString = "Bag (\(bagItemsCount) \(itemString)): "
+            let itemString = bagCount == 1 ? "item" : "items"
+            let bagString = "Bag (\(bagCount) \(itemString)): "
             
             let headerLabelAttributedString = NSMutableAttributedString(string: bagString, attributes: headerLabelAttributes as! [NSAttributedString.Key: NSObject])
             
@@ -89,13 +81,25 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         }
     }
 
+    func getBagCount() -> Int {
+        
+        var bagCount = 0
+        
+        for bagItem in fetchedResultsController.fetchedObjects! {
+            
+            bagCount += Int(bagItem.quantity)
+        }
+        
+        return bagCount
+    }
+    
     func getBagValue() -> Double {
         
         var bagValue = 0.0
         
         for bagItem in fetchedResultsController.fetchedObjects! {
             
-            bagValue += (bagItem.uniformStock?.uniformItem?.itemPrice)! * Double(bagItem.itemQuantity)
+            bagValue += (bagItem.item!.itemPrice) * Double(bagItem.quantity)
         }
         
         return bagValue
@@ -149,15 +153,16 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "bagTableViewCell", for: indexPath) as! BagTableViewCell
         
-        let item = fetchedResultsController.object(at: indexPath)
-        configureCell(cell, withItem: item, at: indexPath)
+        let bagItem = fetchedResultsController.object(at: indexPath)
+        configureCell(cell, withBagItem: bagItem, at: indexPath)
         
         return cell
     }
     
-    func configureCell(_ cell: BagTableViewCell, withItem item: BagItem, at indexPath: IndexPath) {
+    func configureCell(_ cell: BagTableViewCell, withBagItem bagItem: SUBagItem, at indexPath: IndexPath) {
         
-        let uniformItem = item.uniformStock!.uniformItem!
+        guard let item = bagItem.item else { return }
+        guard let size = bagItem.size else { return }
         
         // Image
 //        let imagesUrlPath = AppConfig.sharedInstance.baseImagesUrlPath()
@@ -170,42 +175,45 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
 //        cell.itemImageView.af_setImage(withURL: url, placeholderImage: placeholderImage, filter: filter)
         
         // Name
-        cell.itemNameLabel.text = uniformItem.itemName
+        cell.itemNameLabel.text = item.itemName
         
         // Price
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        let formattedPrice = formatter.string(from: uniformItem.itemPrice as NSNumber)
+        let formattedPrice = formatter.string(from: item.itemPrice as NSNumber)
         cell.itemPriceLabel.text = formattedPrice
         
         // Stock
-        let stockLevel = item.uniformStock!.stockLevel
-        var stockLevelAttributedString: NSAttributedString
-        
-        switch stockLevel {
+        if let itemSize = SUItemSize.getObjectWithItemId(item.id!, sizeId: size.id!) {
             
-        case 0:
-            let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.red]
-            stockLevelAttributedString = NSMutableAttributedString(string:"Out of stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+            let stockLevel = Int(itemSize.stock)
+            var stockLevelAttributedString: NSAttributedString
             
-        case let level where level < lowStockLevel:
-            let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.orange]
-            stockLevelAttributedString = NSMutableAttributedString(string:"Low stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
-        default:
-            let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor(red: 0.0/255.0, green: 150.0/255.0, blue: 75.0/255.0, alpha: 1.0)]
-            stockLevelAttributedString = NSMutableAttributedString(string:"In stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+            switch stockLevel {
+                
+            case 0:
+                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.red]
+                stockLevelAttributedString = NSMutableAttributedString(string:"Out of stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+                
+            case let level where level < lowStockLevel:
+                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.orange]
+                stockLevelAttributedString = NSMutableAttributedString(string:"Low stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+            default:
+                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor(red: 0.0/255.0, green: 150.0/255.0, blue: 75.0/255.0, alpha: 1.0)]
+                stockLevelAttributedString = NSMutableAttributedString(string:"In stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+            }
+            cell.itemStockLabel.attributedText = stockLevelAttributedString
         }
-        cell.itemStockLabel.attributedText = stockLevelAttributedString
         
         // Size button
         cell.sizeButton.addTarget(self, action: #selector(BagViewController.cellSizeButtonTapped(_:)), for: .touchUpInside)
         cell.sizeButton.tag = indexPath.row
-        cell.sizeButton.setTitle("Size: \(String(describing: item.uniformStock!.uniformSize!.sizeName!))", for: .normal)
+        cell.sizeButton.setTitle("Size: \(String(describing: size.sizeName))", for: .normal)
         
         // Quantity button
         cell.quantityButton.addTarget(self, action: #selector(BagViewController.cellQtyButtonTapped(_:)), for: .touchUpInside)
         cell.quantityButton.tag = indexPath.row
-        cell.quantityButton.setTitle("Qty: \(String(describing: item.itemQuantity))", for: .normal)
+        cell.quantityButton.setTitle("Qty: \(String(describing: bagItem.quantity))", for: .normal)
         
         // Remove button
         cell.removeButton.addTarget(self, action: #selector(BagViewController.cellRemoveButtonTapped(_:)), for: .touchUpInside)
@@ -214,15 +222,15 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<BagItem> {
+    var fetchedResultsController: NSFetchedResultsController<SUBagItem> {
         
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
         
-        let fetchRequest: NSFetchRequest<BagItem> = BagItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUBagItem> = SUBagItem.fetchRequest()
         fetchRequest.fetchBatchSize = 20
-        let sortDescriptor = NSSortDescriptor(key: "uniformStock.uniformItem.itemName", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "item.itemName", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -239,7 +247,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<BagItem>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUBagItem>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -265,10 +273,10 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)! as! BagTableViewCell
-            configureCell(cell, withItem: anObject as! BagItem, at: indexPath!)
+            configureCell(cell, withBagItem: anObject as! SUBagItem, at: indexPath!)
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! BagTableViewCell
-            configureCell(cell, withItem: anObject as! BagItem, at: indexPath!)
+            configureCell(cell, withBagItem: anObject as! SUBagItem, at: indexPath!)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
         
@@ -297,14 +305,14 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             modalSelectVC.delegate = self
             modalSelectVC.titleString = "Size"
             
-            getAvailableSizesFor(item: (bagItem.uniformStock?.uniformItem)!)
+            getAvailableSizesFor(item: (bagItem.item)!)
             modalSelectVC.tableRowData = availableSizes!
             
             var selectedSizeIndex = 0
             for i in 0..<availableSizes!.count {
                 
-                let availableSizeId = availableSizes![i]["itemId"] as! Int32
-                if availableSizeId == bagItem.uniformStock?.uniformSize?.uniqueId {
+                let availableSizeId = availableSizes![i]["itemId"] as! UUID
+                if availableSizeId == bagItem.size?.id {
                     selectedSizeIndex = i
                     break
                 }
@@ -317,18 +325,21 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         }
     }
     
-    func getAvailableSizesFor(item: UniformItem) {
+    func getAvailableSizesFor(item: SUItem) {
         
-        availableSizes = [[String: Any]]()
+        availableSizes = []
         
-        let itemStocks = item.uniformStocks as! Set<UniformStock>
-        for itemStock in itemStocks {
+        if let itemSizes = item.sizes?.allObjects as? [SUItemSize] {
             
-            let sizeDict: [String: Any] = ["itemId": itemStock.uniformSize!.uniqueId,
-                                           "itemLabel": itemStock.uniformSize!.sizeName!]
-            availableSizes!.append(sizeDict)
+            let sortedSizes = itemSizes.sorted { $0.size!.sortOrder < $1.size!.sortOrder }
+            
+            for itemSize in sortedSizes {
+                
+                let sizeDict: [String: Any] = ["itemId": itemSize.size!.id!,
+                                               "itemLabel": itemSize.size!.sizeName!]
+                availableSizes!.append(sizeDict)
+            }
         }
-        availableSizes = availableSizes!.sorted {($0["itemLabel"] as! String).localizedStandardCompare($1["itemLabel"] as! String) == .orderedAscending}
     }
     
     @objc func cellQtyButtonTapped(_ sender: UIButton) {
@@ -343,7 +354,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             modalSelectVC.delegate = self
             modalSelectVC.titleString = "Quantity"
             modalSelectVC.tableRowData = availableQuantities
-            modalSelectVC.selectedRow = Int(bagItem.itemQuantity) - 1
+            modalSelectVC.selectedRow = Int(bagItem.quantity) - 1
             modalSelectMode = .qty
             
             present(modalSelectVC, animated: true, completion: nil)
@@ -424,11 +435,10 @@ extension BagViewController: ModalSelectViewControllerDelegate {
             
             let bagItem = fetchedResultsController.object(at: IndexPath(row: rowForTappedSizeButton!, section: 0))
             
-            let selectedSizeId = item["itemId"] as! Int32
-            let uniformItemId = bagItem.uniformStock!.uniformItem!.uniqueId
-            let uniformStock = UniformStock.getObjectWithItemId(uniformItemId, sizeId: selectedSizeId)
+            let sizeId = item["itemId"] as! UUID
+            let size = SUSize.getObjectWithId(sizeId)
+            bagItem.size = size
             
-            bagItem.uniformStock = uniformStock
             saveContextAndUpdateUI()
             
             availableSizes = nil
@@ -438,7 +448,7 @@ extension BagViewController: ModalSelectViewControllerDelegate {
             
             let bagItem = fetchedResultsController.object(at: IndexPath(row: rowForTappedQtyButton!, section: 0))
             
-            bagItem.itemQuantity = Int32(item["itemId"] as! Int)
+            bagItem.quantity = Int32(item["itemId"] as! Int)
             saveContextAndUpdateUI()
             
             rowForTappedQtyButton = nil
