@@ -23,8 +23,8 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
     var managedObjectContext: NSManagedObjectContext!
     var delegate: ItemFilterViewControllerDelegate?
     
-    var yearObjects = [UniformYear]()
-    var categoryObjects = [UniformCategory]()
+    var yearObjects = [SUYear]()
+    var categoryObjects = [SUCategory]()
     
     var genderNames = [String]()
     var yearNames = [String]()
