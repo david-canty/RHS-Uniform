@@ -31,7 +31,7 @@ let availableQuantities = [["itemId": 1, "itemLabel": "1"],
 class ItemViewController: UIViewController {
 
     var managedObjectContext: NSManagedObjectContext!
-    var item: UniformItem!
+    var item: SUItem!
     let modalSelectTransitioningDelegate = ModalSelectTransitioningDelegate()
     var modalSelectMode: ModalSelectMode = .none
     let notificationCenter = NotificationCenter.default
@@ -39,7 +39,7 @@ class ItemViewController: UIViewController {
     var availableSizes = [[String: Any]]()
     var selectedSize: [String: Any]!
     
-    var stockLevel: Int32 = 0
+    var stock: Int32 = 0
     
     var selectedQuantity: [String: Any]!
     
@@ -79,7 +79,7 @@ class ItemViewController: UIViewController {
         getSizes()
         
         itemNameLabel.text = item.itemName
-        itemCategoryLabel.text = item.uniformCategory?.categoryName
+        itemCategoryLabel.text = item.category?.categoryName
         
 //        let imagesUrlPath = AppConfig.sharedInstance.baseImagesUrlPath()
 //        let url = URL(string: "\(imagesUrlPath)/\(String(describing: item.itemImage!))")!
@@ -100,10 +100,14 @@ class ItemViewController: UIViewController {
         itemColorLabel.text = item.itemColor
         
         var itemYearsString = ""
-        if let itemYears = item.uniformYears as? Set<UniformYear> {
+        if let itemYears = item.years?.allObjects as? [SUYear] {
+            
+            let sortedYears = itemYears
+                .sorted { $0.school!.sortOrder < $1.school!.sortOrder }
+                .sorted { $0.sortOrder < $1.sortOrder }
             
             var itemYearNames = [String]()
-            for year in itemYears {
+            for year in sortedYears {
                 
                 var yearName = year.yearName!
                 if let yearRange = yearName.range(of: "Year") {
@@ -112,7 +116,7 @@ class ItemViewController: UIViewController {
                 }
                 itemYearNames.append(yearName)
             }
-            itemYearNames = itemYearNames.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
+            //itemYearNames = itemYearNames.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
             itemYearsString = itemYearNames.joined(separator: ", ")
         }
         itemYearsLabel.text = itemYearsString
@@ -136,41 +140,43 @@ class ItemViewController: UIViewController {
         
         availableSizes.removeAll()
         
-        let itemStocks = item.uniformStocks as! Set<UniformStock>
-        for itemStock in itemStocks {
+        let itemSizes = item.sizes?.allObjects as! [SUItemSize]
+        let sortedSizes = itemSizes.sorted { $0.size!.sortOrder < $1.size!.sortOrder }
+        
+        for itemSize in sortedSizes {
             
-            let sizeDict: [String: Any] = ["itemId": itemStock.uniformSize!.uniqueId,
-                                           "itemLabel": itemStock.uniformSize!.sizeName!]
+            let sizeDict: [String: Any] = ["itemId": itemSize.size!.id!,
+                                           "itemLabel": itemSize.size!.sizeName!]
             availableSizes.append(sizeDict)
         }
-        availableSizes = availableSizes.sorted {($0["itemLabel"] as! String).localizedStandardCompare($1["itemLabel"] as! String) == .orderedAscending}
+        //availableSizes = availableSizes.sorted {($0["itemLabel"] as! String).localizedStandardCompare($1["itemLabel"] as! String) == .orderedAscending}
     }
     
     func updateStockLabel() {
         
         if let itemStock = UniformStock.getObjectWithItemId(item.uniqueId, sizeId: selectedSize["itemId"] as! Int32) {
             
-            stockLevel = itemStock.stockLevel
+            stock = itemStock.stock
             
             let stockLabelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
             let stockLabelAttributedString = NSMutableAttributedString(string: "Stock: ", attributes: stockLabelAttributes as! [NSAttributedString.Key: NSObject])
             
-            var stockLevelAttributedString: NSAttributedString
+            var stockAttributedString: NSAttributedString
             
-            switch stockLevel {
+            switch stock {
                 
             case 0:
-                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.red]
-                stockLevelAttributedString = NSMutableAttributedString(string:"Out of stock", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+                let stockAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.red]
+                stockAttributedString = NSMutableAttributedString(string:"Out of stock", attributes: stockAttributes as! [NSAttributedString.Key: NSObject])
                 
             case let level where level < lowStockLevel:
-                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.orange]
-                stockLevelAttributedString = NSMutableAttributedString(string:"Low stock (\(stockLevel))", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+                let stockAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.orange]
+                stockAttributedString = NSMutableAttributedString(string:"Low stock (\(stock))", attributes: stockAttributes as! [NSAttributedString.Key: NSObject])
             default:
-                let stockLevelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor(red: 0.0/255.0, green: 150.0/255.0, blue: 75.0/255.0, alpha: 1.0)]
-                stockLevelAttributedString = NSMutableAttributedString(string:"In stock (\(stockLevel))", attributes: stockLevelAttributes as! [NSAttributedString.Key: NSObject])
+                let stockAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor(red: 0.0/255.0, green: 150.0/255.0, blue: 75.0/255.0, alpha: 1.0)]
+                stockAttributedString = NSMutableAttributedString(string:"In stock (\(stock))", attributes: stockAttributes as! [NSAttributedString.Key: NSObject])
             }
-            stockLabelAttributedString.append(stockLevelAttributedString)
+            stockLabelAttributedString.append(stockAttributedString)
             itemStockLabel.attributedText = stockLabelAttributedString
         }
     }
@@ -324,7 +330,7 @@ extension ItemViewController: ModalSelectViewControllerDelegate {
         
         updateStockLabel()
         
-//        if selectedQuantity["itemId"] as! Int > Int(stockLevel) {
+//        if selectedQuantity["itemId"] as! Int > Int(stock) {
 //            wobble(views: [itemStockLabel])
 //        }
         

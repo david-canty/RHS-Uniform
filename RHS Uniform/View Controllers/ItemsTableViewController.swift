@@ -56,8 +56,8 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             
             let rowCount = fetchedResultsController.fetchedObjects!.count
             
-            let uniformItemsFetchRequest: NSFetchRequest<UniformItem> = UniformItem.fetchRequest()
-            let itemCount = try! managedObjectContext.count(for: uniformItemsFetchRequest)
+            let itemsFetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+            let itemCount = try! managedObjectContext.count(for: itemsFetchRequest)
             
             filterLabel.text = "Showing \(rowCount) of \(itemCount) items"
         }
@@ -115,7 +115,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         return cell
     }
     
-    func configureCell(_ cell: ItemsTableViewCell, withItem item: UniformItem) {
+    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUItem) {
         
         cell.itemNameLabel.text = item.itemName
         cell.itemGenderLabel.text = item.itemGender
@@ -139,11 +139,11 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<UniformItem> {
+    var fetchedResultsController: NSFetchedResultsController<SUItem> {
         
-        let fetchRequest: NSFetchRequest<UniformItem> = UniformItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
         fetchRequest.fetchBatchSize = 20
-        let categorySortDescriptor = NSSortDescriptor(key: "uniformCategory.categoryName", ascending: true)
+        let categorySortDescriptor = NSSortDescriptor(key: "category.sortOrder", ascending: true)
         let nameSortDescriptor = NSSortDescriptor(key: "itemName", ascending: true)
         fetchRequest.sortDescriptors = [categorySortDescriptor, nameSortDescriptor]
         
@@ -156,18 +156,18 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         if !yearNameFilterStrings.isEmpty {
             
-            predicateArray.append(NSPredicate(format: "ANY uniformYears.yearName IN %@", yearNameFilterStrings))
+            predicateArray.append(NSPredicate(format: "ANY years.yearName IN %@", yearNameFilterStrings))
         }
         
         if !categoryNameFilterStrings.isEmpty {
             
-            predicateArray.append(NSPredicate(format: "uniformCategory.categoryName IN %@", categoryNameFilterStrings))
+            predicateArray.append(NSPredicate(format: "category.categoryName IN %@", categoryNameFilterStrings))
         }
 
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicateArray)
         fetchRequest.predicate = compoundPredicate
         
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "uniformCategory.categoryName", cacheName: nil)
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "category.categoryName", cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
@@ -181,7 +181,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<UniformItem>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUItem>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -206,10 +206,10 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! UniformItem)
+            configureCell(cell, withItem: anObject as! SUItem)
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! UniformItem)
+            configureCell(cell, withItem: anObject as! SUItem)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
