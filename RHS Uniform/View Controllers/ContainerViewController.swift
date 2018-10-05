@@ -61,8 +61,8 @@ class ContainerViewController: UIViewController {
         
         do {
             
-            let bagItemsFetchRequest: NSFetchRequest<BagItem> = BagItem.fetchRequest()
-            var bagItems: [BagItem]
+            let bagItemsFetchRequest: NSFetchRequest<SUBagItem> = SUBagItem.fetchRequest()
+            var bagItems: [SUBagItem]
             bagItems = try managedObjectContext.fetch(bagItemsFetchRequest)
             
             if bagItems.count == 0 {
@@ -77,7 +77,7 @@ class ContainerViewController: UIViewController {
                 
                 for bagItem in bagItems {
                     
-                    bagItemsCount += 1 * Int(bagItem.itemQuantity)
+                    bagItemsCount += 1 * Int(bagItem.quantity)
                 }
                 
                 bagBadge.text = String(bagItemsCount)

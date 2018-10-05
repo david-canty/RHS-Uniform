@@ -97,24 +97,24 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         return cell
     }
     
-    func configureCell(_ cell: YearsTableViewCell, withYear year: UniformYear) {
+    func configureCell(_ cell: YearsTableViewCell, withYear year: SUYear) {
         
         cell.yearLabel.text = year.yearName
     }
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<UniformYear> {
+    var fetchedResultsController: NSFetchedResultsController<SUYear> {
         
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
         
-        let fetchRequest: NSFetchRequest<UniformYear> = UniformYear.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUYear> = SUYear.fetchRequest()
         fetchRequest.fetchBatchSize = 20
-        let categorySortDescriptor = NSSortDescriptor(key: "school.schoolName", ascending: true)
-        let nameSortDescriptor = NSSortDescriptor(key: "yearName", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
-        fetchRequest.sortDescriptors = [categorySortDescriptor, nameSortDescriptor]
+        let schoolSortDescriptor = NSSortDescriptor(key: "school.sortOrder", ascending: true)
+        let yearSortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+        fetchRequest.sortDescriptors = [schoolSortDescriptor, yearSortDescriptor]
         
         let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "school.schoolName", cacheName: "")
         aFetchedResultsController.delegate = self
@@ -130,7 +130,7 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<UniformYear>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUYear>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -156,11 +156,11 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         case .update:
             if let cell = tableView.cellForRow(at: IndexPath(row: (indexPath?.row)!, section: (indexPath?.section)!)) as? YearsTableViewCell {
                 
-                configureCell(cell, withYear: anObject as! UniformYear)
+                configureCell(cell, withYear: anObject as! SUYear)
             }
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! YearsTableViewCell
-            configureCell(cell, withYear: anObject as! UniformYear)
+            configureCell(cell, withYear: anObject as! SUYear)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }

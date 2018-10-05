@@ -57,6 +57,7 @@
 		1F6D119E21669E5A00353E72 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D119D21669E5A00353E72 /* Image+Extension.swift */; };
 		1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D119F21669E7200353E72 /* Customer+Extension.swift */; };
 		1F6D11A221669E8500353E72 /* Order+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D11A121669E8500353E72 /* Order+Extension.swift */; };
+		1F6D11A52167582B00353E72 /* BagItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D11A42167582B00353E72 /* BagItem+Extension.swift */; };
 		1FACBA4C1F77D89500A138D6 /* YearsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FACBA4B1F77D89500A138D6 /* YearsTableViewController.swift */; };
 		1FACBA4E1F77DA2100A138D6 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FACBA4D1F77DA2100A138D6 /* ContainerViewController.swift */; };
 		1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC419B820039DC100E98754 /* SideMenuViewController.swift */; };
@@ -126,6 +127,7 @@
 		1F6D119D21669E5A00353E72 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		1F6D119F21669E7200353E72 /* Customer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Customer+Extension.swift"; sourceTree = "<group>"; };
 		1F6D11A121669E8500353E72 /* Order+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+Extension.swift"; sourceTree = "<group>"; };
+		1F6D11A42167582B00353E72 /* BagItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BagItem+Extension.swift"; sourceTree = "<group>"; };
 		1FACBA4B1F77D89500A138D6 /* YearsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearsTableViewController.swift; sourceTree = "<group>"; };
 		1FACBA4D1F77DA2100A138D6 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		1FC419B820039DC100E98754 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				1F2A11462036D36100B5A26A /* Size+Extension.swift */,
 				1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */,
 				1F6D119D21669E5A00353E72 /* Image+Extension.swift */,
+				1F6D11A42167582B00353E72 /* BagItem+Extension.swift */,
 				1F6D119F21669E7200353E72 /* Customer+Extension.swift */,
 				1F6D11A121669E8500353E72 /* Order+Extension.swift */,
 				1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */,
@@ -523,6 +526,7 @@
 				1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */,
 				1F6D119E21669E5A00353E72 /* Image+Extension.swift in Sources */,
 				1FE9AC402030E13700C05ABC /* APIRouter.swift in Sources */,
+				1F6D11A52167582B00353E72 /* BagItem+Extension.swift in Sources */,
 				1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */,
 				1F0E63DE1F7BF259003DF25E /* YearsTableViewCell.swift in Sources */,
 				1F2A11432034785C00B5A26A /* Year+Extension.swift in Sources */,

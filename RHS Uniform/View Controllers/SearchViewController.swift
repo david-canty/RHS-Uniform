@@ -82,7 +82,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
-    func configureCell(_ cell: ItemsTableViewCell, withItem item: UniformItem) {
+    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUItem) {
         
         cell.itemNameLabel.text = item.itemName
         cell.itemGenderLabel.text = item.itemGender
@@ -106,9 +106,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<UniformItem> {
+    var fetchedResultsController: NSFetchedResultsController<SUItem> {
         
-        let fetchRequest: NSFetchRequest<UniformItem> = UniformItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
         fetchRequest.fetchBatchSize = 20
         let nameSortDescriptor = NSSortDescriptor(key: "itemName", ascending: true)
         fetchRequest.sortDescriptors = [nameSortDescriptor]
@@ -118,9 +118,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         let genderPredicate = NSPredicate(format: "itemGender CONTAINS[c] %@", searchString)
         let colorPredicate = NSPredicate(format: "itemColor CONTAINS[c] %@", searchString)
         
-        let categoryPredicate = NSPredicate(format: "uniformCategory.categoryName CONTAINS[c] %@", searchString)
-        let yearPredicate = NSPredicate(format: "ANY uniformYears.yearName CONTAINS[c] %@", searchString)
-        let sizePredicate = NSPredicate(format: "ANY uniformStocks.uniformSize.sizeName CONTAINS[c] %@", searchString)
+        let categoryPredicate = NSPredicate(format: "category.categoryName CONTAINS[c] %@", searchString)
+        let yearPredicate = NSPredicate(format: "ANY years.yearName CONTAINS[c] %@", searchString)
+        let sizePredicate = NSPredicate(format: "ANY sizes.size.sizeName CONTAINS[c] %@", searchString)
         
         let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [namePredicate, descriptionPredicate, genderPredicate, colorPredicate, categoryPredicate, yearPredicate, sizePredicate])
         fetchRequest.predicate = predicate
@@ -139,7 +139,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<UniformItem>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUItem>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -164,10 +164,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! UniformItem)
+            configureCell(cell, withItem: anObject as! SUItem)
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! UniformItem)
+            configureCell(cell, withItem: anObject as! SUItem)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }

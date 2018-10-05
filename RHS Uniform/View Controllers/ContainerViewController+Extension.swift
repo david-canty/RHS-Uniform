@@ -20,7 +20,7 @@ extension ContainerViewController: YearsDelegate {
         if navigationCount > 1 {
             
             // Show back button
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 
                 self.backButtonView.frame = CGRect(x: backButtonShownXCoord, y: 0.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
             })
@@ -28,7 +28,7 @@ extension ContainerViewController: YearsDelegate {
         } else {
             
             // Hide back button
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 
                 self.backButtonView.frame = CGRect(x: backButtonHiddenXCoord, y: 0.0, width: Double(self.backButtonView.frame.width), height: Double(self.backButtonView.frame.height))
             })
