@@ -68,10 +68,11 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
     
     func getYearObjectsAndNames() {
         
-        let fetchRequest: NSFetchRequest<UniformYear> = UniformYear.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUYear> = SUYear.fetchRequest()
         
-        let nameSortDescriptor = NSSortDescriptor(key: "yearName", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
-        fetchRequest.sortDescriptors = [nameSortDescriptor]
+        let schoolSortDescriptor = NSSortDescriptor(key: "school.sortOrder", ascending: true)
+        let yearSortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true)
+        fetchRequest.sortDescriptors = [schoolSortDescriptor, yearSortDescriptor]
         
         do {
             
@@ -91,9 +92,9 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
     
     func getCategoryObjectsAndNames() {
         
-        let fetchRequest: NSFetchRequest<UniformCategory> = UniformCategory.fetchRequest()
-        let nameSortDescriptor = NSSortDescriptor(key: "categoryName", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
-        fetchRequest.sortDescriptors = [nameSortDescriptor]
+        let fetchRequest: NSFetchRequest<SUCategory> = SUCategory.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
             

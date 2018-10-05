@@ -35,6 +35,6 @@ extension SUItem {
             print("Error getting item with id: \(id)")
         }
         
-        return uniformItem
+        return item
     }
 }
