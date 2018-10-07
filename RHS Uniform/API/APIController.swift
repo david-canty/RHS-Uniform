@@ -59,21 +59,101 @@ class APIController {
                 fatalError("Date conversion failed due to mismatched format")
             }
             
-            let uniqueId = UUID(uuidString: school["id"] as! String)
-            if let existingSchool = School.getObjectWithUniqueId(uniqueId!) {
+            let id = UUID(uuidString: school["id"] as! String)!
+            if let existingSchool = SUSchool.getObjectWithId(id) {
                 
                 if existingSchool.timestamp! < timestampDate {
                     
                     existingSchool.schoolName = school["schoolName"] as? String
+                    existingSchool.sortOrder = school["sortOrder"] as! Int32
                     existingSchool.timestamp = timestampDate
                 }
                 
             } else {
                 
-                let newSchool = School(context: context)
-                newSchool.uniqueId = uniqueId
+                let newSchool = SUSchool(context: context)
+                newSchool.id = id
                 newSchool.schoolName = school["schoolName"] as? String
+                newSchool.sortOrder = school["sortOrder"] as! Int32
                 newSchool.timestamp = timestampDate
+            }
+        }
+    }
+    
+    func fetchYears() {
+        
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                print("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.years(userIdToken: token)).responseJSON { response in
+                        
+                        if let years = response.result.value as? [[String: Any]] {
+                            
+                            self.create(years: years)
+                            
+                            do {
+                                try self.context.save()
+                            } catch {
+                                let nserror = error as NSError
+                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func create(years: [[String: Any]]) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        for year in years {
+            
+            let timestampString = year["timestamp"] as! String
+            guard let timestampDate = dateFormatter.date(from: timestampString) else {
+                fatalError("Date conversion failed due to mismatched format")
+            }
+            
+            var tempYear: SUYear?
+            let id = UUID(uuidString: year["id"] as! String)!
+            
+            if let existingYear = SUYear.getObjectWithId(id) {
+                
+                if existingYear.timestamp! < timestampDate {
+                    
+                    tempYear = existingYear
+                }
+                
+            } else {
+                
+                tempYear = SUYear(context: context)
+                tempYear!.id = id
+            }
+            
+            if let tempYear = tempYear {
+                
+                // Year attributes
+                tempYear.yearName = year["yearName"] as? String
+                tempYear.sortOrder = year["sortOrder"] as! Int32
+                tempYear.timestamp = timestampDate
+                
+                // School relationship
+                let schoolId = UUID(uuidString: year["schoolID"] as! String)!
+                
+                guard let school = SUSchool.getObjectWithId(schoolId) else {
+                    fatalError("Failed to get school with id \(schoolId)")
+                }
+                
+                tempYear.school = school
             }
         }
     }
@@ -121,103 +201,23 @@ class APIController {
                 fatalError("Date conversion failed due to mismatched format")
             }
             
-            let uniqueId = UUID(uuidString: category["id"] as! String)
-            if let existingCategory = UniformCategory.getObjectWithUniqueId(uniqueId!) {
+            let id = UUID(uuidString: category["id"] as! String)!
+            if let existingCategory = SUCategory.getObjectWithId(id) {
                 
                 if existingCategory.timestamp! < timestampDate {
                     
                     existingCategory.categoryName = category["categoryName"] as? String
+                    existingCategory.sortOrder = category["sortOrder"] as! Int32
                     existingCategory.timestamp = timestampDate
                 }
                 
             } else {
                 
-                let newCategory = UniformCategory(context: context)
-                newCategory.uniqueId = uniqueId
+                let newCategory = SUCategory(context: context)
+                newCategory.id = id
                 newCategory.categoryName = category["categoryName"] as? String
+                newCategory.sortOrder = category["sortOrder"] as! Int32
                 newCategory.timestamp = timestampDate
-            }
-        }
-    }
-    
-    func fetchYears() {
-        
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error {
-                
-                print("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let token = idToken {
-        
-                    Alamofire.request(APIRouter.years(userIdToken: token)).responseJSON { response in
-                        
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let years = jsonData["years"] as! [[String: Any]]
-                            
-                            self.create(years: years)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    private func create(years: [[String: Any]]) {
-     
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        for year in years {
-            
-            let timestampString = year["timestamp"] as! String
-            guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
-            }
-            
-            var tempYear: UniformYear?
-            
-            let uniqueId = year["uniqueId"] as! Int32
-            if let existingYear = UniformYear.getObjectWithUniqueId(uniqueId) {
-                
-                if existingYear.timestamp! < timestampDate {
-                    
-                    tempYear = existingYear
-                }
-                
-            } else {
-                
-                tempYear = UniformYear(context: context)
-                tempYear!.uniqueId = uniqueId
-            }
-            
-            if tempYear != nil {
-                
-                // Year attributes
-                tempYear!.yearName = year["yearName"] as? String
-                tempYear!.timestamp = timestampDate
-                
-                // School relationship
-                let school = year["school"] as! [String: Any]
-                create(schools: [school])
-                let schoolId = school["id"] as! UUID
-                
-                guard let schoolObject = School.getObjectWithUniqueId(schoolId) else {
-                    fatalError("Failed to get school with unique id \(schoolId)")
-                }
-                
-                tempYear!.school = schoolObject
             }
         }
     }
@@ -236,10 +236,7 @@ class APIController {
         
                     Alamofire.request(APIRouter.sizes(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let sizes = jsonData["sizes"] as! [[String: Any]]
+                        if let sizes = response.result.value as? [[String: Any]] {
                             
                             self.create(sizes: sizes)
                             
@@ -263,32 +260,27 @@ class APIController {
         
         for size in sizes {
             
-            var sizeDict = [String: Any]()
-            if let sizeAsDict = size["size"] as? [String: Any] {
-                sizeDict = sizeAsDict
-            } else {
-                sizeDict = size
-            }
-            
-            let timestampString = sizeDict["timestamp"] as! String
+            let timestampString = size["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
                 fatalError("Date conversion failed due to mismatched format")
             }
             
-            let uniqueId = sizeDict["uniqueId"] as! Int32
-            if let existingSize = UniformSize.getObjectWithUniqueId(uniqueId) {
+            let id = UUID(uuidString: size["id"] as! String)!
+            if let existingSize = SUSize.getObjectWithId(id) {
                 
                 if existingSize.timestamp! < timestampDate {
                     
-                    existingSize.sizeName = sizeDict["sizeName"] as? String
+                    existingSize.sizeName = size["sizeName"] as? String
+                    existingSize.sortOrder = size["sortOrder"] as! Int32
                     existingSize.timestamp = timestampDate
                 }
                 
             } else {
                 
-                let newSize = UniformSize(context: context)
-                newSize.uniqueId = uniqueId
-                newSize.sizeName = sizeDict["sizeName"] as? String
+                let newSize = SUSize(context: context)
+                newSize.id = id
+                newSize.sizeName = size["sizeName"] as? String
+                newSize.sortOrder = size["sortOrder"] as! Int32
                 newSize.timestamp = timestampDate
             }
         }
@@ -371,12 +363,9 @@ class APIController {
                 
                 if let token = idToken {
         
-                    Alamofire.request(APIRouter.items(userIdToken: token, categories: [], years: [], genders: [])).responseJSON { response in
+                    Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let items = jsonData["items"] as! [[String: Any]]
+                        if let items = response.result.value as? [[String: Any]] {
                             
                             self.create(items: items)
                             
@@ -398,17 +387,30 @@ class APIController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        for item in items {
+        for itemWithRelations in items {
+            
+            guard let item = itemWithRelations["item"] as? [String : Any] else {
+                fatalError("Failed to fetch item data")
+            }
+            guard let sizes = itemWithRelations["sizes"] as? [[String : Any]] else {
+                fatalError("Failed to fetch sizes data")
+            }
+            guard let years = itemWithRelations["years"] as? [[String : Any]] else {
+                fatalError("Failed to fetch years data")
+            }
+            guard let images = itemWithRelations["images"] as? [[String : Any]] else {
+                fatalError("Failed to fetch images data")
+            }
             
             let timestampString = item["timestamp"] as? String
             guard let timestampDate = dateFormatter.date(from: timestampString!) else {
                 fatalError("Failed to convert date due to mismatched format")
             }
             
-            var tempItem: UniformItem?
+            var tempItem: SUItem?
             
-            let uniqueId = item["uniqueId"] as! Int32
-            if let existingItem = UniformItem.getObjectWithUniqueId(uniqueId) {
+            let id = UUID(uuidString: item["id"] as! String)!
+            if let existingItem = SUItem.getObjectWithId(id) {
                 
                 if existingItem.timestamp! < timestampDate {
                     
@@ -417,47 +419,50 @@ class APIController {
                 
             } else {
                 
-                tempItem = UniformItem(context: context)
-                tempItem!.uniqueId = uniqueId
+                tempItem = SUItem(context: context)
+                tempItem!.id = id
             }
             
-            if tempItem != nil {
+            if let tempItem = tempItem {
                 
                 // Item attributes
-                tempItem!.itemName = item["itemName"] as? String
-                tempItem!.itemDescription = item["itemDescription"] as? String
-                tempItem!.itemColor = item["itemColor"] as? String
-                tempItem!.itemGender = item["itemGender"] as? String
-                tempItem!.itemPrice = item["itemPrice"] as! Double
-                tempItem!.itemImage = item["itemImage"] as? String
-                tempItem!.timestamp = timestampDate
+                tempItem.itemName = item["itemName"] as? String
+                tempItem.itemDescription = item["itemDescription"] as? String
+                tempItem.itemColor = item["itemColor"] as? String
+                tempItem.itemGender = item["itemGender"] as? String
+                tempItem.itemPrice = item["itemPrice"] as! Double
+                tempItem.timestamp = timestampDate
                 
                 // Item category relationship
-                let category = item["category"] as! [String: Any]
-                create(categories: [category])
-                let categoryId = UUID(uuidString: category["id"] as! String)
-                
-                guard let uniformCategory = UniformCategory.getObjectWithUniqueId(categoryId!) else {
-                    fatalError("Failed to get category with unique id \(String(describing: categoryId))")
+                let categoryId = UUID(uuidString: item["categoryID"] as! String)!
+                guard let category = SUCategory.getObjectWithId(categoryId) else {
+                    fatalError("Failed to get category with id \(String(describing: categoryId))")
                 }
-                tempItem!.uniformCategory = uniformCategory
+                tempItem.category = category
                 
                 // Item years relationships
-                let years = item["years"] as! [[String: Any]]
                 create(years: years)
                 
-                if let yearsRelationships = tempItem?.uniformYears {
-                    tempItem?.removeFromUniformYears(yearsRelationships)
+                if let existingYearRelationships = tempItem.years {
+                    tempItem.removeFromYears(existingYearRelationships)
                 }
                 
                 for year in years {
                     
-                    let yearId = year["uniqueId"] as! Int32
+                    let yearId = UUID(uuidString: year["id"] as! String)!
                     
-                    guard let uniformYear = UniformYear.getObjectWithUniqueId(yearId) else {
-                        fatalError("Failed to get year with unique id \(yearId)")
+                    guard let yearObject = SUYear.getObjectWithId(yearId) else {
+                        fatalError("Failed to get year with id \(yearId)")
                     }
-                    tempItem!.addToUniformYears(uniformYear)
+                    tempItem.addToYears(yearObject)
+                }
+                
+                // Item images and relationships
+                SUImage.deleteObjectsForItem(tempItem.id!)
+                
+                for image in images {
+                    
+                    
                 }
                 
                 // Item stocks and sizes relationships

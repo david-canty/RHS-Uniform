@@ -38,4 +38,33 @@ extension SUImage {
         
         return image
     }
+    
+    class func deleteObjectsForItem(_ id: UUID) {
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<SUImage> = SUImage.fetchRequest()
+        let predicate = NSPredicate(format: "item.id == %@", id as CVarArg)
+        fetchRequest.predicate = predicate
+        
+        do {
+            
+            let images = try context.fetch(fetchRequest)
+            
+            if images.count > 0 {
+                
+                for image in images {
+                    
+                    context.delete(image)
+                }
+                
+                try context.save()
+            }
+            
+        } catch {
+            
+            let nserror = error as NSError
+            print("Error deleting images for item with id \(id): \(nserror.userInfo)")
+        }
+    }
 }
