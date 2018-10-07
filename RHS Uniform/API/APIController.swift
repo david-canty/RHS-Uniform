@@ -457,12 +457,16 @@ class APIController {
                     tempItem.addToYears(yearObject)
                 }
                 
-                // Item images and relationships
-                SUImage.deleteObjectsForItem(tempItem.id!)
+                // Item images
+                deleteImagesForItem(tempItem.id!)
                 
                 for image in images {
                     
-                    
+                    let newImage = SUImage(context: context)
+                    newImage.id = UUID(uuidString: image["id"] as! String)!
+                    newImage.filename = image["filename"] as? String
+                    newImage.sortOrder = image["sortOrder"] as! Int32
+                    newImage.item = tempItem
                 }
                 
                 // Item stocks and sizes relationships
@@ -494,4 +498,30 @@ class APIController {
         }
     }
     
+    func deleteImagesForItem(_ id: UUID) {
+        
+        let fetchRequest: NSFetchRequest<SUImage> = SUImage.fetchRequest()
+        let predicate = NSPredicate(format: "item.id == %@", id as CVarArg)
+        fetchRequest.predicate = predicate
+        
+        do {
+            
+            let images = try context.fetch(fetchRequest)
+            
+            if images.count > 0 {
+                
+                for image in images {
+                    
+                    context.delete(image)
+                }
+                
+                //try context.save()
+            }
+            
+        } catch {
+            
+            let nserror = error as NSError
+            print("Error deleting images for item with id \(id): \(nserror.userInfo)")
+        }
+    }
 }
