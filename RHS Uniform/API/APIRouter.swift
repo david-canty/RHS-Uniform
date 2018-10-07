@@ -15,8 +15,8 @@ public enum APIRouter: URLRequestConvertible {
     case years(userIdToken: String)
     case categories(userIdToken: String)
     case sizes(userIdToken: String)
-    case stocks(userIdToken: String)
     case items(userIdToken: String)
+    case stocks(userIdToken: String)
     
     var method: HTTPMethod {
         
@@ -34,10 +34,10 @@ public enum APIRouter: URLRequestConvertible {
         case .sizes:
             return .get
             
-        case .stocks:
+        case .items:
             return .get
             
-        case .items:
+        case .stocks:
             return .get
         }
     }
@@ -58,11 +58,11 @@ public enum APIRouter: URLRequestConvertible {
         case .sizes:
             return "/sizes"
             
-        case .stocks:
-            return "/stocks"
-            
         case .items:
             return "/items"
+            
+        case .stocks:
+            return "/stocks"
         }
     }
     
@@ -103,11 +103,11 @@ public enum APIRouter: URLRequestConvertible {
                 
                 return idToken
                 
-            case .stocks(let idToken):
+            case .items(let idToken):
                 
                 return idToken
                 
-            case .items(let idToken):
+            case .stocks(let idToken):
                 
                 return idToken
             }

@@ -286,71 +286,6 @@ class APIController {
         }
     }
     
-    func fetchStocks() {
-        
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error {
-                
-                print("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let token = idToken {
-        
-                    Alamofire.request(APIRouter.stocks(userIdToken: token)).responseJSON { response in
-                        
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let stocks = jsonData["stocks"] as! [[String: Any]]
-                            
-                            self.create(stocks: stocks)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    private func create(stocks: [[String: Any]]) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        for stock in stocks {
-            
-            let timestampString = stock["timestamp"] as! String
-            guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
-            }
-            
-            let uniqueId = stock["uniqueId"] as! Int32
-            if let existingStock = UniformStock.getObjectWithUniqueId(uniqueId) {
-                
-                if existingStock.timestamp! < timestampDate {
-                    
-                    existingStock.stockLevel = stock["stockLevel"] as! Int32
-                    existingStock.timestamp = timestampDate
-                }
-                
-            } else {
-                
-                let newStock = UniformStock(context: context)
-                newStock.uniqueId = uniqueId
-                newStock.stockLevel = stock["stockLevel"] as! Int32
-                newStock.timestamp = timestampDate
-            }
-        }
-    }
-    
     func fetchItems() {
         
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
@@ -470,16 +405,14 @@ class APIController {
                 }
                 
                 // Item stocks and sizes relationships
-                let sizes = item["sizes"] as! [[String: Any]]
-                
                 create(sizes: sizes)
-                create(stocks: sizes)
+                deleteItemSizesForItem(tempItem.id!)
                 
-                if let stocksRelationships = tempItem?.uniformStocks {
-                    tempItem?.removeFromUniformStocks(stocksRelationships)
-                }
+//                if let existingSizeRelationships = tempItem.sizes {
+//                    tempItem.removeFromSizes(existingSizeRelationships)
+//                }
                 
-                for stock in sizes {
+                for size in sizes {
                     
                     let stockId = stock["uniqueId"] as! Int32
                     guard let uniformStock = UniformStock.getObjectWithUniqueId(stockId) else {
@@ -522,6 +455,71 @@ class APIController {
             
             let nserror = error as NSError
             print("Error deleting images for item with id \(id): \(nserror.userInfo)")
+        }
+    }
+    
+    func fetchStocks() {
+        
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                print("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.stocks(userIdToken: token)).responseJSON { response in
+                        
+                        if let json = response.result.value as? [String: Any] {
+                            
+                            let jsonData = json["data"] as! [String: Any]
+                            let stocks = jsonData["stocks"] as! [[String: Any]]
+                            
+                            self.create(stocks: stocks)
+                            
+                            do {
+                                try self.context.save()
+                            } catch {
+                                let nserror = error as NSError
+                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func create(stocks: [[String: Any]]) {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        for stock in stocks {
+            
+            let timestampString = stock["timestamp"] as! String
+            guard let timestampDate = dateFormatter.date(from: timestampString) else {
+                fatalError("Date conversion failed due to mismatched format")
+            }
+            
+            let uniqueId = stock["uniqueId"] as! Int32
+            if let existingStock = UniformStock.getObjectWithUniqueId(uniqueId) {
+                
+                if existingStock.timestamp! < timestampDate {
+                    
+                    existingStock.stockLevel = stock["stockLevel"] as! Int32
+                    existingStock.timestamp = timestampDate
+                }
+                
+            } else {
+                
+                let newStock = UniformStock(context: context)
+                newStock.uniqueId = uniqueId
+                newStock.stockLevel = stock["stockLevel"] as! Int32
+                newStock.timestamp = timestampDate
+            }
         }
     }
 }
