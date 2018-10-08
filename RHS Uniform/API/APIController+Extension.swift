@@ -26,11 +26,14 @@ extension APIController {
         
                     Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
                         
-                        if let items = response.result.value as? [[String: Any]] {
+                        if let itemsWithRelations = response.result.value as? [[String: Any]] {
                             
                             var apiItemIds = [UUID]()
-                            for item in items {
+                            for itemWithRelations in itemsWithRelations {
                             
+                                guard let item = itemWithRelations["item"] as? [String : Any] else {
+                                    fatalError("Failed to fetch item data")
+                                }
                                 let itemId = UUID(uuidString: item["id"] as! String)!
                                 apiItemIds.append(itemId)
                             }

@@ -113,7 +113,7 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         let fetchRequest: NSFetchRequest<SUYear> = SUYear.fetchRequest()
         fetchRequest.fetchBatchSize = 20
         let schoolSortDescriptor = NSSortDescriptor(key: "school.sortOrder", ascending: true)
-        let yearSortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+        let yearSortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true)
         fetchRequest.sortDescriptors = [schoolSortDescriptor, yearSortDescriptor]
         
         let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "school.schoolName", cacheName: "")

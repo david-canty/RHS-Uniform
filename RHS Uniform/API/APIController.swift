@@ -114,7 +114,7 @@ class APIController {
     private func create(years: [[String: Any]]) {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for year in years {
             
@@ -256,7 +256,7 @@ class APIController {
     private func create(sizes: [[String: Any]]) {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for size in sizes {
             
@@ -320,7 +320,7 @@ class APIController {
     private func create(items: [[String: Any]]) {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for itemWithRelations in items {
             
@@ -465,7 +465,7 @@ class APIController {
     private func create(itemSizes: [[String: Any]]) {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for itemSize in itemSizes {
             

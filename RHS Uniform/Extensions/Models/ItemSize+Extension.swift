@@ -46,7 +46,7 @@ extension SUItemSize {
         let fetchRequest: NSFetchRequest<SUItemSize> = SUItemSize.fetchRequest()
         
         let itemPredicate = NSPredicate(format: "item.id == %@", itemId as CVarArg)
-        let sizePredicate = NSPredicate(format: "size.id == %@", sizeId as CVarArg)
+        let sizePredicate = NSPredicate(format: "#size.id == %@", sizeId as CVarArg)
         let compoundPredicate = NSCompoundPredicate.init(type: .and, subpredicates: [itemPredicate, sizePredicate])
         fetchRequest.predicate = compoundPredicate
         

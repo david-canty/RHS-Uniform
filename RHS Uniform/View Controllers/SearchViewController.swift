@@ -120,7 +120,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         
         let categoryPredicate = NSPredicate(format: "category.categoryName CONTAINS[c] %@", searchString)
         let yearPredicate = NSPredicate(format: "ANY years.yearName CONTAINS[c] %@", searchString)
-        let sizePredicate = NSPredicate(format: "ANY sizes.size.sizeName CONTAINS[c] %@", searchString)
+        let sizePredicate = NSPredicate(format: "ANY sizes.#size.sizeName CONTAINS[c] %@", searchString)
         
         let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [namePredicate, descriptionPredicate, genderPredicate, colorPredicate, categoryPredicate, yearPredicate, sizePredicate])
         fetchRequest.predicate = predicate

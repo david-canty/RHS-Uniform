@@ -208,12 +208,12 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         // Size button
         cell.sizeButton.addTarget(self, action: #selector(BagViewController.cellSizeButtonTapped(_:)), for: .touchUpInside)
         cell.sizeButton.tag = indexPath.row
-        cell.sizeButton.setTitle("Size: \(String(describing: size.sizeName))", for: .normal)
+        cell.sizeButton.setTitle("Size: \(size.sizeName!)", for: .normal)
         
         // Quantity button
         cell.quantityButton.addTarget(self, action: #selector(BagViewController.cellQtyButtonTapped(_:)), for: .touchUpInside)
         cell.quantityButton.tag = indexPath.row
-        cell.quantityButton.setTitle("Qty: \(String(describing: bagItem.quantity))", for: .normal)
+        cell.quantityButton.setTitle("Qty: \(bagItem.quantity)", for: .normal)
         
         // Remove button
         cell.removeButton.addTarget(self, action: #selector(BagViewController.cellRemoveButtonTapped(_:)), for: .touchUpInside)
