@@ -24,20 +24,18 @@ extension APIController {
                 
                 if let token = idToken {
         
-                    Alamofire.request(APIRouter.items(userIdToken: token, categories: [], years: [], genders: [])).responseJSON { response in
+                    Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
+                        if let items = response.result.value as? [[String: Any]] {
                             
-                            let jsonData = json["data"] as! [String: Any]
-                            let items = jsonData["items"] as! [[String: Any]]
-                            
-                            var apiItemIds = [Int32]()
+                            var apiItemIds = [UUID]()
                             for item in items {
                             
-                                apiItemIds.append(item["uniqueId"] as! Int32)
+                                let itemId = UUID(uuidString: item["id"] as! String)!
+                                apiItemIds.append(itemId)
                             }
                             
-                            let itemsFetchRequest: NSFetchRequest<UniformItem> = UniformItem.fetchRequest()
+                            let itemsFetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
                             
                             do {
                                 
@@ -45,7 +43,7 @@ extension APIController {
                                 
                                 for fetchedItem in fetchedItems {
                                     
-                                    if !apiItemIds.contains(fetchedItem.uniqueId) {
+                                    if !apiItemIds.contains(fetchedItem.id!) {
 
                                         self.context.delete(fetchedItem)
                                     }
@@ -62,10 +60,11 @@ extension APIController {
                                 self.purgeDeletedApiYears()
                                 self.purgeDeletedApiSchools()
                                 self.purgeDeletedApiSizes()
+                                self.purgeDeletedApiItemSizes()
                                 
                             } catch {
                                 
-                                fatalError("Failed to fetch uniform items for deletion: \(error)")
+                                fatalError("Failed to fetch items for deletion: \(error)")
                             }
                         }
                     }
@@ -88,18 +87,16 @@ extension APIController {
         
                     Alamofire.request(APIRouter.categories(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let categories = jsonData["categories"] as! [[String: Any]]
+                        if let categories = response.result.value as? [[String: Any]] {
                             
                             var apiCategoryIds = [UUID]()
                             for category in categories {
                                 
-                                apiCategoryIds.append(category["uniqueId"] as! UUID)
+                                let categoryId = UUID(uuidString: category["id"] as! String)!
+                                apiCategoryIds.append(categoryId)
                             }
                             
-                            let categoriesFetchRequest: NSFetchRequest<UniformCategory> = UniformCategory.fetchRequest()
+                            let categoriesFetchRequest: NSFetchRequest<SUCategory> = SUCategory.fetchRequest()
                             
                             do {
                                 
@@ -107,7 +104,7 @@ extension APIController {
                                 
                                 for fetchedCategory in fetchedCategories {
                                     
-                                    if !apiCategoryIds.contains(fetchedCategory.uniqueId!) {
+                                    if !apiCategoryIds.contains(fetchedCategory.id!) {
                                         
                                         self.context.delete(fetchedCategory)
                                     }
@@ -122,7 +119,7 @@ extension APIController {
                                 
                             } catch {
                                 
-                                fatalError("Failed to fetch uniform categories for deletion: \(error)")
+                                fatalError("Failed to fetch categories for deletion: \(error)")
                             }
                         }
                     }
@@ -145,18 +142,16 @@ extension APIController {
         
                     Alamofire.request(APIRouter.years(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
+                        if let years = response.result.value as? [[String: Any]] {
                             
-                            let jsonData = json["data"] as! [String: Any]
-                            let years = jsonData["years"] as! [[String: Any]]
-                            
-                            var apiYearIds = [Int32]()
+                            var apiYearIds = [UUID]()
                             for year in years {
                                 
-                                apiYearIds.append(year["uniqueId"] as! Int32)
+                                let yearId = UUID(uuidString: year["id"] as! String)!
+                                apiYearIds.append(yearId)
                             }
                             
-                            let yearsFetchRequest: NSFetchRequest<UniformYear> = UniformYear.fetchRequest()
+                            let yearsFetchRequest: NSFetchRequest<SUYear> = SUYear.fetchRequest()
                             
                             do {
                                 
@@ -164,7 +159,7 @@ extension APIController {
                                 
                                 for fetchedYear in fetchedYears {
                                     
-                                    if !apiYearIds.contains(fetchedYear.uniqueId) {
+                                    if !apiYearIds.contains(fetchedYear.id!) {
                                         
                                         self.context.delete(fetchedYear)
                                     }
@@ -179,7 +174,7 @@ extension APIController {
                                 
                             } catch {
                                 
-                                fatalError("Failed to fetch uniform years for deletion: \(error)")
+                                fatalError("Failed to fetch years for deletion: \(error)")
                             }
                         }
                     }
@@ -202,18 +197,16 @@ extension APIController {
         
                     Alamofire.request(APIRouter.schools(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
-                            
-                            let jsonData = json["data"] as! [String: Any]
-                            let schools = jsonData["schools"] as! [[String: Any]]
+                        if let schools = response.result.value as? [[String: Any]] {
                             
                             var apiSchoolIds = [UUID]()
                             for school in schools {
                                 
-                                apiSchoolIds.append(school["uniqueId"] as! UUID)
+                                let schoolId = UUID(uuidString: school["id"] as! String)!
+                                apiSchoolIds.append(schoolId)
                             }
                             
-                            let schoolsFetchRequest: NSFetchRequest<School> = School.fetchRequest()
+                            let schoolsFetchRequest: NSFetchRequest<SUSchool> = SUSchool.fetchRequest()
                             
                             do {
                                 
@@ -221,7 +214,7 @@ extension APIController {
                                 
                                 for fetchedSchool in fetchedSchools {
                                     
-                                    if !apiSchoolIds.contains(fetchedSchool.uniqueId!) {
+                                    if !apiSchoolIds.contains(fetchedSchool.id!) {
                                         
                                         self.context.delete(fetchedSchool)
                                     }
@@ -259,18 +252,16 @@ extension APIController {
         
                     Alamofire.request(APIRouter.sizes(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
+                        if let sizes = response.result.value as? [[String: Any]] {
                             
-                            let jsonData = json["data"] as! [String: Any]
-                            let sizes = jsonData["sizes"] as! [[String: Any]]
-                            
-                            var apiSizeIds = [Int32]()
+                            var apiSizeIds = [UUID]()
                             for size in sizes {
                                 
-                                apiSizeIds.append(size["uniqueId"] as! Int32)
+                                let sizeId = UUID(uuidString: size["id"] as! String)!
+                                apiSizeIds.append(sizeId)
                             }
                             
-                            let sizesFetchRequest: NSFetchRequest<UniformSize> = UniformSize.fetchRequest()
+                            let sizesFetchRequest: NSFetchRequest<SUSize> = SUSize.fetchRequest()
                             
                             do {
                                 
@@ -278,7 +269,7 @@ extension APIController {
                                 
                                 for fetchedSize in fetchedSizes {
                                     
-                                    if !apiSizeIds.contains(fetchedSize.uniqueId) {
+                                    if !apiSizeIds.contains(fetchedSize.id!) {
                                         
                                         self.context.delete(fetchedSize)
                                     }
@@ -293,7 +284,62 @@ extension APIController {
                                 
                             } catch {
                                 
-                                fatalError("Failed to fetch uniform sizes for deletion: \(error)")
+                                fatalError("Failed to fetch sizes for deletion: \(error)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func purgeDeletedApiItemSizes() {
+        
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                print("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.itemSizes(userIdToken: token)).responseJSON { response in
+                        
+                        if let itemSizes = response.result.value as? [[String: Any]] {
+                            
+                            var apiItemSizeIds = [UUID]()
+                            for itemSize in itemSizes {
+                                
+                                let itemSizeId = UUID(uuidString: itemSize["id"] as! String)!
+                                apiItemSizeIds.append(itemSizeId)
+                            }
+                            
+                            let itemSizesFetchRequest: NSFetchRequest<SUItemSize> = SUItemSize.fetchRequest()
+                            
+                            do {
+                                
+                                let fetchedItemSizes = try self.context.fetch(itemSizesFetchRequest)
+                                
+                                for fetchedItemSize in fetchedItemSizes {
+                                    
+                                    if !apiItemSizeIds.contains(fetchedItemSize.id!) {
+                                        
+                                        self.context.delete(fetchedItemSize)
+                                    }
+                                }
+                                
+                                do {
+                                    try self.context.save()
+                                } catch {
+                                    let nserror = error as NSError
+                                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                                }
+                                
+                            } catch {
+                                
+                                fatalError("Failed to fetch item sizes for deletion: \(error)")
                             }
                         }
                     }

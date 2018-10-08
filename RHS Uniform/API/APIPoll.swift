@@ -64,7 +64,7 @@ class APIPoll {
         }
         
         queue.async (group: group) {
-            self.apiController.fetchStocks()
+            self.apiController.fetchItemSizes()
         }
         
         queue.async (group: group) {

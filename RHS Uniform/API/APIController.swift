@@ -327,9 +327,6 @@ class APIController {
             guard let item = itemWithRelations["item"] as? [String : Any] else {
                 fatalError("Failed to fetch item data")
             }
-            guard let sizes = itemWithRelations["sizes"] as? [[String : Any]] else {
-                fatalError("Failed to fetch sizes data")
-            }
             guard let years = itemWithRelations["years"] as? [[String : Any]] else {
                 fatalError("Failed to fetch years data")
             }
@@ -403,30 +400,6 @@ class APIController {
                     newImage.sortOrder = image["sortOrder"] as! Int32
                     newImage.item = tempItem
                 }
-                
-                // Item stocks and sizes relationships
-                create(sizes: sizes)
-                deleteItemSizesForItem(tempItem.id!)
-                
-//                if let existingSizeRelationships = tempItem.sizes {
-//                    tempItem.removeFromSizes(existingSizeRelationships)
-//                }
-                
-                for size in sizes {
-                    
-                    let stockId = stock["uniqueId"] as! Int32
-                    guard let uniformStock = UniformStock.getObjectWithUniqueId(stockId) else {
-                        fatalError("Failed to get stock with unique id \(stockId)")
-                    }
-                    tempItem!.addToUniformStocks(uniformStock)
-                    
-                    let size = stock["size"] as! [String: Any]
-                    let sizeId = size["uniqueId"] as! Int32
-                    guard let uniformSize = UniformSize.getObjectWithUniqueId(sizeId) else {
-                        fatalError("Failed to get size with unique id \(stockId)")
-                    }
-                    uniformStock.uniformSize = uniformSize
-                }
             }
         }
     }
@@ -458,7 +431,7 @@ class APIController {
         }
     }
     
-    func fetchStocks() {
+    func fetchItemSizes() {
         
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -470,14 +443,11 @@ class APIController {
                 
                 if let token = idToken {
                     
-                    Alamofire.request(APIRouter.stocks(userIdToken: token)).responseJSON { response in
+                    Alamofire.request(APIRouter.itemSizes(userIdToken: token)).responseJSON { response in
                         
-                        if let json = response.result.value as? [String: Any] {
+                        if let itemSizes = response.result.value as? [[String: Any]] {
                             
-                            let jsonData = json["data"] as! [String: Any]
-                            let stocks = jsonData["stocks"] as! [[String: Any]]
-                            
-                            self.create(stocks: stocks)
+                            self.create(itemSizes: itemSizes)
                             
                             do {
                                 try self.context.save()
@@ -492,33 +462,45 @@ class APIController {
         }
     }
     
-    private func create(stocks: [[String: Any]]) {
+    private func create(itemSizes: [[String: Any]]) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        for stock in stocks {
+        for itemSize in itemSizes {
             
-            let timestampString = stock["timestamp"] as! String
+            let timestampString = itemSize["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
                 fatalError("Date conversion failed due to mismatched format")
             }
             
-            let uniqueId = stock["uniqueId"] as! Int32
-            if let existingStock = UniformStock.getObjectWithUniqueId(uniqueId) {
+            let id = UUID(uuidString: itemSize["id"] as! String)!
+            if let existingItemSize = SUItemSize.getObjectWithId(id) {
                 
-                if existingStock.timestamp! < timestampDate {
+                if existingItemSize.timestamp! < timestampDate {
                     
-                    existingStock.stockLevel = stock["stockLevel"] as! Int32
-                    existingStock.timestamp = timestampDate
+                    existingItemSize.stock = itemSize["stock"] as! Int32
+                    existingItemSize.timestamp = timestampDate
                 }
                 
             } else {
                 
-                let newStock = UniformStock(context: context)
-                newStock.uniqueId = uniqueId
-                newStock.stockLevel = stock["stockLevel"] as! Int32
-                newStock.timestamp = timestampDate
+                let newItemSize = SUItemSize(context: context)
+                newItemSize.id = id
+                newItemSize.stock = itemSize["stock"] as! Int32
+                newItemSize.timestamp = timestampDate
+                
+                let itemId = UUID(uuidString: itemSize["itemID"] as! String)!
+                guard let item = SUItem.getObjectWithId(itemId) else {
+                    fatalError("Failed to get item with id \(itemId)")
+                }
+                newItemSize.item = item
+                
+                let sizeId = UUID(uuidString: itemSize["sizeID"] as! String)!
+                guard let size = SUSize.getObjectWithId(sizeId) else {
+                    fatalError("Failed to get size with id \(sizeId)")
+                }
+                newItemSize.size = size
             }
         }
     }

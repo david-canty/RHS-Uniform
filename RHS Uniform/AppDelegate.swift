@@ -131,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentContainer: NSPersistentContainer = {
 
-        let container = NSPersistentContainer(name: "SU_Uniform")
+        let container = NSPersistentContainer(name: "RHS_Uniform")
         
 //        let description = NSPersistentStoreDescription()
 //        description.shouldInferMappingModelAutomatically = true
