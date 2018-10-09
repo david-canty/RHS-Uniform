@@ -125,16 +125,19 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         let formattedPrice = formatter.string(from: item.itemPrice as NSNumber)
         cell.itemPriceLabel.text = formattedPrice
         
-//        let imagesUrlPath = AppConfig.sharedInstance.baseImagesUrlPath()
-//        let url = URL(string: "\(imagesUrlPath)/\(String(describing: item.itemImage!))")!
-//        let placeholderImage = UIImage(named: "AppIcon")!
-//
-//        let filter = AspectScaledToFillSizeWithRoundedCornersFilter(
-//            size: cell.itemImageView.frame.size,
-//            radius: 0.0
-//        )
-//
-//        cell.itemImageView.af_setImage(withURL: url, placeholderImage: placeholderImage, filter: filter)
+        // Image
+        let itemImages = item.images as! Set<SUImage>
+        let firstImage = (itemImages.first { $0.sortOrder == 0 })
+        let imageFilename = firstImage?.filename ?? "dummy.png"
+        
+        let imagesUrlPath = AppConfig.sharedInstance.s3BucketUrlPath()
+        
+        let imageUrl = URL(string: "\(imagesUrlPath)/\(imageFilename)")!
+        let placeholderImage = UIImage(named: "placeholder_64x64")!
+
+        let filter = AspectScaledToFitSizeFilter(size: cell.itemImageView.frame.size)
+        
+        cell.itemImageView.af_setImage(withURL: imageUrl, placeholderImage: placeholderImage, filter: filter)
     }
     
     // MARK: - Fetched results controller

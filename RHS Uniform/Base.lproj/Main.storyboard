@@ -278,7 +278,7 @@
                                         <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGE-Bq-ScW" userLabel="Background View">
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="80"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge" translatesAutoresizingMaskIntoConstraints="NO" id="kBY-a9-EaL" userLabel="Image">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_64x64" translatesAutoresizingMaskIntoConstraints="NO" id="kBY-a9-EaL" userLabel="Image">
                                                     <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="64" id="Alg-EN-Kc2"/>
@@ -766,7 +766,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_badge" translatesAutoresizingMaskIntoConstraints="NO" id="WRt-NG-RwZ" userLabel="Image">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder_64x64" translatesAutoresizingMaskIntoConstraints="NO" id="WRt-NG-RwZ" userLabel="Image">
                                                     <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -984,7 +984,7 @@
                                                 <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8F-yu-eaZ" userLabel="Background View">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_badge" translatesAutoresizingMaskIntoConstraints="NO" id="47K-Fx-c5H" userLabel="Image">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_192x192" translatesAutoresizingMaskIntoConstraints="NO" id="47K-Fx-c5H" userLabel="Image">
                                                             <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="64" id="7tR-A4-g6o"/>
@@ -2104,12 +2104,12 @@
         <image name="btn_radio" width="12" height="12"/>
         <image name="btn_radio_selected" width="12" height="12"/>
         <image name="btn_search" width="22" height="22"/>
-        <image name="img_badge" width="72" height="72"/>
         <image name="img_logo" width="200" height="86"/>
         <image name="logo_nav" width="84" height="36"/>
         <image name="placeholder_192x192" width="192" height="192"/>
+        <image name="placeholder_64x64" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hgQ-Vd-nNx"/>
+        <segue reference="Ofb-lh-9ZR"/>
     </inferredMetricsTieBreakers>
 </document>
