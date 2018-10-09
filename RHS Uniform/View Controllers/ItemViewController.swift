@@ -36,6 +36,8 @@ class ItemViewController: UIViewController {
     var modalSelectMode: ModalSelectMode = .none
     let notificationCenter = NotificationCenter.default
     
+    var itemImages: Set<SUImage>!
+    
     var availableSizes = [[String: Any]]()
     var selectedSize: [String: Any]!
     
@@ -48,6 +50,7 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var itemCategoryLabel: UILabel!
     @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDescriptionLabel: UILabel!
     @IBOutlet weak var itemGenderLabel: UILabel!
@@ -81,14 +84,10 @@ class ItemViewController: UIViewController {
         itemNameLabel.text = item.itemName
         itemCategoryLabel.text = item.category?.categoryName
         
-//        let imagesUrlPath = AppConfig.sharedInstance.baseImagesUrlPath()
-//        let url = URL(string: "\(imagesUrlPath)/\(String(describing: item.itemImage!))")!
-//        let placeholderImage = UIImage(named: "placeholder_192x192")!
-//        let filter = AspectScaledToFillSizeWithRoundedCornersFilter(
-//            size: itemImageView.frame.size,
-//            radius: 0.0
-//        )
-//        itemImageView.af_setImage(withURL: url, placeholderImage: placeholderImage, filter: filter)
+        itemImages = item.images as? Set<SUImage>
+        imagePageControl.numberOfPages = itemImages.count
+        imagePageControl.currentPage = 0
+        showItemImage(0)
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -134,6 +133,21 @@ class ItemViewController: UIViewController {
         sizeButton.setTitle("Size: \(String(describing: selectedSize["itemLabel"]!))", for: .normal)
         
         quantityButton.setTitle("Qty: \(String(describing: selectedQuantity["itemLabel"]!))", for: .normal)
+    }
+    
+    func showItemImage(_ imageIndex: Int) {
+        
+        let image = (itemImages.first { $0.sortOrder == imageIndex })
+        let imageFilename = image?.filename ?? "dummy.png"
+        
+        let imagesUrlPath = AppConfig.sharedInstance.s3BucketUrlPath()
+        
+        let imageUrl = URL(string: "\(imagesUrlPath)/\(imageFilename)")!
+        let placeholderImage = UIImage(named: "placeholder_192x192")!
+        
+        let filter = AspectScaledToFitSizeFilter(size: itemImageView.frame.size)
+        
+        itemImageView.af_setImage(withURL: imageUrl, placeholderImage: placeholderImage, filter: filter)
     }
     
     func getSizes() {
@@ -225,6 +239,11 @@ class ItemViewController: UIViewController {
     }
     
     // MARK: - Button Actions
+    
+    @IBAction func imagePageControlValueChanged(_ sender: UIPageControl) {
+        
+        showItemImage(sender.currentPage)
+    }
     
     @IBAction func sizeButtonTapped(_ sender: Any) {
         
