@@ -20,7 +20,6 @@ class APIPoll {
         fetchData()
         
         let apiPollInterval: TimeInterval = AppConfig.sharedInstance.apiPollInterval()
-        
         apiPollTimer = Timer.scheduledTimer(timeInterval: apiPollInterval, target: self, selector: #selector(fetchData), userInfo: nil, repeats: true)
     }
     

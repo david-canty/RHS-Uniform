@@ -41,7 +41,7 @@
         <attribute name="itemName" attributeType="String" syncable="YES"/>
         <attribute name="itemPrice" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="bagItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUBagItem" inverseName="item" inverseEntity="SUBagItem" syncable="YES"/>
+        <relationship name="bagItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUBagItem" inverseName="item" inverseEntity="SUBagItem" syncable="YES"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="SUCategory" inverseName="items" inverseEntity="SUCategory" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUImage" inverseName="item" inverseEntity="SUImage" syncable="YES"/>
         <relationship name="orderItems" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="item" inverseEntity="SUOrderItem" syncable="YES"/>
@@ -82,7 +82,7 @@
         <attribute name="sizeName" attributeType="String" syncable="YES"/>
         <attribute name="sortOrder" attributeType="Integer 32" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="bagItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUBagItem" inverseName="size" inverseEntity="SUBagItem" syncable="YES"/>
+        <relationship name="bagItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUBagItem" inverseName="size" inverseEntity="SUBagItem" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUItemSize" inverseName="size" inverseEntity="SUItemSize" syncable="YES"/>
         <relationship name="orderItems" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrderItem" inverseName="size" inverseEntity="SUOrderItem" syncable="YES"/>
     </entity>

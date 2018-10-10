@@ -11,8 +11,18 @@ import CoreData
 import Alamofire
 
 extension APIController {
-
+    
     func purgeDeletedData(withToken token: String) {
+     
+        self.purgeDeletedItems(withToken: token)
+        self.purgeDeletedCategories(withToken: token)
+        self.purgeDeletedYears(withToken: token)
+        self.purgeDeletedSchools(withToken: token)
+        self.purgeDeletedSizes(withToken: token)
+        self.purgeDeletedItemSizes(withToken: token)
+    }
+
+    func purgeDeletedItems(withToken token: String) {
         
         Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
             
@@ -48,12 +58,6 @@ extension APIController {
                         let nserror = error as NSError
                         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                     }
-                    
-                    self.purgeDeletedCategories(withToken: token)
-                    self.purgeDeletedYears(withToken: token)
-                    self.purgeDeletedSchools(withToken: token)
-                    self.purgeDeletedSizes(withToken: token)
-                    self.purgeDeletedItemSizes(withToken: token)
                     
                 } catch {
                     
