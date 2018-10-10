@@ -94,7 +94,8 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         headerLabel.font = UIFont(name: "Arial-BoldMT", size: 14.0)
         headerLabel.textAlignment = .left
         let sectionInfo = fetchedResultsController.sections![section]
-        headerLabel.text = sectionInfo.name
+        let firstItem = sectionInfo.objects?.first as? SUItem
+        headerLabel.text = firstItem?.category?.categoryName
         headerView.addSubview(headerLabel)
 
         return headerView
@@ -170,7 +171,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicateArray)
         fetchRequest.predicate = compoundPredicate
         
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "category.categoryName", cacheName: nil)
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "category.sortOrder", cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
@@ -219,6 +220,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+        setFilterLabelText()
     }
     
     // MARK: - Filter

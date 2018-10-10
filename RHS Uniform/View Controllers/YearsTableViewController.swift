@@ -76,7 +76,8 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         headerLabel.font = UIFont(name: "Arial-BoldMT", size: 14.0)
         headerLabel.textAlignment = .left
         let sectionInfo = fetchedResultsController.sections![section]
-        headerLabel.text = sectionInfo.name
+        let firstYear = sectionInfo.objects?.first as? SUYear
+        headerLabel.text = firstYear?.school?.schoolName
         headerView.addSubview(headerLabel)
         
         return headerView
@@ -116,7 +117,7 @@ class YearsTableViewController: UITableViewController, NSFetchedResultsControlle
         let yearSortDescriptor = NSSortDescriptor(key: "sortOrder", ascending: true)
         fetchRequest.sortDescriptors = [schoolSortDescriptor, yearSortDescriptor]
         
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "school.schoolName", cacheName: "")
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: "school.sortOrder", cacheName: "")
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
