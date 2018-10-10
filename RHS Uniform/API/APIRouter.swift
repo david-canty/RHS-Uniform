@@ -62,7 +62,7 @@ public enum APIRouter: URLRequestConvertible {
             return "/items"
             
         case .itemSizes:
-            return "/items/sizes/stock"
+            return "/items/sizes"
         }
     }
     

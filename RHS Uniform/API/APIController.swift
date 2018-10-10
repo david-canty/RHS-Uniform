@@ -13,12 +13,20 @@ import FirebaseAuth
 
 class APIController {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let currentUser = Auth.auth().currentUser
+    let context: NSManagedObjectContext!
+    let currentUser: User!
+    let dateFormatter: DateFormatter
     
-    func fetchSchools() {
+    init() {
+        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        currentUser = Auth.auth().currentUser
+        dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+    }
     
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+    func fetchData() {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
             if let error = error {
                 
@@ -28,29 +36,70 @@ class APIController {
                 
                 if let token = idToken {
                     
-                    Alamofire.request(APIRouter.schools(userIdToken: token)).responseJSON { response in
-                        
-                        if let schools = response.result.value as? [[String: Any]] {
-                            
-                            self.create(schools: schools)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
+                    let queue = DispatchQueue(label: "fetchDataDispatchGroup",
+                                              attributes: .concurrent,
+                                              target: .main)
+                    
+                    let group = DispatchGroup()
+                    
+                    queue.async (group: group) {
+                        self.fetchSchools(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.fetchYears(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.fetchCategories(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.fetchSizes(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.fetchItems(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.fetchItemSizes(withToken: token)
+                    }
+                    
+                    queue.async (group: group) {
+                        self.purgeDeletedData(withToken: token)
+                    }
+                    
+                    group.notify(queue: DispatchQueue.main) {
+                        let notificationCenter = NotificationCenter.default
+                        let notification = Notification(name: Notification.Name(rawValue: "apiPollDidFinish"))
+                        notificationCenter.post(notification)
                     }
                 }
             }
         }
     }
     
+    // MARK: - Schools
+    private func fetchSchools(withToken token: String) {
+                    
+        Alamofire.request(APIRouter.schools(userIdToken: token)).responseJSON { response in
+            
+            if let schools = response.result.value as? [[String: Any]] {
+                
+                self.create(schools: schools)
+                
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+    }
+    
     private func create(schools: [[String: Any]]) {
-     
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for school in schools {
             
@@ -80,41 +129,26 @@ class APIController {
         }
     }
     
-    func fetchYears() {
-        
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error {
-                
-                print("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let token = idToken {
+    // MARK: - Years
+    private func fetchYears(withToken token: String) {
                     
-                    Alamofire.request(APIRouter.years(userIdToken: token)).responseJSON { response in
-                        
-                        if let years = response.result.value as? [[String: Any]] {
-                            
-                            self.create(years: years)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
+        Alamofire.request(APIRouter.years(userIdToken: token)).responseJSON { response in
+            
+            if let years = response.result.value as? [[String: Any]] {
+                
+                self.create(years: years)
+                
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         }
     }
     
     private func create(years: [[String: Any]]) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for year in years {
             
@@ -158,41 +192,26 @@ class APIController {
         }
     }
     
-    func fetchCategories() {
-        
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error {
-                
-                print("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let token = idToken {
+    // MARK: - Categories
+    private func fetchCategories(withToken token: String) {
                     
-                    Alamofire.request(APIRouter.categories(userIdToken: token)).responseJSON { response in
-                        
-                        if let categories = response.result.value as? [[String: Any]] {
-                            
-                            self.create(categories: categories)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
+        Alamofire.request(APIRouter.categories(userIdToken: token)).responseJSON { response in
+            
+            if let categories = response.result.value as? [[String: Any]] {
+                
+                self.create(categories: categories)
+                
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         }
     }
     
     private func create(categories: [[String: Any]]) {
-    
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for category in categories {
             
@@ -222,41 +241,26 @@ class APIController {
         }
     }
     
-    func fetchSizes() {
+    // MARK: - Sizes
+    private func fetchSizes(withToken token: String) {
         
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+        Alamofire.request(APIRouter.sizes(userIdToken: token)).responseJSON { response in
             
-            if let error = error {
+            if let sizes = response.result.value as? [[String: Any]] {
                 
-                print("Error getting user ID token: \(error)")
+                self.create(sizes: sizes)
                 
-            } else {
-                
-                if let token = idToken {
-        
-                    Alamofire.request(APIRouter.sizes(userIdToken: token)).responseJSON { response in
-                        
-                        if let sizes = response.result.value as? [[String: Any]] {
-                            
-                            self.create(sizes: sizes)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         }
     }
     
     private func create(sizes: [[String: Any]]) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for size in sizes {
             
@@ -286,41 +290,26 @@ class APIController {
         }
     }
     
-    func fetchItems() {
+    // MARK: - Items
+    private func fetchItems(withToken token: String) {
         
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+        Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
             
-            if let error = error {
+            if let items = response.result.value as? [[String: Any]] {
                 
-                print("Error getting user ID token: \(error)")
+                self.create(items: items)
                 
-            } else {
-                
-                if let token = idToken {
-        
-                    Alamofire.request(APIRouter.items(userIdToken: token)).responseJSON { response in
-                        
-                        if let items = response.result.value as? [[String: Any]] {
-                            
-                            self.create(items: items)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         }
     }
     
     private func create(items: [[String: Any]]) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for itemWithRelations in items {
             
@@ -373,8 +362,6 @@ class APIController {
                 tempItem.category = category
                 
                 // Item years relationships
-                create(years: years)
-                
                 if let existingYearRelationships = tempItem.years {
                     tempItem.removeFromYears(existingYearRelationships)
                 }
@@ -404,7 +391,7 @@ class APIController {
         }
     }
     
-    func deleteImagesForItem(_ id: UUID) {
+    private func deleteImagesForItem(_ id: UUID) {
         
         let fetchRequest: NSFetchRequest<SUImage> = SUImage.fetchRequest()
         let predicate = NSPredicate(format: "item.id == %@", id as CVarArg)
@@ -413,15 +400,10 @@ class APIController {
         do {
             
             let images = try context.fetch(fetchRequest)
-            
-            if images.count > 0 {
                 
-                for image in images {
-                    
-                    context.delete(image)
-                }
+            for image in images {
                 
-                //try context.save()
+                context.delete(image)
             }
             
         } catch {
@@ -431,41 +413,26 @@ class APIController {
         }
     }
     
-    func fetchItemSizes() {
-        
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error {
-                
-                print("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let token = idToken {
+    // MARK: - Item Sizes
+    private func fetchItemSizes(withToken token: String) {
                     
-                    Alamofire.request(APIRouter.itemSizes(userIdToken: token)).responseJSON { response in
-                        
-                        if let itemSizes = response.result.value as? [[String: Any]] {
-                            
-                            self.create(itemSizes: itemSizes)
-                            
-                            do {
-                                try self.context.save()
-                            } catch {
-                                let nserror = error as NSError
-                                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                            }
-                        }
-                    }
+        Alamofire.request(APIRouter.itemSizes(userIdToken: token)).responseJSON { response in
+            
+            if let itemSizes = response.result.value as? [[String: Any]] {
+                
+                self.create(itemSizes: itemSizes)
+                
+                do {
+                    try self.context.save()
+                } catch {
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
         }
     }
     
     private func create(itemSizes: [[String: Any]]) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         
         for itemSize in itemSizes {
             

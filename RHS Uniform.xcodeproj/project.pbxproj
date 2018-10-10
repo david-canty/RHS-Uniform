@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F0E63DE1F7BF259003DF25E /* YearsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E63DD1F7BF259003DF25E /* YearsTableViewCell.swift */; };
 		1F0E63E41F7D2688003DF25E /* ItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E63E31F7D2688003DF25E /* ItemsTableViewCell.swift */; };
 		1F0E63E61F7D26EE003DF25E /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E63E51F7D26EE003DF25E /* ItemsTableViewController.swift */; };
 		1F1A6992203F3520001660E0 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A6991203F3520001660E0 /* ViewController+Extension.swift */; };
@@ -58,7 +57,6 @@
 		1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D119F21669E7200353E72 /* Customer+Extension.swift */; };
 		1F6D11A221669E8500353E72 /* Order+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D11A121669E8500353E72 /* Order+Extension.swift */; };
 		1F6D11A52167582B00353E72 /* BagItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D11A42167582B00353E72 /* BagItem+Extension.swift */; };
-		1FACBA4C1F77D89500A138D6 /* YearsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FACBA4B1F77D89500A138D6 /* YearsTableViewController.swift */; };
 		1FACBA4E1F77DA2100A138D6 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FACBA4D1F77DA2100A138D6 /* ContainerViewController.swift */; };
 		1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC419B820039DC100E98754 /* SideMenuViewController.swift */; };
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
@@ -74,7 +72,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F0E63DD1F7BF259003DF25E /* YearsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearsTableViewCell.swift; sourceTree = "<group>"; };
 		1F0E63E31F7D2688003DF25E /* ItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewCell.swift; sourceTree = "<group>"; };
 		1F0E63E51F7D26EE003DF25E /* ItemsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
 		1F1A6991203F3520001660E0 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -128,7 +125,6 @@
 		1F6D119F21669E7200353E72 /* Customer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Customer+Extension.swift"; sourceTree = "<group>"; };
 		1F6D11A121669E8500353E72 /* Order+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Order+Extension.swift"; sourceTree = "<group>"; };
 		1F6D11A42167582B00353E72 /* BagItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BagItem+Extension.swift"; sourceTree = "<group>"; };
-		1FACBA4B1F77D89500A138D6 /* YearsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearsTableViewController.swift; sourceTree = "<group>"; };
 		1FACBA4D1F77DA2100A138D6 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		1FC419B820039DC100E98754 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1FC4D3262093716200C7744F /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
@@ -215,7 +211,6 @@
 				1FACBA4D1F77DA2100A138D6 /* ContainerViewController.swift */,
 				1F2A4CD12048975700D12827 /* ContainerViewController+Extension.swift */,
 				1F30AFE5204D639200246E64 /* SearchViewController.swift */,
-				1FACBA4B1F77D89500A138D6 /* YearsTableViewController.swift */,
 				1F0E63E51F7D26EE003DF25E /* ItemsTableViewController.swift */,
 				1F28CDDF203887A80074C0D3 /* ItemViewController.swift */,
 				1F1A6993203F5F95001660E0 /* BagViewController.swift */,
@@ -308,7 +303,6 @@
 		1FACBA481F76A33900A138D6 /* Table Cells */ = {
 			isa = PBXGroup;
 			children = (
-				1F0E63DD1F7BF259003DF25E /* YearsTableViewCell.swift */,
 				1F0E63E31F7D2688003DF25E /* ItemsTableViewCell.swift */,
 				1F1A69972042C266001660E0 /* BagTableViewCell.swift */,
 				1F2F208B2046ED5C00CAB6AC /* BagTableSectionHeader.swift */,
@@ -504,7 +498,6 @@
 				1FACBA4E1F77DA2100A138D6 /* ContainerViewController.swift in Sources */,
 				1F2A0A60205E73B60063F9AD /* ChangeNameViewController.swift in Sources */,
 				1F1A6996204082D5001660E0 /* APIController+Extension.swift in Sources */,
-				1FACBA4C1F77D89500A138D6 /* YearsTableViewController.swift in Sources */,
 				1F28CDE0203887A80074C0D3 /* ItemViewController.swift in Sources */,
 				1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */,
 				1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */,
@@ -528,7 +521,6 @@
 				1FE9AC402030E13700C05ABC /* APIRouter.swift in Sources */,
 				1F6D11A52167582B00353E72 /* BagItem+Extension.swift in Sources */,
 				1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */,
-				1F0E63DE1F7BF259003DF25E /* YearsTableViewCell.swift in Sources */,
 				1F2A11432034785C00B5A26A /* Year+Extension.swift in Sources */,
 				1F30AFED204DBDFE00246E64 /* ItemFilterTransitioningDelegate.swift in Sources */,
 				1FEED7F020066834001E1358 /* SideMenuTransitioningDelegate.swift in Sources */,

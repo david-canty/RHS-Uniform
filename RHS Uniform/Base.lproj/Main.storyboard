@@ -113,7 +113,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r2h-dT-NaJ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <connections>
-                                    <segue destination="yWx-o9-Ijn" kind="embed" identifier="showYears" id="XiG-Rh-6DG"/>
+                                    <segue destination="yWx-o9-Ijn" kind="embed" identifier="showItems" id="XiG-Rh-6DG"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -150,78 +150,6 @@
                 </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1176.8" y="-545.57721139430294"/>
-        </scene>
-        <!--Years Table View Controller-->
-        <scene sceneID="TtK-51-e4V">
-            <objects>
-                <tableViewController id="hyH-2D-KyR" customClass="YearsTableViewController" customModule="RHS_Uniform" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="38" sectionFooterHeight="1" id="3yw-q3-0Ze">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
-                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="KO9-nc-odd" userLabel="Header View">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6Q-4S-DxJ" userLabel="Filter Label">
-                                    <rect key="frame" x="8" y="12" width="359" height="16"/>
-                                    <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
-                                    <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="X6Q-4S-DxJ" secondAttribute="trailing" constant="8" id="IMB-Vs-WpS"/>
-                                <constraint firstItem="X6Q-4S-DxJ" firstAttribute="top" secondItem="KO9-nc-odd" secondAttribute="top" constant="12" id="al1-WI-D5o"/>
-                                <constraint firstItem="X6Q-4S-DxJ" firstAttribute="leading" secondItem="KO9-nc-odd" secondAttribute="leading" constant="8" id="wvG-9f-bkr"/>
-                            </constraints>
-                        </view>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="0.0" reuseIdentifier="yearsTableViewCell" rowHeight="38" id="EFu-jy-NI5" customClass="YearsTableViewCell" customModule="RHS_Uniform" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="76" width="375" height="38"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EFu-jy-NI5" id="OHr-En-j5Q">
-                                    <rect key="frame" x="0.0" y="0.0" width="341" height="38"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gan-uW-EbJ">
-                                            <rect key="frame" x="16" y="8" width="317" height="22"/>
-                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
-                                            <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="gan-uW-EbJ" secondAttribute="bottom" constant="8" id="Ijz-1Q-i8v"/>
-                                        <constraint firstItem="gan-uW-EbJ" firstAttribute="top" secondItem="OHr-En-j5Q" secondAttribute="top" constant="8" id="J5H-iE-XBR"/>
-                                        <constraint firstItem="gan-uW-EbJ" firstAttribute="leading" secondItem="OHr-En-j5Q" secondAttribute="leading" constant="16" id="Q8c-mk-LiR"/>
-                                        <constraint firstAttribute="trailing" secondItem="gan-uW-EbJ" secondAttribute="trailing" constant="8" id="u8y-20-Mti"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.96999999999999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="yearLabel" destination="gan-uW-EbJ" id="K90-aV-xLi"/>
-                                    <segue destination="QlI-dt-iLJ" kind="show" identifier="showItems" id="7Zl-vp-ADo"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="hyH-2D-KyR" id="Ggb-yv-80U"/>
-                            <outlet property="delegate" destination="hyH-2D-KyR" id="wKU-kw-RQu"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="gO9-eq-x8p"/>
-                    <connections>
-                        <outlet property="headerLabel" destination="X6Q-4S-DxJ" id="dEw-yI-qtU"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2f0-hN-0io" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2996" y="-515.8920539730135"/>
         </scene>
         <!--Items Table View Controller-->
         <scene sceneID="oza-Tb-1AC">
@@ -363,6 +291,7 @@
                             <outlet property="delegate" destination="QlI-dt-iLJ" id="xWi-uO-6Eu"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="rmb-vE-XAS"/>
                     <connections>
                         <outlet property="filterButton" destination="JCO-hD-mgS" id="uXh-oS-9YL"/>
                         <outlet property="filterLabel" destination="NZh-PR-Mpc" id="X9s-6x-1od"/>
@@ -955,7 +884,7 @@
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="hyH-2D-KyR" kind="relationship" relationship="rootViewController" id="lqh-OL-jW5"/>
+                        <segue destination="QlI-dt-iLJ" kind="relationship" relationship="rootViewController" id="fGm-Vu-VKg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zmp-aQ-AG1" userLabel="First Responder" sceneMemberID="firstResponder"/>

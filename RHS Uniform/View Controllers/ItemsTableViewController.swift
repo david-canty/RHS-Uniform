@@ -10,9 +10,14 @@ import UIKit
 import CoreData
 import AlamofireImage
 
+protocol BackButtonDelegate {
+    func toggleBackButton()
+}
+
 class ItemsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext!
+    var backButtonDelegate: BackButtonDelegate?
     let itemFilterTransitioningDelegate = ItemFilterTransitioningDelegate()
     
     var genderFilterString = "All"
@@ -31,8 +36,17 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         super.viewWillAppear(animated)
         
+        backButtonDelegate?.toggleBackButton()
+        
         setFilterButtonTitle()
         setFilterLabelText()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        backButtonDelegate?.toggleBackButton()
     }
     
     func setFilterButtonTitle() {

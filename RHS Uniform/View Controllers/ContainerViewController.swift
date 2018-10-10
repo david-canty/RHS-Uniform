@@ -99,14 +99,14 @@ class ContainerViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "showYears" {
+        if segue.identifier == "showItems" {
             
-            let embeddedYearsNavigationController = segue.destination as! UINavigationController
-            embeddedNavigationController = embeddedYearsNavigationController
+            let embeddedItemsNavigationController = segue.destination as! UINavigationController
+            embeddedNavigationController = embeddedItemsNavigationController
             
-            let yearsViewController = embeddedNavigationController.topViewController as! YearsTableViewController
-            yearsViewController.delegate = self
-            yearsViewController.managedObjectContext = managedObjectContext
+            let itemsViewController = embeddedNavigationController.topViewController as! ItemsTableViewController
+            itemsViewController.managedObjectContext = managedObjectContext
+            itemsViewController.backButtonDelegate = self
         }
     }
 
