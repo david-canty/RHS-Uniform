@@ -11,6 +11,7 @@ import Alamofire
 
 public enum APIRouter: URLRequestConvertible {
     
+    case all(userIdToken: String)
     case schools(userIdToken: String)
     case years(userIdToken: String)
     case categories(userIdToken: String)
@@ -21,6 +22,9 @@ public enum APIRouter: URLRequestConvertible {
     var method: HTTPMethod {
         
         switch self {
+            
+        case .all:
+            return .get
             
         case .schools:
             return .get
@@ -45,6 +49,9 @@ public enum APIRouter: URLRequestConvertible {
     var path: String {
         
         switch self {
+            
+        case .all:
+            return "/all"
             
         case .schools:
             return "/schools"
@@ -87,28 +94,25 @@ public enum APIRouter: URLRequestConvertible {
             
             switch self {
                 
-            case .schools (let idToken):
+            case .all (let idToken):
+                return idToken
                 
+            case .schools (let idToken):
                 return idToken
                 
             case .categories (let idToken):
-                
                 return idToken
                 
             case .years (let idToken):
-                
                 return idToken
                 
             case .sizes (let idToken):
-                
                 return idToken
                 
             case .items (let idToken):
-                
                 return idToken
                 
             case .itemSizes (let idToken):
-                
                 return idToken
             }
         }()
