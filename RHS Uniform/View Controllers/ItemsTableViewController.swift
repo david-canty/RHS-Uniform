@@ -19,6 +19,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     var managedObjectContext: NSManagedObjectContext!
     var backButtonDelegate: BackButtonDelegate?
     let itemFilterTransitioningDelegate = ItemFilterTransitioningDelegate()
+    let notificationCenter = NotificationCenter.default
     
     var genderFilterString = "All"
     var yearNameFilterStrings = [String]()
@@ -30,6 +31,21 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.newBackgroundContext()
+        
+        notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
+    }
+    
+    @objc func apiUpdated(notification: NSNotification) {
+        
+        tableView.reloadData()
+        setFilterButtonTitle()
+        setFilterLabelText()
+    }
+    
+    deinit {
+        notificationCenter.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
