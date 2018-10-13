@@ -39,6 +39,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     @objc func apiUpdated(notification: NSNotification) {
         
+        managedObjectContext.refreshAllObjects()
         UIView.transition(with: tableView,
                           duration: 0.35,
                           options: .transitionCrossDissolve,

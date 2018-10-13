@@ -100,10 +100,8 @@ class ItemViewController: UIViewController {
         
         var itemYearsString = ""
         if let itemYears = item.years?.allObjects as? [SUYear] {
-            
             let sortedYears = itemYears
-                .sorted { $0.school!.sortOrder < $1.school!.sortOrder }
-                .sorted { $0.sortOrder < $1.sortOrder }
+                .sorted { ($0.school!.sortOrder, $0.sortOrder) < ($1.school!.sortOrder, $1.sortOrder) }
             
             var itemYearNames = [String]()
             for year in sortedYears {
@@ -115,7 +113,6 @@ class ItemViewController: UIViewController {
                 }
                 itemYearNames.append(yearName)
             }
-            //itemYearNames = itemYearNames.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
             itemYearsString = itemYearNames.joined(separator: ", ")
         }
         itemYearsLabel.text = itemYearsString
@@ -163,7 +160,6 @@ class ItemViewController: UIViewController {
                                            "itemLabel": itemSize.size!.sizeName!]
             availableSizes.append(sizeDict)
         }
-        //availableSizes = availableSizes.sorted {($0["itemLabel"] as! String).localizedStandardCompare($1["itemLabel"] as! String) == .orderedAscending}
     }
     
     func updateStockLabel() {
@@ -203,19 +199,23 @@ class ItemViewController: UIViewController {
         
         do {
             
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SUItem")
+            let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
             fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", item.id! as CVarArg)
-            let items = try managedObjectContext.fetch(fetchRequest) as! [SUItem]
+            let items = try managedObjectContext.fetch(fetchRequest)
             
             if items.count == 1 {
                 
-                item = items[0]
-                self.populateView()
+                managedObjectContext.refresh(item, mergeChanges: true)
+                DispatchQueue.main.async {
+                    self.populateView()
+                }
                 
             } else if items.count == 0 {
                 
-                showItemUnavailableAlert()
+                DispatchQueue.main.async {
+                    self.showItemUnavailableAlert()
+                }
             }
             
         } catch {
