@@ -39,7 +39,10 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     @objc func apiUpdated(notification: NSNotification) {
         
-        tableView.reloadData()
+        UIView.transition(with: tableView,
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations: { self.tableView.reloadData() })
         setFilterButtonTitle()
         setFilterLabelText()
     }

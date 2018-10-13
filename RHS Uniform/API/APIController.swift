@@ -59,13 +59,19 @@ class APIController {
                             fatalError("Error getting items JSON")
                         }
                         
+                        // Create and Update
                         self.createSchoolsWith(schoolsJSON: schoolsJSON)
                         self.createCategoriesWith(categoriesJSON: categoriesJSON)
                         self.createSizesWith(sizesJSON: sizesJSON)
                         self.createItemsWith(itemsJSON: itemsJSON)
                         
-                        // purge...
+                        // Delete
+                        self.deleteItemsWith(itemsJSON: itemsJSON)
+                        self.deleteSizesWith(sizesJSON: sizesJSON)
+                        self.deleteCategoriesWith(categoriesJSON: categoriesJSON)
+                        self.deleteSchoolsWith(schoolsJSON: schoolsJSON)
                         
+                        // Save context
                         do {
                             try self.context.save()
                         } catch {
@@ -73,6 +79,7 @@ class APIController {
                             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                         }
                         
+                        // Post notification
                         let notificationCenter = NotificationCenter.default
                         let notification = Notification(name: Notification.Name(rawValue: "apiPollDidFinish"))
                         notificationCenter.post(notification)

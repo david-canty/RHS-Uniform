@@ -105,6 +105,7 @@ class ContainerViewController: UIViewController {
             embeddedNavigationController = embeddedItemsNavigationController
             
             let itemsViewController = embeddedNavigationController.topViewController as! ItemsTableViewController
+            //itemsViewController.managedObjectContext = managedObjectContext
             itemsViewController.backButtonDelegate = self
         }
     }
