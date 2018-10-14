@@ -32,20 +32,20 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         super.viewDidLoad()
         
-        managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.newBackgroundContext()
-        
         notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
     }
     
     @objc func apiUpdated(notification: NSNotification) {
         
-        managedObjectContext.refreshAllObjects()
         UIView.transition(with: tableView,
                           duration: 0.35,
                           options: .transitionCrossDissolve,
-                          animations: { self.tableView.reloadData() })
-        setFilterButtonTitle()
-        setFilterLabelText()
+                          animations: {
+                            
+                            self.tableView.reloadData()
+                            self.setFilterButtonTitle()
+                            self.setFilterLabelText()
+        })
     }
     
     deinit {
@@ -243,8 +243,11 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! SUItem)
+            if let cell = tableView.cellForRow(at: indexPath!) as? ItemsTableViewCell {
+                configureCell(cell, withItem: anObject as! SUItem)
+            } else {
+                tableView.reloadRows(at: [indexPath!], with: .automatic)
+            }
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
             configureCell(cell, withItem: anObject as! SUItem)

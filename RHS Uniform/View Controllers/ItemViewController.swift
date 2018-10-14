@@ -206,7 +206,6 @@ class ItemViewController: UIViewController {
             
             if items.count == 1 {
                 
-                managedObjectContext.refresh(item, mergeChanges: true)
                 DispatchQueue.main.async {
                     self.populateView()
                 }
