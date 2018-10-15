@@ -32,6 +32,8 @@ class ModalSelectViewController: UIViewController {
         super.viewDidLoad()
         
         notificationCenter.addObserver(self, selector: #selector(closeTapped(_:)), name:NSNotification.Name(rawValue: "modalSelectChromeTapped"), object: nil)
+        
+        notificationCenter.addObserver(self, selector: #selector(dataInvalidated(notification:)), name: NSNotification.Name(rawValue: "modalSelectDataInvalidated"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +55,23 @@ class ModalSelectViewController: UIViewController {
         notificationCenter.removeObserver(self)
     }
 
+    @objc func dataInvalidated(notification: NSNotification) {
+        
+        guard let title = notification.userInfo?["title"] as? String else { return }
+        guard let message = notification.userInfo?["message"] as? String else { return }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        
+        let alertAction = UIAlertAction(title: "Close", style: .default) { (action) in
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     // MARK: - Actions
 
     @IBAction func closeTapped(_ sender: Any) {

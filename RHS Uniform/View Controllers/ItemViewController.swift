@@ -79,8 +79,6 @@ class ItemViewController: UIViewController {
 
     func populateView() {
         
-        getSizes()
-        
         itemNameLabel.text = item.itemName
         itemCategoryLabel.text = item.category?.categoryName
         
@@ -117,19 +115,10 @@ class ItemViewController: UIViewController {
         }
         itemYearsLabel.text = itemYearsString
         
-        updateStockLabel()
+        getSizes()
         
-        for i in 0..<availableSizes.count {
-            
-            let availableSizeId = availableSizes[i]["itemId"] as! UUID
-            if availableSizeId == selectedSize["itemId"] as! UUID {
-                selectedSize["itemLabel"] = availableSizes[i]["itemLabel"]
-                break
-            }
-        }
-        sizeButton.setTitle("Size: \(String(describing: selectedSize["itemLabel"]!))", for: .normal)
-        
-        quantityButton.setTitle("Qty: \(String(describing: selectedQuantity["itemLabel"]!))", for: .normal)
+        setSizeButtonTitle()
+        setQuantityButtonTitle()
     }
     
     func showItemImage(_ imageIndex: Int) {
@@ -160,6 +149,33 @@ class ItemViewController: UIViewController {
                                            "itemLabel": itemSize.size!.sizeName!]
             availableSizes.append(sizeDict)
         }
+    }
+    
+    func setSizeButtonTitle() {
+        
+        let availableSizeIds = availableSizes.map { $0["itemId"] as! UUID }
+        
+        // Check if currently selected size is still available
+        if !availableSizeIds.contains(selectedSize["itemId"] as! UUID) {
+            
+            selectedSize = availableSizes[0]
+            
+            // Post notification
+            let notificationCenter = NotificationCenter.default
+            let userInfo = ["title": "Size Unavailable",
+                            "message": "The selected size is no longer available."]
+            let notification = Notification(name: Notification.Name(rawValue: "modalSelectDataInvalidated"), userInfo: userInfo)
+            notificationCenter.post(notification)
+        }
+        
+        sizeButton.setTitle("Size: \(String(describing: selectedSize["itemLabel"]!))", for: .normal)
+        
+        updateStockLabel()
+    }
+    
+    func setQuantityButtonTitle() {
+     
+        quantityButton.setTitle("Qty: \(String(describing: selectedQuantity["itemLabel"]!))", for: .normal)
     }
     
     func updateStockLabel() {
@@ -335,19 +351,13 @@ extension ItemViewController: ModalSelectViewControllerDelegate {
         if modalSelectMode == .size {
             
             selectedSize = item
-            sizeButton.setTitle("Size: \(String(describing: selectedSize["itemLabel"]!))", for: .normal)
+            setSizeButtonTitle()
             
         } else if modalSelectMode == .qty {
             
             selectedQuantity = item
-            quantityButton.setTitle("Qty: \(String(describing: selectedQuantity["itemLabel"]!))", for: .normal)
+            setQuantityButtonTitle()
         }
-        
-        updateStockLabel()
-        
-//        if selectedQuantity["itemId"] as! Int > Int(stock) {
-//            wobble(views: [itemStockLabel])
-//        }
         
         modalSelectMode = .none
     }
