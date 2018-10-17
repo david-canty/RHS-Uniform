@@ -61,7 +61,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         if fetchedResultsController.sections!.count == 0 {
             
-            filterLabel.text = "No items"
+            filterLabel.text = "No items are available"
             filterButton.isHidden = true
             
         } else {
