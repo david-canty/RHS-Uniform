@@ -43,8 +43,9 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
                           animations: {
                             
                             self.tableView.reloadData()
-                            self.setFilterButtonTitle()
                             self.setFilterLabelText()
+                            self.setFilterButtonTitle()
+                            self.filterButton.isHidden = false
         })
     }
     
@@ -58,8 +59,16 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         backButtonDelegate?.toggleBackButton()
         
-        setFilterButtonTitle()
-        setFilterLabelText()
+        if fetchedResultsController.sections!.count == 0 {
+            
+            filterLabel.text = "No items"
+            filterButton.isHidden = true
+            
+        } else {
+            
+            setFilterLabelText()
+            setFilterButtonTitle()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,7 +110,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-        return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections!.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -39,25 +39,11 @@ class APIController {
                     
                     Alamofire.request(APIRouter.all(userIdToken: token)).responseJSON { response in
                         
-                        guard let allJSON = response.result.value as? [String: Any] else {
-                            fatalError("Error getting all JSON")
-                        }
-                         
-                        guard let schoolsJSON = allJSON["schools"] as? [[String: Any]] else {
-                            fatalError("Error getting schools JSON")
-                        }
-                        
-                        guard let categoriesJSON = allJSON["categories"] as? [[String: Any]] else {
-                            fatalError("Error getting categories JSON")
-                        }
-                        
-                        guard let sizesJSON = allJSON["sizes"] as? [[String: Any]] else {
-                            fatalError("Error getting sizes JSON")
-                        }
-                        
-                        guard let itemsJSON = allJSON["items"] as? [[String: Any]] else {
-                            fatalError("Error getting items JSON")
-                        }
+                        guard let allJSON = response.result.value as? [String: Any],
+                        let schoolsJSON = allJSON["schools"] as? [[String: Any]],
+                        let categoriesJSON = allJSON["categories"] as? [[String: Any]],
+                        let sizesJSON = allJSON["sizes"] as? [[String: Any]],
+                        let itemsJSON = allJSON["items"] as? [[String: Any]] else { return }
                         
                         // Create and Update
                         self.createSchoolsWith(schoolsJSON: schoolsJSON)
