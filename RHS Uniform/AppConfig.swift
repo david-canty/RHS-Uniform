@@ -16,7 +16,7 @@ final class AppConfig {
     
     private let baseDevUrlString = "http://localhost:8080/api"
     
-    private let baseUrlString = "https://suapi.vapor.cloud/api"
+    private let baseUrlString = "https://su-api.v2.vapor.cloud/api"
     
     private let s3BucketUrlString = "https://s3.eu-west-2.amazonaws.com/su-api-rhs"
     
