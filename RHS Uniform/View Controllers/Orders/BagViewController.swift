@@ -415,6 +415,9 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         
         if segue.identifier == "showCheckout" {
             
+            let navigationController = segue.destination as! UINavigationController
+            let checkOutVC = navigationController.topViewController as! CheckoutViewController
+            
             
         }
     }
@@ -425,7 +428,7 @@ extension BagViewController: BagTableSectionHeaderDelegate {
     
     func didTapCheckoutButton() {
         
-        print("Checkout button tapped")
+        self.performSegue(withIdentifier: "showCheckout", sender: self)
     }
 }
 
