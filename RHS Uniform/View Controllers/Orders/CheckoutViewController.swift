@@ -9,12 +9,47 @@
 import UIKit
 
 class CheckoutViewController: UITableViewController {
-
+    
+    @IBOutlet weak var itemsLabel: UILabel!
+    @IBOutlet weak var itemsValueLabel: UILabel!
+    @IBOutlet weak var postageLabel: UILabel!
+    @IBOutlet weak var postageValueLabel: UILabel!
+    @IBOutlet weak var orderTotalValueLabel: UILabel!
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        updateOrderSummaryLabels()
+    }
+    
+    func updateOrderSummaryLabels() {
+     
+        let itemsTotal = 1
+        itemsLabel.text = "Items: " + String(itemsTotal)
+        
+        let itemsValue = 9.99
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let formattedItemsValue = formatter.string(from: itemsValue as NSNumber)
+        itemsValueLabel.text = formattedItemsValue
+        
+        postageLabel.text = "Postage & Packing: " + "Collection Only"
+        
+        let postageValue = 0.00
+        let formattedPostageValue = formatter.string(from: postageValue as NSNumber)
+        postageValueLabel.text = formattedPostageValue
+        
+        let orderTotal = 9.99
+        let formattedTotalValue = formatter.string(from: orderTotal as NSNumber)
+        orderTotalValueLabel.text = formattedTotalValue
     }
 
     // MARK: - Table view data source
