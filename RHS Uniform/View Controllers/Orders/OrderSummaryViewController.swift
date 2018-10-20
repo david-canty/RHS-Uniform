@@ -25,8 +25,6 @@ class OrderSummaryViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,12 +55,10 @@ class OrderSummaryViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 1
     }
 
@@ -73,7 +69,6 @@ class OrderSummaryViewController: UITableViewController {
         header.textLabel?.textColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
         header.textLabel?.font = UIFont(name: "Arial-BoldMT", size: 16.0)
         header.textLabel?.text = "Order Summary"
-        //header.textLabel?.frame = header.frame
         header.textLabel?.textAlignment = NSTextAlignment.left
     }
     

@@ -61,7 +61,7 @@
 		1F9A549D2179EA1E0078492B /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A549C2179EA1E0078492B /* CheckoutViewController.swift */; };
 		1F9A549F2179EB210078492B /* CheckoutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A549E2179EB210078492B /* CheckoutTableViewCell.swift */; };
 		1F9A54A9217B9D700078492B /* OrderSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */; };
-		1F9A54AD217BA5C00078492B /* PaymentMethodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A54AC217BA5C00078492B /* PaymentMethodViewController.swift */; };
+		1F9A54AF217BB4F10078492B /* PaymentInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */; };
 		1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC419B820039DC100E98754 /* SideMenuViewController.swift */; };
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
@@ -133,7 +133,7 @@
 		1F9A549C2179EA1E0078492B /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		1F9A549E2179EB210078492B /* CheckoutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutTableViewCell.swift; sourceTree = "<group>"; };
 		1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryViewController.swift; sourceTree = "<group>"; };
-		1F9A54AC217BA5C00078492B /* PaymentMethodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodViewController.swift; sourceTree = "<group>"; };
+		1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInformationViewController.swift; sourceTree = "<group>"; };
 		1FC419B820039DC100E98754 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1FC4D3262093716200C7744F /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 				1F1598F42177863A001A70A5 /* BagViewController.swift */,
 				1F9A549C2179EA1E0078492B /* CheckoutViewController.swift */,
 				1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */,
-				1F9A54AC217BA5C00078492B /* PaymentMethodViewController.swift */,
+				1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -563,6 +563,7 @@
 				1F28CDE7203B28B10074C0D3 /* ModalSelectPresentationController.swift in Sources */,
 				1F259A511F750473005E4681 /* AppDelegate.swift in Sources */,
 				1F202AC8205E748C000C5290 /* ChangeEmailViewController.swift in Sources */,
+				1F9A54AF217BB4F10078492B /* PaymentInformationViewController.swift in Sources */,
 				1F9A54A9217B9D700078492B /* OrderSummaryViewController.swift in Sources */,
 				1F2A114120346E5900B5A26A /* Category+Extension.swift in Sources */,
 				1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */,
@@ -589,7 +590,6 @@
 				1F28CDE5203B28990074C0D3 /* ModalSelectTransitioningDelegate.swift in Sources */,
 				1F2DC2F62050423600FD2A02 /* TaggedTableButton.swift in Sources */,
 				1F30AFEB204DAE8900246E64 /* ItemFilterViewController.swift in Sources */,
-				1F9A54AD217BA5C00078492B /* PaymentMethodViewController.swift in Sources */,
 				1F30AFF3205019E300246E64 /* ItemFilterCheckTableViewCell.swift in Sources */,
 				1F3F5BA9205C5FBE00B2EDBA /* ChangePasswordViewController.swift in Sources */,
 				1F1B9C4520627A2F00E07E6C /* KeychainController.swift in Sources */,
