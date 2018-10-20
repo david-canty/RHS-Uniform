@@ -863,12 +863,24 @@
                             </connections>
                         </containerView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationLevel="16" indentationWidth="0.0" reuseIdentifier="checkoutTableViewCell" rowHeight="80" id="8wX-Qs-gcr" userLabel="Items" customClass="CheckoutTableViewCell" customModule="RHS_Uniform" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationLevel="16" indentationWidth="0.0" reuseIdentifier="checkoutTableViewCell" rowHeight="80" id="8wX-Qs-gcr" userLabel="Item Cell" customClass="CheckoutTableViewCell" customModule="RHS_Uniform" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="163" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8wX-Qs-gcr" id="mj3-Rm-qpt">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZMV-qW-Spi">
+                                            <rect key="frame" x="16" y="8" width="64" height="64"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3om-Im-qyk">
+                                            <rect key="frame" x="88" y="8" width="35" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
