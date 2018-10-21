@@ -839,7 +839,7 @@
             </objects>
             <point key="canvasLocation" x="4806" y="330"/>
         </scene>
-        <!--Place Your Order-->
+        <!--Checkout-->
         <scene sceneID="hk0-Xe-odx">
             <objects>
                 <tableViewController id="GWg-tg-FeT" customClass="CheckoutViewController" customModule="RHS_Uniform" customModuleProvider="target" sceneMemberID="viewController">
@@ -939,7 +939,7 @@
                             <outlet property="delegate" destination="GWg-tg-FeT" id="1I5-MQ-Y3N"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Place Your Order" id="b1n-Yg-Pq0">
+                    <navigationItem key="navigationItem" title="Checkout" id="b1n-Yg-Pq0">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TsA-sn-KUe">
                             <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -947,6 +947,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Wdp-tP-SgT" kind="show" identifier="paymentMethods" id="3HW-O4-9n7"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDq-R0-N8r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1028,6 +1031,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejw-91-bIk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7397.6000000000004" y="478.56071964017997"/>
+        </scene>
+        <!--Payment Methods-->
+        <scene sceneID="Yf2-yJ-1XG">
+            <objects>
+                <tableViewController title="Payment Methods" id="Wdp-tP-SgT" customClass="PaymentMethodsViewController" customModule="RHS_Uniform" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Ljv-CQ-GD9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="paymentMethodsTableViewCell" id="MHL-WN-wP9">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MHL-WN-wP9" id="H5O-oI-GRS">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Wdp-tP-SgT" id="lhH-JG-LWK"/>
+                            <outlet property="delegate" destination="Wdp-tP-SgT" id="M9I-va-bXE"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qpa-VL-RWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8148" y="330"/>
         </scene>
         <!--Order Summary View Controller-->
         <scene sceneID="ekS-fA-fKd">
@@ -2376,6 +2410,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="hyw-1A-RxU">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

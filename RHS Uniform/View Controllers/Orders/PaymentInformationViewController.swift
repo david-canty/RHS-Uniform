@@ -10,6 +10,7 @@ import UIKit
 
 protocol PaymentInformationDelegate {
     func fetchPaymentInformation()
+    func showPaymentMethods()
 }
 
 class PaymentInformationViewController: UITableViewController {
@@ -34,7 +35,7 @@ class PaymentInformationViewController: UITableViewController {
     
     func updatePaymentMethodLabel() {
         
-        paymentMethodDetailTextLabel.text = "payment method"
+        paymentMethodDetailTextLabel.text = ""
     }
 
     // MARK: - Table view data source
@@ -59,14 +60,10 @@ class PaymentInformationViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-
-    // MARK: - Segues
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        
+        if indexPath.row == 0 {
+            
+            self.delegate?.showPaymentMethods()
+        }
     }
 
     // MARK: - Button Actions

@@ -232,6 +232,12 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
             let paymentInformationController = segue.destination as! PaymentInformationViewController
             paymentInformationController.delegate = self
         }
+        
+        if segue.identifier == "paymentMethods" {
+            
+            let paymentMethodsController = segue.destination as! PaymentMethodsViewController
+            paymentMethodsController.delegate = self
+        }
     }
 
     // MARK: - Button Actions
@@ -293,4 +299,14 @@ extension CheckoutViewController: PaymentInformationDelegate {
         
         
     }
+    
+    func showPaymentMethods() {
+    
+        performSegue(withIdentifier: "paymentMethods", sender: self)
+    }
+}
+
+extension CheckoutViewController: PaymentMethodsDelegate {
+    
+    
 }
