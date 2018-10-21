@@ -10,15 +10,37 @@ import UIKit
 import CoreData
 import AlamofireImage
 
+enum Carrier: String, CustomStringConvertible {
+    
+    case collectionOnly = "Collection Only"
+    case royalMail = "Royal Mail"
+    case courier = "Courier"
+    
+    var description: String {
+        get {
+            return self.rawValue
+        }
+    }
+}
+
+struct PostageMethod {
+    
+    var carrier: Carrier
+    var cost: Double
+}
+
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var managedObjectContext: NSManagedObjectContext!
+    var postageMethod: PostageMethod?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
+        
+        postageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -227,9 +249,45 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
 
 extension CheckoutViewController: OrderSummaryDelegate {
     
-    func fetchOrderSummary() {
+    func fetchOrderSummaryData() -> OrderSummary {
     
+        var orderSummaryData = OrderSummary()
         
+        if let numItems = fetchedResultsController.fetchedObjects?.count {
+            orderSummaryData.numItems = numItems
+        }
+        
+        orderSummaryData.itemsValue = bagItemsValue()
+        
+        if let postageMethod = postageMethod {
+            orderSummaryData.postageMethod = postageMethod
+        }
+        
+        return orderSummaryData
+    }
+    
+    func bagItemsValue() -> Double {
+        
+        var totalValue = 0.0
+        
+        let fetchRequest: NSFetchRequest<SUBagItem> = SUBagItem.fetchRequest()
+        
+        do {
+            
+            let bagItems = try managedObjectContext.fetch(fetchRequest)
+            
+            for bagItem in bagItems {
+                
+                let bagItemValue = (bagItem.item?.itemPrice)! * Double(bagItem.quantity)
+                totalValue += bagItemValue
+            }
+            
+        } catch {
+            
+            print("Error fetching bag items total: \(error)")
+        }
+        
+        return totalValue
     }
 }
 

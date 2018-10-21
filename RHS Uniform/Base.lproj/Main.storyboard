@@ -1113,7 +1113,7 @@
                         <outlet property="itemsLabel" destination="JPW-KP-Fph" id="TX6-Ed-ILo"/>
                         <outlet property="itemsValueLabel" destination="j3f-aB-zUf" id="BqH-2n-DIN"/>
                         <outlet property="orderTotalValueLabel" destination="SnH-D5-HkT" id="Y9G-Ff-kDj"/>
-                        <outlet property="postageLabel" destination="S4j-dT-PrY" id="WOy-Pr-ais"/>
+                        <outlet property="postageMethodLabel" destination="S4j-dT-PrY" id="C5b-Me-NhI"/>
                         <outlet property="postageValueLabel" destination="qeO-kc-jWw" id="cNA-aR-6HN"/>
                     </connections>
                 </tableViewController>

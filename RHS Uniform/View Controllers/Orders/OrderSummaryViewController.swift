@@ -8,23 +8,24 @@
 
 import UIKit
 
+struct OrderSummary {
+    var numItems: Int = 0
+    var itemsValue: Double = 0.0
+    var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
+}
+
 protocol OrderSummaryDelegate {
-    func fetchOrderSummary()
+    func fetchOrderSummaryData() -> OrderSummary
 }
 
 class OrderSummaryViewController: UITableViewController {
 
-    var numItems: Int = 0
-    var itemsValue: Double = 0.0
-    var postageType: String = ""
-    var postageValue: Double = 0.0
-    var orderTotal: Double = 0.0
-    
     var delegate: OrderSummaryDelegate?
+    var orderSummaryData: OrderSummary!
     
     @IBOutlet weak var itemsLabel: UILabel!
     @IBOutlet weak var itemsValueLabel: UILabel!
-    @IBOutlet weak var postageLabel: UILabel!
+    @IBOutlet weak var postageMethodLabel: UILabel!
     @IBOutlet weak var postageValueLabel: UILabel!
     @IBOutlet weak var orderTotalValueLabel: UILabel!
     
@@ -32,7 +33,7 @@ class OrderSummaryViewController: UITableViewController {
         
         super.viewDidLoad()
         
-        delegate?.fetchOrderSummary()
+        orderSummaryData = delegate?.fetchOrderSummaryData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,18 +45,19 @@ class OrderSummaryViewController: UITableViewController {
 
     func updateOrderSummaryLabels() {
         
-        itemsLabel.text = "Items: " + String(numItems)
+        itemsLabel.text = "Items: " + String(orderSummaryData.numItems)
 
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        let formattedItemsValue = formatter.string(from: itemsValue as NSNumber)
+        let formattedItemsValue = formatter.string(from: orderSummaryData.itemsValue as NSNumber)
         itemsValueLabel.text = formattedItemsValue
 
-        postageLabel.text = "Postage & Packing: " + postageType
+        postageMethodLabel.text = "Postage & Packing: " + orderSummaryData.postageMethod.carrier.description
 
-        let formattedPostageValue = formatter.string(from: postageValue as NSNumber)
+        let formattedPostageValue = formatter.string(from: orderSummaryData.postageMethod.cost as NSNumber)
         postageValueLabel.text = formattedPostageValue
 
+        let orderTotal = orderSummaryData.itemsValue + orderSummaryData.postageMethod.cost
         let formattedTotalValue = formatter.string(from: orderTotal as NSNumber)
         orderTotalValueLabel.text = formattedTotalValue
     }
