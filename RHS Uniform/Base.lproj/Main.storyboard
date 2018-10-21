@@ -895,35 +895,43 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkK-gD-Zc1">
-                                            <rect key="frame" x="327" y="8" width="32" height="16"/>
+                                            <rect key="frame" x="327" y="32" width="32" height="16"/>
                                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Qty:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADk-Cn-Zxr">
-                                            <rect key="frame" x="333" y="32" width="26" height="16"/>
+                                            <rect key="frame" x="333" y="56" width="26" height="16"/>
                                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="3om-Im-qyk" firstAttribute="baseline" secondItem="QkK-gD-Zc1" secondAttribute="baseline" id="4ni-cc-1tG"/>
-                                        <constraint firstItem="QkK-gD-Zc1" firstAttribute="trailing" secondItem="mj3-Rm-qpt" secondAttribute="trailingMargin" id="DSD-kD-1z4"/>
-                                        <constraint firstItem="9k0-d6-SBD" firstAttribute="top" secondItem="3om-Im-qyk" secondAttribute="bottom" constant="8" symbolic="YES" id="I1N-GN-puy"/>
-                                        <constraint firstItem="QkK-gD-Zc1" firstAttribute="trailing" secondItem="ADk-Cn-Zxr" secondAttribute="trailing" id="Lyr-Ye-uzw"/>
-                                        <constraint firstItem="kT6-0Z-JZM" firstAttribute="top" secondItem="9k0-d6-SBD" secondAttribute="bottom" constant="8" symbolic="YES" id="Nc1-vh-GcS"/>
-                                        <constraint firstItem="3om-Im-qyk" firstAttribute="leading" secondItem="9k0-d6-SBD" secondAttribute="leading" id="TWb-uv-S8J"/>
+                                        <constraint firstItem="3om-Im-qyk" firstAttribute="leading" secondItem="ZMV-qW-Spi" secondAttribute="trailing" constant="8" symbolic="YES" id="1Xo-BM-Atj"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3om-Im-qyk" secondAttribute="trailing" constant="20" symbolic="YES" id="ETD-tx-0hr"/>
+                                        <constraint firstItem="3om-Im-qyk" firstAttribute="leading" secondItem="9k0-d6-SBD" secondAttribute="leading" id="EiV-MW-drE"/>
+                                        <constraint firstItem="QkK-gD-Zc1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9k0-d6-SBD" secondAttribute="trailing" constant="8" symbolic="YES" id="GfL-EN-xdg"/>
+                                        <constraint firstItem="ADk-Cn-Zxr" firstAttribute="top" secondItem="QkK-gD-Zc1" secondAttribute="bottom" constant="8" id="IIl-8d-bf4"/>
                                         <constraint firstAttribute="bottom" secondItem="ZMV-qW-Spi" secondAttribute="bottom" constant="8" id="W5f-pt-b6a"/>
-                                        <constraint firstItem="9k0-d6-SBD" firstAttribute="leading" secondItem="kT6-0Z-JZM" secondAttribute="leading" id="XMB-Nd-dH4"/>
-                                        <constraint firstItem="3om-Im-qyk" firstAttribute="leading" secondItem="ZMV-qW-Spi" secondAttribute="trailing" constant="8" symbolic="YES" id="caI-rw-0Sb"/>
-                                        <constraint firstItem="9k0-d6-SBD" firstAttribute="baseline" secondItem="ADk-Cn-Zxr" secondAttribute="baseline" id="czc-Vf-Cp7"/>
+                                        <constraint firstAttribute="trailing" secondItem="QkK-gD-Zc1" secondAttribute="trailing" constant="16" id="Xo7-TO-ccf"/>
+                                        <constraint firstAttribute="trailing" secondItem="ADk-Cn-Zxr" secondAttribute="trailing" constant="16" id="Xuk-pQ-JKK"/>
                                         <constraint firstItem="ZMV-qW-Spi" firstAttribute="leading" secondItem="mj3-Rm-qpt" secondAttribute="leading" constant="16" id="i8y-Fv-W3q"/>
-                                        <constraint firstItem="QkK-gD-Zc1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3om-Im-qyk" secondAttribute="trailing" constant="8" symbolic="YES" id="qhU-bP-7kG"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kT6-0Z-JZM" secondAttribute="trailing" constant="20" symbolic="YES" id="rnP-Ns-pNC"/>
-                                        <constraint firstItem="ADk-Cn-Zxr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9k0-d6-SBD" secondAttribute="trailing" constant="8" symbolic="YES" id="tsN-ja-QeS"/>
+                                        <constraint firstItem="kT6-0Z-JZM" firstAttribute="baseline" secondItem="ADk-Cn-Zxr" secondAttribute="baseline" id="irz-h4-mga"/>
+                                        <constraint firstItem="3om-Im-qyk" firstAttribute="top" secondItem="ZMV-qW-Spi" secondAttribute="top" id="kpM-Om-q4N"/>
+                                        <constraint firstAttribute="bottom" secondItem="ADk-Cn-Zxr" secondAttribute="bottom" constant="8" id="shr-0e-YSb"/>
                                         <constraint firstItem="ZMV-qW-Spi" firstAttribute="top" secondItem="mj3-Rm-qpt" secondAttribute="top" constant="8" id="uec-og-Fr7"/>
-                                        <constraint firstItem="3om-Im-qyk" firstAttribute="top" secondItem="ZMV-qW-Spi" secondAttribute="top" id="vRl-N3-zqh"/>
+                                        <constraint firstItem="ADk-Cn-Zxr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kT6-0Z-JZM" secondAttribute="trailing" constant="8" symbolic="YES" id="vaQ-LW-EBJ"/>
+                                        <constraint firstItem="9k0-d6-SBD" firstAttribute="leading" secondItem="kT6-0Z-JZM" secondAttribute="leading" id="z2H-OU-kuf"/>
+                                        <constraint firstItem="9k0-d6-SBD" firstAttribute="baseline" secondItem="QkK-gD-Zc1" secondAttribute="baseline" id="zPM-DF-N3H"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="itemImageView" destination="ZMV-qW-Spi" id="EOL-7e-Ve5"/>
+                                    <outlet property="itemNameLabel" destination="3om-Im-qyk" id="cFF-sF-Sbl"/>
+                                    <outlet property="itemPriceLabel" destination="9k0-d6-SBD" id="bID-nk-4iE"/>
+                                    <outlet property="itemQtyLabel" destination="ADk-Cn-Zxr" id="8jX-5e-H1v"/>
+                                    <outlet property="itemSizeLabel" destination="QkK-gD-Zc1" id="iEV-KK-3oF"/>
+                                    <outlet property="itemStockLabel" destination="kT6-0Z-JZM" id="4k8-y0-odY"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
