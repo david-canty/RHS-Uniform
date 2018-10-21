@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol OrderSummaryDelegate {
+    func fetchOrderSummary()
+}
+
 class OrderSummaryViewController: UITableViewController {
 
     var numItems: Int = 0
@@ -15,6 +19,8 @@ class OrderSummaryViewController: UITableViewController {
     var postageType: String = ""
     var postageValue: Double = 0.0
     var orderTotal: Double = 0.0
+    
+    var delegate: OrderSummaryDelegate?
     
     @IBOutlet weak var itemsLabel: UILabel!
     @IBOutlet weak var itemsValueLabel: UILabel!
@@ -25,6 +31,8 @@ class OrderSummaryViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        delegate?.fetchOrderSummary()
     }
     
     override func viewWillAppear(_ animated: Bool) {

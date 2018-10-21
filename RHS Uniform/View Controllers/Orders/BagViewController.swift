@@ -418,7 +418,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             let navigationController = segue.destination as! UINavigationController
             let checkOutVC = navigationController.topViewController as! CheckoutViewController
             
-            
+            checkOutVC.managedObjectContext = managedObjectContext
         }
     }
 

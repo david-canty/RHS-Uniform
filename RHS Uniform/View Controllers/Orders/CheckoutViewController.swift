@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class CheckoutViewController: UITableViewController {
     
-    
+    var managedObjectContext: NSManagedObjectContext!
     
     override func viewDidLoad() {
         
@@ -52,7 +53,17 @@ class CheckoutViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
+        if segue.identifier == "orderSummary" {
+            
+            let orderSummaryController = segue.destination as! OrderSummaryViewController
+            orderSummaryController.delegate = self
+        }
         
+        if segue.identifier == "paymentInformation" {
+            
+            let paymentInformationController = segue.destination as! PaymentInformationViewController
+            paymentInformationController.delegate = self
+        }
     }
 
     // MARK: - Button Actions
@@ -64,4 +75,20 @@ class CheckoutViewController: UITableViewController {
     
     
     
+}
+
+extension CheckoutViewController: OrderSummaryDelegate {
+    
+    func fetchOrderSummary() {
+    
+        
+    }
+}
+
+extension CheckoutViewController: PaymentInformationDelegate {
+    
+    func fetchPaymentInformation() {
+        
+        
+    }
 }

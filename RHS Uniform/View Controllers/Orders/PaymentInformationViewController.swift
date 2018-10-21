@@ -8,13 +8,21 @@
 
 import UIKit
 
+protocol PaymentInformationDelegate {
+    func fetchPaymentInformation()
+}
+
 class PaymentInformationViewController: UITableViewController {
 
+    var delegate: PaymentInformationDelegate?
+    
     @IBOutlet weak var paymentMethodDetailTextLabel: UILabel!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        delegate?.fetchPaymentInformation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
