@@ -32,15 +32,13 @@ struct PostageMethod {
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var managedObjectContext: NSManagedObjectContext!
-    var postageMethod: PostageMethod?
+    var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
-        
-        postageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -253,22 +251,19 @@ extension CheckoutViewController: OrderSummaryDelegate {
     
         var orderSummaryData = OrderSummary()
         
-        if let numItems = fetchedResultsController.fetchedObjects?.count {
-            orderSummaryData.numItems = numItems
-        }
+        let bagItems = bagItemsCountAndValue()
+        orderSummaryData.itemCount = bagItems.count
+        orderSummaryData.itemValue = bagItems.value
         
-        orderSummaryData.itemsValue = bagItemsValue()
-        
-        if let postageMethod = postageMethod {
-            orderSummaryData.postageMethod = postageMethod
-        }
+        orderSummaryData.postageMethod = postageMethod
         
         return orderSummaryData
     }
     
-    func bagItemsValue() -> Double {
+    func bagItemsCountAndValue() -> (count: Int, value: Double) {
         
-        var totalValue = 0.0
+        var itemsCount = 0
+        var itemsValue = 0.0
         
         let fetchRequest: NSFetchRequest<SUBagItem> = SUBagItem.fetchRequest()
         
@@ -279,15 +274,16 @@ extension CheckoutViewController: OrderSummaryDelegate {
             for bagItem in bagItems {
                 
                 let bagItemValue = (bagItem.item?.itemPrice)! * Double(bagItem.quantity)
-                totalValue += bagItemValue
+                itemsCount += Int(bagItem.quantity)
+                itemsValue += bagItemValue
             }
             
         } catch {
             
-            print("Error fetching bag items total: \(error)")
+            print("Error fetching bag items count and value: \(error)")
         }
         
-        return totalValue
+        return (itemsCount, itemsValue)
     }
 }
 

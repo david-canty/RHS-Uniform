@@ -9,8 +9,8 @@
 import UIKit
 
 struct OrderSummary {
-    var numItems: Int = 0
-    var itemsValue: Double = 0.0
+    var itemCount: Int = 0
+    var itemValue: Double = 0.0
     var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
 }
 
@@ -45,11 +45,11 @@ class OrderSummaryViewController: UITableViewController {
 
     func updateOrderSummaryLabels() {
         
-        itemsLabel.text = "Items: " + String(orderSummaryData.numItems)
+        itemsLabel.text = "Items: " + String(orderSummaryData.itemCount)
 
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        let formattedItemsValue = formatter.string(from: orderSummaryData.itemsValue as NSNumber)
+        let formattedItemsValue = formatter.string(from: orderSummaryData.itemValue as NSNumber)
         itemsValueLabel.text = formattedItemsValue
 
         postageMethodLabel.text = "Postage & Packing: " + orderSummaryData.postageMethod.carrier.description
@@ -57,7 +57,7 @@ class OrderSummaryViewController: UITableViewController {
         let formattedPostageValue = formatter.string(from: orderSummaryData.postageMethod.cost as NSNumber)
         postageValueLabel.text = formattedPostageValue
 
-        let orderTotal = orderSummaryData.itemsValue + orderSummaryData.postageMethod.cost
+        let orderTotal = orderSummaryData.itemValue + orderSummaryData.postageMethod.cost
         let formattedTotalValue = formatter.string(from: orderTotal as NSNumber)
         orderTotalValueLabel.text = formattedTotalValue
     }

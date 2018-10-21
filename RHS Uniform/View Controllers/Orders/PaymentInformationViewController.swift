@@ -71,9 +71,9 @@ class PaymentInformationViewController: UITableViewController {
 
     // MARK: - Button Actions
     
-    @IBAction func buyNowTapped(_ sender: UIButton) {
+    @IBAction func placeOrderTapped(_ sender: UIButton) {
         
-        print("Buy Now tapped")
+        print("Place Order tapped")
     }
     
 }
