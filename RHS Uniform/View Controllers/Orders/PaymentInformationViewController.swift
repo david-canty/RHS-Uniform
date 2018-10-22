@@ -11,6 +11,7 @@ import UIKit
 protocol PaymentInformationDelegate {
     func fetchPaymentInformation()
     func showPaymentMethods()
+    func placeOrder()
 }
 
 class PaymentInformationViewController: UITableViewController {
@@ -70,7 +71,7 @@ class PaymentInformationViewController: UITableViewController {
     
     @IBAction func placeOrderTapped(_ sender: UIButton) {
         
-        print("Place Order tapped")
+        delegate?.placeOrder()
     }
     
 }

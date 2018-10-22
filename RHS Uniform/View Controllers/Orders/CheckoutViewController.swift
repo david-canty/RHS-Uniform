@@ -304,6 +304,11 @@ extension CheckoutViewController: PaymentInformationDelegate {
     
         performSegue(withIdentifier: "paymentMethods", sender: self)
     }
+    
+    func placeOrder() {
+        
+        print("Place Order tapped")
+    }
 }
 
 extension CheckoutViewController: PaymentMethodsDelegate {
