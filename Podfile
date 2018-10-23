@@ -11,5 +11,6 @@ target 'RHS Uniform' do
   pod 'AlamofireImage', '~> 3.3'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Stripe'
 
 end

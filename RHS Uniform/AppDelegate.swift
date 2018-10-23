@@ -11,6 +11,7 @@ import CoreData
 import Alamofire
 import AlamofireNetworkActivityIndicator
 import Firebase
+import Stripe
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         registerDefaultPreferences()
+        
+        STPPaymentConfiguration.shared().publishableKey = "pk_test_boaAcGP1oTQ6JZ7pbUpOnA0n"
         
         FirebaseApp.configure()
         firebaseAuth = Auth.auth()
