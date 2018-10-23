@@ -31,7 +31,7 @@ let availableQuantities = [["itemId": 1, "itemLabel": "1"],
 class ItemViewController: UIViewController {
 
     var managedObjectContext: NSManagedObjectContext!
-    var item: SUItem!
+    var item: SUShopItem!
     let modalSelectTransitioningDelegate = ModalSelectTransitioningDelegate()
     var modalSelectMode: ModalSelectMode = .none
     let notificationCenter = NotificationCenter.default
@@ -215,7 +215,7 @@ class ItemViewController: UIViewController {
         
         do {
             
-            let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+            let fetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
             fetchRequest.fetchLimit = 1
             fetchRequest.predicate = NSPredicate(format: "id == %@", item.id! as CVarArg)
             let items = try managedObjectContext.fetch(fetchRequest)

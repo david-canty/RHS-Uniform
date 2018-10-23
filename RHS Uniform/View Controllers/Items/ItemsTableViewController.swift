@@ -99,7 +99,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             
             let rowCount = fetchedResultsController.fetchedObjects!.count
             
-            let itemsFetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+            let itemsFetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
             let itemCount = try! managedObjectContext.count(for: itemsFetchRequest)
             
             filterLabel.text = "Showing \(rowCount) of \(itemCount) items"
@@ -137,7 +137,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         headerLabel.font = UIFont(name: "Arial-BoldMT", size: 14.0)
         headerLabel.textAlignment = .left
         let sectionInfo = fetchedResultsController.sections![section]
-        let firstItem = sectionInfo.objects?.first as? SUItem
+        let firstItem = sectionInfo.objects?.first as? SUShopItem
         headerLabel.text = firstItem?.category?.categoryName
         headerView.addSubview(headerLabel)
 
@@ -159,7 +159,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         return cell
     }
     
-    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUItem) {
+    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUShopItem) {
         
         cell.itemNameLabel.text = item.itemName
         cell.itemGenderLabel.text = item.itemGender
@@ -186,9 +186,9 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<SUItem> {
+    var fetchedResultsController: NSFetchedResultsController<SUShopItem> {
         
-        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
         fetchRequest.fetchBatchSize = 20
         let categorySortDescriptor = NSSortDescriptor(key: "category.sortOrder", ascending: true)
         let nameSortDescriptor = NSSortDescriptor(key: "itemName", ascending: true)
@@ -228,7 +228,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<SUItem>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUShopItem>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -253,13 +253,13 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             if let cell = tableView.cellForRow(at: indexPath!) as? ItemsTableViewCell {
-                configureCell(cell, withItem: anObject as! SUItem)
+                configureCell(cell, withItem: anObject as! SUShopItem)
             } else {
                 tableView.reloadRows(at: [indexPath!], with: .automatic)
             }
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! SUItem)
+            configureCell(cell, withItem: anObject as! SUShopItem)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }

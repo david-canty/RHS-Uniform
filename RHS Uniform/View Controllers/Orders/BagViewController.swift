@@ -329,7 +329,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         }
     }
     
-    func getAvailableSizesFor(item: SUItem) {
+    func getAvailableSizesFor(item: SUShopItem) {
         
         availableSizes = []
         

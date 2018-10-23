@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 import CoreData
 
-extension SUItem {
+extension SUShopItem {
     
-    class func getObjectWithId(_ id: UUID) -> SUItem? {
+    class func getObjectWithId(_ id: UUID) -> SUShopItem? {
         
-        var item: SUItem?
+        var item: SUShopItem?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
-        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id as CVarArg)
         fetchRequest.predicate = predicate
         

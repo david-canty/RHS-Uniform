@@ -256,10 +256,10 @@ class APIController {
                 fatalError("Failed to convert date due to mismatched format")
             }
             
-            var tempItem: SUItem?
+            var tempItem: SUShopItem?
             let id = UUID(uuidString: item["id"] as! String)!
             
-            if let existingItem = SUItem.getObjectWithId(id) {
+            if let existingItem = SUShopItem.getObjectWithId(id) {
                 
                 if existingItem.timestamp! < timestampDate {
                     
@@ -272,7 +272,7 @@ class APIController {
                 
             } else {
                 
-                tempItem = SUItem(context: context)
+                tempItem = SUShopItem(context: context)
                 tempItem!.id = id
             }
             
@@ -350,7 +350,7 @@ class APIController {
     }
     
     // MARK: - Item Sizes
-    private func create(sizes: [[String: Any]], forItem item: SUItem) {
+    private func create(sizes: [[String: Any]], forItem item: SUShopItem) {
         
         for itemSize in sizes {
             
@@ -376,7 +376,7 @@ class APIController {
                 newItemSize.timestamp = timestampDate
                 
                 let itemId = UUID(uuidString: itemSize["itemID"] as! String)!
-                guard let item = SUItem.getObjectWithId(itemId) else {
+                guard let item = SUShopItem.getObjectWithId(itemId) else {
                     fatalError("Failed to get item with id \(itemId)")
                 }
                 newItemSize.item = item

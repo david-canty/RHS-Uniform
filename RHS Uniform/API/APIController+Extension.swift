@@ -34,7 +34,7 @@ extension APIController {
             deleteItemYearsWith(itemYearsJSON: itemYears, forItemId: itemId)
         }
         
-        let itemsFetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+        let itemsFetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
         let itemIdPredicate = NSPredicate(format: "NOT (id IN %@)", itemIds)
         itemsFetchRequest.predicate = itemIdPredicate
         
@@ -83,7 +83,7 @@ extension APIController {
     // MARK: - Item Years
     func deleteItemYearsWith(itemYearsJSON: [[String: Any]], forItemId itemId: UUID) {
         
-        guard let itemObject = SUItem.getObjectWithId(itemId) else {
+        guard let itemObject = SUShopItem.getObjectWithId(itemId) else {
             fatalError("Failed to get item with id \(itemId)")
         }
         

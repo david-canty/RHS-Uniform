@@ -82,7 +82,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
-    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUItem) {
+    func configureCell(_ cell: ItemsTableViewCell, withItem item: SUShopItem) {
         
         cell.itemNameLabel.text = item.itemName
         cell.itemGenderLabel.text = item.itemGender
@@ -109,9 +109,9 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     // MARK: - Fetched results controller
     
-    var fetchedResultsController: NSFetchedResultsController<SUItem> {
+    var fetchedResultsController: NSFetchedResultsController<SUShopItem> {
         
-        let fetchRequest: NSFetchRequest<SUItem> = SUItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<SUShopItem> = SUShopItem.fetchRequest()
         fetchRequest.fetchBatchSize = 20
         let nameSortDescriptor = NSSortDescriptor(key: "itemName", ascending: true)
         fetchRequest.sortDescriptors = [nameSortDescriptor]
@@ -142,7 +142,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return _fetchedResultsController!
     }
     
-    var _fetchedResultsController: NSFetchedResultsController<SUItem>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<SUShopItem>? = nil
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -167,10 +167,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             tableView.deleteRows(at: [indexPath!], with: .fade)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! SUItem)
+            configureCell(cell, withItem: anObject as! SUShopItem)
         case .move:
             let cell = tableView.cellForRow(at: indexPath!)! as! ItemsTableViewCell
-            configureCell(cell, withItem: anObject as! SUItem)
+            configureCell(cell, withItem: anObject as! SUShopItem)
             tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
