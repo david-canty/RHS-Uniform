@@ -1,5 +1,5 @@
 //
-//  UniformItem.swift
+//  ShopItem+Extension.swift
 //  RHS Uniform
 //
 //  Created by David Canty on 14/02/2018.

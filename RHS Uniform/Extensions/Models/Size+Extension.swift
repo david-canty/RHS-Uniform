@@ -1,5 +1,5 @@
 //
-//  UniformSize.swift
+//  Size+Extension.swift
 //  RHS Uniform
 //
 //  Created by David Canty on 16/02/2018.
