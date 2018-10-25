@@ -83,14 +83,16 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
 
     func getBagCount() -> Int {
         
-        var bagCount = 0
+        return fetchedResultsController.fetchedObjects!.reduce(0) { return $0 + Int($1.quantity) }
         
-        for bagItem in fetchedResultsController.fetchedObjects! {
-            
-            bagCount += Int(bagItem.quantity)
-        }
-        
-        return bagCount
+//        var bagCount = 0
+//
+//        for bagItem in fetchedResultsController.fetchedObjects! {
+//
+//            bagCount += Int(bagItem.quantity)
+//        }
+//
+//        return bagCount
     }
     
     func getBagValue() -> Double {
