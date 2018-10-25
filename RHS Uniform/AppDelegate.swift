@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         registerDefaultPreferences()
         
-        STPPaymentConfiguration.shared().publishableKey = "pk_test_boaAcGP1oTQ6JZ7pbUpOnA0n"
+        STPPaymentConfiguration.shared().publishableKey = AppConfig.sharedInstance.stripePublishableKey()
         
         FirebaseApp.configure()
         firebaseAuth = Auth.auth()

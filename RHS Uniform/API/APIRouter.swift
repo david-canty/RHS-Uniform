@@ -19,6 +19,8 @@ public enum APIRouter: URLRequestConvertible {
     case items(userIdToken: String)
     case itemSizes(userIdToken: String)
     
+    case charge(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
+    
     var method: HTTPMethod {
         
         switch self {
@@ -43,6 +45,9 @@ public enum APIRouter: URLRequestConvertible {
         
         case .itemSizes:
             return .get
+            
+        case .charge:
+            return .post
         }
     }
     
@@ -70,6 +75,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .itemSizes:
             return "/items/sizes"
+            
+        case .charge:
+            return "/charge"
         }
     }
     
@@ -79,9 +87,12 @@ public enum APIRouter: URLRequestConvertible {
             
             switch self {
                 
-//            case let .items(_, categories, years, genders):
-//                
-//                return ["categories": categories, "years": years, "genders": genders]
+            case let .charge(_, stripeToken, amount, currency, description):
+                
+                return ["token": stripeToken,
+                        "amount": amount,
+                        "currency": currency,
+                        "description": description]
                 
             default:
                 
@@ -114,10 +125,13 @@ public enum APIRouter: URLRequestConvertible {
                 
             case .itemSizes (let idToken):
                 return idToken
+                
+            case .charge (let idToken, _, _, _, _):
+                return idToken
             }
         }()
         
-        let url = try AppConfig.sharedInstance.baseUrlPath().asURL()
+        let url = try AppConfig.sharedInstance.baseUrlString().asURL()
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
         request.setValue(userIdToken, forHTTPHeaderField: "Authorization")

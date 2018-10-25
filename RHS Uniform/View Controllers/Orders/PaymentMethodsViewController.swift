@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stripe
 
 protocol PaymentMethodsDelegate {
     
@@ -17,15 +18,19 @@ class PaymentMethodsViewController: UITableViewController {
     var delegate: PaymentMethodsDelegate?
     
     override func viewDidLoad() {
+
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
 
+    @objc func addTapped(_ sender: UIBarButtonItem) {
+        
+        let addCardViewController = STPAddCardViewController()
+        addCardViewController.delegate = self
+        navigationController?.pushViewController(addCardViewController, animated: true)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -93,4 +98,42 @@ class PaymentMethodsViewController: UITableViewController {
     }
     */
 
+}
+
+
+extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
+    
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
+    
+        StripeClient.sharedInstance.completeCharge(with: token, amount: 999) { result in
+            
+            switch result {
+            
+            case .success:
+                
+                completion(nil)
+                
+                let alertController = UIAlertController(title: "Success",
+                                                        message: "Your payment was successful!",
+                                                        preferredStyle: .alert)
+                
+                let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+                    self.navigationController?.popViewController(animated: true)
+                })
+                alertController.addAction(alertAction)
+                
+                self.present(alertController, animated: true)
+            
+            case .failure(let error):
+                
+                completion(error)
+            }
+        }
+    }
+    
 }

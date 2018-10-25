@@ -14,26 +14,30 @@ final class AppConfig {
     
     private let isDevMode = true
     
-    private let baseDevUrlString = "http://localhost:8080/api"
-    
-    private let baseUrlString = "https://su-api.v2.vapor.cloud/api"
-    
-    private let s3BucketUrlString = "https://s3.eu-west-2.amazonaws.com/su-api-rhs"
+    private let baseDevUrlStr = "http://localhost:8080/api"
+    private let baseUrlStr = "https://su-api.v2.vapor.cloud/api"
+    private let s3BucketUrlStr = "https://s3.eu-west-2.amazonaws.com/su-api-rhs"
     
     private let networkPollTimeInterval: TimeInterval = 300 // 5 minutes
     //private let apiPollTimeInterval: TimeInterval = 86400 // 24 hours
     private let apiPollTimeInterval: TimeInterval = 10
     
+    private let stripeTestPublishableKey = ProcessInfo.processInfo.environment["STRIPE_TEST_PUBLISHABLE_KEY"]!
+    private let stripeLivePublishableKey = ProcessInfo.processInfo.environment["STRIPE_LIVE_PUBLISHABLE_KEY"]!
+    
     private init() {}
     
     func isDevelopmentMode() -> Bool { return isDevMode }
     
-    func baseUrlPath() -> String { return isDevMode ? baseDevUrlString : baseUrlString }
+    func baseUrlString() -> String { return isDevMode ? baseDevUrlStr : baseUrlStr }
     
-    func s3BucketUrlPath() -> String { return s3BucketUrlString }
+    func s3BucketUrlString() -> String { return s3BucketUrlStr }
     
     func networkPollInterval() -> TimeInterval { return networkPollTimeInterval }
     
     func apiPollInterval() -> TimeInterval { return apiPollTimeInterval }
     
+    func stripePublishableKey() -> String {
+        return isDevMode ? stripeTestPublishableKey : stripeLivePublishableKey
+    }
 }

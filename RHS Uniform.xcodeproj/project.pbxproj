@@ -41,6 +41,7 @@
 		1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */; };
 		1F2A4CCE20483FB900D12827 /* OrderItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */; };
 		1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2AB35E20544EC30086BD5F /* School+Extension.swift */; };
+		1F2CBC662180CB8F0090D76E /* StripeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CBC652180CB8F0090D76E /* StripeClient.swift */; };
 		1F2CF59B205AD1A700573526 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F2CF59A205AD1A700573526 /* GoogleService-Info.plist */; };
 		1F2DC2F62050423600FD2A02 /* TaggedTableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2DC2F52050423600FD2A02 /* TaggedTableButton.swift */; };
 		1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F208B2046ED5C00CAB6AC /* BagTableSectionHeader.swift */; };
@@ -114,6 +115,7 @@
 		1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemSize+Extension.swift"; sourceTree = "<group>"; };
 		1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderItem+Extension.swift"; sourceTree = "<group>"; };
 		1F2AB35E20544EC30086BD5F /* School+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+Extension.swift"; sourceTree = "<group>"; };
+		1F2CBC652180CB8F0090D76E /* StripeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeClient.swift; sourceTree = "<group>"; };
 		1F2CF59A205AD1A700573526 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F2DC2F52050423600FD2A02 /* TaggedTableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedTableButton.swift; sourceTree = "<group>"; };
 		1F2F208B2046ED5C00CAB6AC /* BagTableSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagTableSectionHeader.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */,
 				1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */,
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
+				1F2CBC652180CB8F0090D76E /* StripeClient.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				1F30AFF520501A1600246E64 /* ItemFilterRadioTableViewCell.swift in Sources */,
 				1F1599042177863A001A70A5 /* ItemViewController.swift in Sources */,
 				1F2A0A60205E73B60063F9AD /* ChangeNameViewController.swift in Sources */,
+				1F2CBC662180CB8F0090D76E /* StripeClient.swift in Sources */,
 				1F1A6996204082D5001660E0 /* APIController+Extension.swift in Sources */,
 				1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */,
 				1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */,

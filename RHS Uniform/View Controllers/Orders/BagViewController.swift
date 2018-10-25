@@ -169,9 +169,9 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
         let firstImage = (itemImages.first { $0.sortOrder == 0 })
         let imageFilename = firstImage?.filename ?? "dummy.png"
         
-        let imagesUrlPath = AppConfig.sharedInstance.s3BucketUrlPath()
+        let imagesUrlString = AppConfig.sharedInstance.s3BucketUrlString()
         
-        let imageUrl = URL(string: "\(imagesUrlPath)/\(imageFilename)")!
+        let imageUrl = URL(string: "\(imagesUrlString)/\(imageFilename)")!
         let placeholderImage = UIImage(named: "placeholder_64x64")!
         
         let filter = AspectScaledToFitSizeFilter(size: cell.itemImageView.frame.size)
