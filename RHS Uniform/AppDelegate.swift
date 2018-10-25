@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         theme.errorColor = UIColor.red
         theme.primaryForegroundColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
         theme.secondaryForegroundColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
-        theme.primaryBackgroundColor = UIColor.white
+        theme.primaryBackgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
         theme.secondaryBackgroundColor = UIColor.white
     }
 
