@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerDefaultPreferences()
         
         STPPaymentConfiguration.shared().publishableKey = AppConfig.sharedInstance.stripePublishableKey()
+        setStripeTheme()
         
         FirebaseApp.configure()
         firebaseAuth = Auth.auth()
@@ -102,6 +103,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             UIView.transition(with: self.window!, duration: 0.25, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
         }
+    }
+    
+    func setStripeTheme() {
+        
+        let theme = STPTheme.default()
+        
+        theme.font = UIFont(name: "Arial", size: 16.0)
+        theme.emphasisFont = UIFont(name: "Arial-BoldMT", size: 16.0)
+        theme.accentColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        theme.errorColor = UIColor.red
+        theme.primaryForegroundColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
+        theme.secondaryForegroundColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
+        theme.primaryBackgroundColor = UIColor.white
+        theme.secondaryBackgroundColor = UIColor.white
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
