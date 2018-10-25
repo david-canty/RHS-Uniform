@@ -95,14 +95,19 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
     
     func getBagValue() -> Double {
         
-        var bagValue = 0.0
-        
-        for bagItem in fetchedResultsController.fetchedObjects! {
+        return fetchedResultsController.fetchedObjects!.reduce(0.0, { (result, bagItem) -> Double in
             
-            bagValue += (bagItem.item!.itemPrice) * Double(bagItem.quantity)
-        }
+            return result + ((bagItem.item!.itemPrice) * Double(bagItem.quantity))
+        })
         
-        return bagValue
+//        var bagValue = 0.0
+//
+//        for bagItem in fetchedResultsController.fetchedObjects! {
+//
+//            bagValue += (bagItem.item!.itemPrice) * Double(bagItem.quantity)
+//        }
+//
+//        return bagValue
     }
     
     // MARK: - Table View
