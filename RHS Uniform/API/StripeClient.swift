@@ -61,7 +61,32 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
     
     func createCustomer(withEmail email: String, completion: @escaping (Result) -> Void) {
         
+        guard let currentUser = Auth.auth().currentUser else { return }
         
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let userIdtoken = idToken {
+                    
+                    Alamofire.request(APIRouter.stripeCustomerCreate(userIdToken: userIdtoken, email: email))
+                        .validate(statusCode: 200..<300)
+                        .responseString { response in
+                            
+                            switch response.result {
+                            case .success:
+                                completion(Result.success)
+                            case .failure(let error):
+                                completion(Result.failure(error))
+                            }
+                    }
+                }
+            }
+        }
     }
     
     func completeCharge(with token: STPToken, amount: Int, completion: @escaping (Result) -> Void) {

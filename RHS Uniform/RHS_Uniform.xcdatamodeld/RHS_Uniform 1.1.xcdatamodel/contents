@@ -25,11 +25,6 @@
         <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tel" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="orders" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrder" inverseName="customer" inverseEntity="SUOrder" syncable="YES"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="email"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="SUImage" representedClassName="SUImage" syncable="YES" codeGenerationType="class">
         <attribute name="filename" attributeType="String" syncable="YES"/>

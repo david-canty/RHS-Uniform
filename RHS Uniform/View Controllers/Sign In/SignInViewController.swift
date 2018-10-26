@@ -312,19 +312,33 @@ class SignInViewController: UIViewController {
     
     func createCustomer(withEmail email: String) {
         
-        
-        
-        let customer = SUCustomer.getObjectWithEmail(email)
-        if customer == nil {
+        if SUCustomer.getObjectWithEmail(email) == nil {
             
-            let newCustomer = SUCustomer(context: self.context)
-            newCustomer.email = email
-            
-            do {
-                try self.context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            StripeClient.sharedInstance.createCustomer(withEmail: email) { result in
+                
+                switch result {
+                    
+                case .success:
+                    
+                    // save stripe customer id to keychain
+                    
+                    let newCustomer = SUCustomer(context: self.context)
+                    newCustomer.id = UUID()
+                    newCustomer.email = email
+                    
+                    do {
+                        try self.context.save()
+                    } catch {
+                        let nserror = error as NSError
+                        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                    }
+                    
+                    print("User with email '\(email)' created")
+                    
+                case .failure(let error):
+                    
+                    print("Error creating user with email '\(email)': \(error.localizedDescription)")
+                }
             }
         }
     }
