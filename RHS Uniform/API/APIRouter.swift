@@ -19,7 +19,7 @@ public enum APIRouter: URLRequestConvertible {
     case items(userIdToken: String)
     case itemSizes(userIdToken: String)
     
-    case charge(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
+    case stripeCharge(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
     
     var method: HTTPMethod {
         
@@ -46,7 +46,7 @@ public enum APIRouter: URLRequestConvertible {
         case .itemSizes:
             return .get
             
-        case .charge:
+        case .stripeCharge:
             return .post
         }
     }
@@ -76,8 +76,8 @@ public enum APIRouter: URLRequestConvertible {
         case .itemSizes:
             return "/items/sizes"
             
-        case .charge:
-            return "/charge"
+        case .stripeCharge:
+            return "/stripe/charge"
         }
     }
     
@@ -87,7 +87,7 @@ public enum APIRouter: URLRequestConvertible {
             
             switch self {
                 
-            case let .charge(_, stripeToken, amount, currency, description):
+            case let .stripeCharge(_, stripeToken, amount, currency, description):
                 
                 return ["token": stripeToken,
                         "amount": amount,
@@ -126,7 +126,7 @@ public enum APIRouter: URLRequestConvertible {
             case .itemSizes (let idToken):
                 return idToken
                 
-            case .charge (let idToken, _, _, _, _):
+            case .stripeCharge (let idToken, _, _, _, _):
                 return idToken
             }
         }()

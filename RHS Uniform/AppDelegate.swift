@@ -17,7 +17,6 @@ import Stripe
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var apiPoll: APIPoll?
     let reachabilityManager = NetworkReachabilityManager(host: "localhost")
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
@@ -35,8 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if firebaseAuth?.currentUser != nil {
 
-            apiPoll = APIPoll()
-            apiPoll?.startPolling()
+            APIPoll.sharedInstance.startPolling()
             showContainerViewController()
 
         } else {
@@ -126,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        apiPoll?.stopPolling()
+        APIPoll.sharedInstance.stopPolling()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -135,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         
-        apiPoll?.startPolling()
+        APIPoll.sharedInstance.startPolling()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -188,8 +186,7 @@ extension AppDelegate: ContainerViewControllerDelegate {
             
             try firebaseAuth?.signOut()
             
-            apiPoll?.stopPolling()
-            apiPoll = nil
+            APIPoll.sharedInstance.stopPolling()
             showSignInViewController()
             
         } catch let signOutError as NSError {
@@ -203,8 +200,7 @@ extension AppDelegate: SignInViewControllerDelegate {
     
     func didSignIn() {
         
-        apiPoll = APIPoll()
-        apiPoll?.startPolling()
+        APIPoll.sharedInstance.startPolling()
         showContainerViewController()
     }
 }

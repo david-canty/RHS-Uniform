@@ -16,7 +16,6 @@
 		1F1599042177863A001A70A5 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1598FC2177863A001A70A5 /* ItemViewController.swift */; };
 		1F1599052177863A001A70A5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1598FE2177863A001A70A5 /* SearchViewController.swift */; };
 		1F1A6992203F3520001660E0 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A6991203F3520001660E0 /* ViewController+Extension.swift */; };
-		1F1A6996204082D5001660E0 /* APIController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A6995204082D5001660E0 /* APIController+Extension.swift */; };
 		1F1A69982042C266001660E0 /* BagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A69972042C266001660E0 /* BagTableViewCell.swift */; };
 		1F1B9C4520627A2F00E07E6C /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B9C4420627A2F00E07E6C /* KeychainController.swift */; };
 		1F1B9C472062B42500E07E6C /* BiometricAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B9C462062B42500E07E6C /* BiometricAuth.swift */; };
@@ -68,7 +67,7 @@
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
 		1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC362030AA2900C05ABC /* AppConfig.swift */; };
-		1FE9AC3A2030CAD400C05ABC /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC392030CAD400C05ABC /* APIController.swift */; };
+		1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC392030CAD400C05ABC /* APIClient.swift */; };
 		1FE9AC402030E13700C05ABC /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC3F2030E13700C05ABC /* APIRouter.swift */; };
 		1FEDC6E6205C5EF7002D4125 /* YourAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEDC6E5205C5EF7002D4125 /* YourAccountViewController.swift */; };
 		1FEED7EE200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED7ED200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift */; };
@@ -87,7 +86,6 @@
 		1F1598FC2177863A001A70A5 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		1F1598FE2177863A001A70A5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		1F1A6991203F3520001660E0 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
-		1F1A6995204082D5001660E0 /* APIController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIController+Extension.swift"; sourceTree = "<group>"; };
 		1F1A69972042C266001660E0 /* BagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagTableViewCell.swift; sourceTree = "<group>"; };
 		1F1B9C4420627A2F00E07E6C /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
 		1F1B9C462062B42500E07E6C /* BiometricAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuth.swift; sourceTree = "<group>"; };
@@ -143,7 +141,7 @@
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		1FE58CE72056DAB2009A13F9 /* APIPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPoll.swift; sourceTree = "<group>"; };
 		1FE9AC362030AA2900C05ABC /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
-		1FE9AC392030CAD400C05ABC /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		1FE9AC392030CAD400C05ABC /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		1FE9AC3F2030E13700C05ABC /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		1FEDC6E5205C5EF7002D4125 /* YourAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YourAccountViewController.swift; sourceTree = "<group>"; };
 		1FEED7ED200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuAnimatedTransitioningController.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 				1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */,
 				1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */,
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
-				1F2CBC652180CB8F0090D76E /* StripeClient.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -387,8 +384,8 @@
 			children = (
 				1FE9AC3F2030E13700C05ABC /* APIRouter.swift */,
 				1FE58CE72056DAB2009A13F9 /* APIPoll.swift */,
-				1FE9AC392030CAD400C05ABC /* APIController.swift */,
-				1F1A6995204082D5001660E0 /* APIController+Extension.swift */,
+				1FE9AC392030CAD400C05ABC /* APIClient.swift */,
+				1F2CBC652180CB8F0090D76E /* StripeClient.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -558,7 +555,6 @@
 				1F1599042177863A001A70A5 /* ItemViewController.swift in Sources */,
 				1F2A0A60205E73B60063F9AD /* ChangeNameViewController.swift in Sources */,
 				1F2CBC662180CB8F0090D76E /* StripeClient.swift in Sources */,
-				1F1A6996204082D5001660E0 /* APIController+Extension.swift in Sources */,
 				1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */,
 				1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */,
 				1F1599022177863A001A70A5 /* ContainerViewController.swift in Sources */,
@@ -603,7 +599,7 @@
 				1F30AFF3205019E300246E64 /* ItemFilterCheckTableViewCell.swift in Sources */,
 				1F3F5BA9205C5FBE00B2EDBA /* ChangePasswordViewController.swift in Sources */,
 				1F1B9C4520627A2F00E07E6C /* KeychainController.swift in Sources */,
-				1FE9AC3A2030CAD400C05ABC /* APIController.swift in Sources */,
+				1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */,
 				1F1599012177863A001A70A5 /* ContainerViewController+Extension.swift in Sources */,
 				1F28CDE3203AECEE0074C0D3 /* ModalSelectViewController.swift in Sources */,
 				1F2A11472036D36100B5A26A /* Size+Extension.swift in Sources */,

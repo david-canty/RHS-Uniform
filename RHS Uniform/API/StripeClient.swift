@@ -43,7 +43,7 @@ final class StripeClient {
                 
                 if let userIdtoken = idToken {
                     
-                    Alamofire.request(APIRouter.charge(userIdToken: userIdtoken, stripeToken: token.tokenId, amount: amount, currency: "gbp", description: "Order from RHS Uniform app"))
+                    Alamofire.request(APIRouter.stripeCharge(userIdToken: userIdtoken, stripeToken: token.tokenId, amount: amount, currency: "gbp", description: "Order from RHS Uniform app"))
                         .validate(statusCode: 200..<300)
                         .responseString { response in
                         

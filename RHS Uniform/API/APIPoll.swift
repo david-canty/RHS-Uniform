@@ -10,12 +10,14 @@ import Foundation
 
 class APIPoll {
     
-    var apiController = APIController()
-    var apiPollTimer: Timer?
+    static let sharedInstance = APIPoll()
+    private var apiPollTimer: Timer?
+    
+    private init() {}
     
     func startPolling() {
         
-        apiPollTimer?.invalidate()
+        stopPolling()
         
         fetchData()
         
@@ -28,8 +30,8 @@ class APIPoll {
         apiPollTimer?.invalidate()
     }
     
-    @objc func fetchData() {
+    @objc private func fetchData() {
         
-        apiController.fetchData()
+        APIClient.sharedInstance.fetchData()
     }
 }

@@ -26,8 +26,16 @@ class PaymentMethodsViewController: UITableViewController {
 
     @objc func addTapped(_ sender: UIBarButtonItem) {
         
+//        let paymentConfig = STPPaymentConfiguration()
+//        paymentConfig.canDeletePaymentMethods = true
+//        paymentConfig.requiredBillingAddressFields = STPBillingAddressFields.full
+//
+//        let addCardViewController = STPAddCardViewController(configuration: paymentConfig, theme: .default())
+//        addCardViewController.prefilledInformation = STPUserInformation()
+        
         let addCardViewController = STPAddCardViewController()
         addCardViewController.delegate = self
+        
         navigationController?.pushViewController(addCardViewController, animated: true)
     }
     
