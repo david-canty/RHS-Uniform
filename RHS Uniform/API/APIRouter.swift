@@ -19,7 +19,9 @@ public enum APIRouter: URLRequestConvertible {
     case items(userIdToken: String)
     case itemSizes(userIdToken: String)
     
-    case stripeCharge(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
+    case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
+    case stripeCustomerCreate(userIdToken: String, email: String)
+    case stripeChargeCreate(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
     
     var method: HTTPMethod {
         
@@ -46,7 +48,13 @@ public enum APIRouter: URLRequestConvertible {
         case .itemSizes:
             return .get
             
-        case .stripeCharge:
+        case .stripeEphemeralKey:
+            return .post
+            
+        case .stripeCustomerCreate:
+            return .post
+            
+        case .stripeChargeCreate:
             return .post
         }
     }
@@ -76,7 +84,13 @@ public enum APIRouter: URLRequestConvertible {
         case .itemSizes:
             return "/items/sizes"
             
-        case .stripeCharge:
+        case .stripeEphemeralKey:
+            return "/stripe/ephemeral-key"
+            
+        case .stripeCustomerCreate:
+            return "/stripe/customer"
+            
+        case .stripeChargeCreate:
             return "/stripe/charge"
         }
     }
@@ -87,7 +101,16 @@ public enum APIRouter: URLRequestConvertible {
             
             switch self {
                 
-            case let .stripeCharge(_, stripeToken, amount, currency, description):
+            case let .stripeEphemeralKey(_, customerId, apiVersion):
+                
+                return ["customerId": customerId,
+                        "apiVersion": apiVersion]
+                
+            case let .stripeCustomerCreate(_, email):
+                
+                return ["email": email]
+                
+            case let .stripeChargeCreate(_, stripeToken, amount, currency, description):
                 
                 return ["token": stripeToken,
                         "amount": amount,
@@ -126,7 +149,13 @@ public enum APIRouter: URLRequestConvertible {
             case .itemSizes (let idToken):
                 return idToken
                 
-            case .stripeCharge (let idToken, _, _, _, _):
+            case .stripeEphemeralKey (let idToken, _, _):
+                return idToken
+                
+            case .stripeCustomerCreate (let idToken, _):
+                return idToken
+                
+            case .stripeChargeCreate (let idToken, _, _, _, _):
                 return idToken
             }
         }()

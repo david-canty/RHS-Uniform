@@ -38,4 +38,31 @@ extension SUCustomer {
         
         return customer
     }
+    
+    class func getObjectWithEmail(_ email: String) -> SUCustomer? {
+        
+        var customer: SUCustomer?
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<SUCustomer> = SUCustomer.fetchRequest()
+        
+        let predicate = NSPredicate(format: "email == %@", email)
+        fetchRequest.predicate = predicate
+        
+        do {
+            
+            let results = try context.fetch(fetchRequest)
+            
+            if !results.isEmpty {
+                customer = results[0]
+            }
+            
+        } catch {
+            
+            print("Error with fetch request: \(error)")
+            print("Error getting customer with email: \(email)")
+        }
+        
+        return customer
+    }
 }

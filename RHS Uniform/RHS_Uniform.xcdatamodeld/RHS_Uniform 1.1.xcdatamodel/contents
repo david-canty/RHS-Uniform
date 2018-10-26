@@ -18,14 +18,18 @@
         <attribute name="addressLine2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addressLine3" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
-        <attribute name="firebaseUserID" attributeType="String" syncable="YES"/>
-        <attribute name="firstName" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lastName" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tel" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="orders" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrder" inverseName="customer" inverseEntity="SUOrder" syncable="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="email"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="SUImage" representedClassName="SUImage" syncable="YES" codeGenerationType="class">
         <attribute name="filename" attributeType="String" syncable="YES"/>
@@ -97,13 +101,13 @@
     <elements>
         <element name="SUBagItem" positionX="202.3203125" positionY="-636.390625" width="128" height="105"/>
         <element name="SUCategory" positionX="-302.94921875" positionY="-423.953125" width="128" height="120"/>
-        <element name="SUCustomer" positionX="-223.10546875" positionY="-690.09375" width="128" height="225"/>
+        <element name="SUCustomer" positionX="-223.10546875" positionY="-690.09375" width="128" height="208"/>
         <element name="SUImage" positionX="-309.01953125" positionY="-279.6953125" width="128" height="105"/>
-        <element name="SUShopItem" positionX="-137" positionY="-419" width="128" height="238"/>
         <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
         <element name="SUOrder" positionX="-21.078125" positionY="-720.28125" width="128" height="135"/>
         <element name="SUOrderItem" positionX="28.41796875" positionY="-543.3515625" width="128" height="120"/>
         <element name="SUSchool" positionX="225" positionY="-236" width="128" height="120"/>
+        <element name="SUShopItem" positionX="-137" positionY="-419" width="128" height="238"/>
         <element name="SUSize" positionX="228" positionY="-403" width="128" height="150"/>
         <element name="SUYear" positionX="34" positionY="-251" width="128" height="135"/>
     </elements>

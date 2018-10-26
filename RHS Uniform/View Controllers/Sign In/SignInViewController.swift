@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import FirebaseAuth
 
 protocol SignInViewControllerDelegate {
@@ -16,6 +17,7 @@ protocol SignInViewControllerDelegate {
 
 class SignInViewController: UIViewController {
 
+    var context: NSManagedObjectContext!
     var delegate: SignInViewControllerDelegate?
     let defaults = UserDefaults.standard
     let biometricAuth = BiometricAuth()
@@ -38,6 +40,8 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowNotification(notification:)), name: UIResponder.keyboardDidShowNotification, object: nil)
         
@@ -290,6 +294,8 @@ class SignInViewController: UIViewController {
                 KeychainController.saveIdToken()
                 KeychainController.save(email: email, password: password)
                 
+                self.createCustomer(withEmail: email)
+                
                 if self.isFirstLaunch() {
                     
                     let biometricType = self.biometricAuth.biometricType()
@@ -300,6 +306,25 @@ class SignInViewController: UIViewController {
                 }
                 
                 self.delegate?.didSignIn()
+            }
+        }
+    }
+    
+    func createCustomer(withEmail email: String) {
+        
+        
+        
+        let customer = SUCustomer.getObjectWithEmail(email)
+        if customer == nil {
+            
+            let newCustomer = SUCustomer(context: self.context)
+            newCustomer.email = email
+            
+            do {
+                try self.context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
