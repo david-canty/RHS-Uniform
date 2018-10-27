@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RHS Uniform/View Controllers/Sign In/SignInViewController.swift"
-            timestampString = "562274548.303604"
+            timestampString = "562347221.245736"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -22,16 +22,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RHS Uniform/View Controllers/Sign In/SignInViewController.swift"
-            timestampString = "562274727.600064"
+            filePath = "RHS Uniform/View Controllers/Your Account/ChangeNameViewController.swift"
+            timestampString = "562346375.587394"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "createCustomer(withEmail:)"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "changeNameTo(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RHS Uniform/View Controllers/Your Account/ChangeEmailViewController.swift"
+            timestampString = "562346386.623005"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "changeEmailTo(_:withPassword:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

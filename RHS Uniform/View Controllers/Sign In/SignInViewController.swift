@@ -320,8 +320,6 @@ class SignInViewController: UIViewController {
                     
                 case .success:
                     
-                    // save stripe customer id to keychain
-                    
                     let newCustomer = SUCustomer(context: self.context)
                     newCustomer.id = UUID()
                     newCustomer.email = email
@@ -333,11 +331,9 @@ class SignInViewController: UIViewController {
                         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                     }
                     
-                    print("User with email '\(email)' created")
-                    
                 case .failure(let error):
                     
-                    print("Error creating user with email '\(email)': \(error.localizedDescription)")
+                    print("Error creating Stripe customer with email '\(email)': \(error.localizedDescription)")
                 }
             }
         }

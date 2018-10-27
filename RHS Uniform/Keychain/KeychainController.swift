@@ -11,6 +11,39 @@ import FirebaseAuth
 
 class KeychainController {
     
+    static func save(item: String, withAccountName account: String) {
+        
+        let securedItem = KeychainSecuredItem(service: KeychainConfiguration.serviceName, account: account, accessGroup: KeychainConfiguration.accessGroup)
+        
+        do {
+            
+            try securedItem.saveSecuredItem(item)
+            
+        } catch {
+            
+            fatalError("Error saving item to keychain: \(error)")
+        }
+    }
+    
+    static func readItem(withAccountName account: String) -> String? {
+        
+        var item = ""
+        
+        let securedItem = KeychainSecuredItem(service: KeychainConfiguration.serviceName, account: account, accessGroup: KeychainConfiguration.accessGroup)
+        
+        do {
+            
+            item = try securedItem.readSecuredItem()
+            
+        } catch {
+            
+            print("Error reading item from keychain: \(error)")
+            return nil
+        }
+        
+        return item
+    }
+    
     static func saveIdToken() {
         
         Auth.auth().currentUser?.getIDToken(completion: { (token, error) in
