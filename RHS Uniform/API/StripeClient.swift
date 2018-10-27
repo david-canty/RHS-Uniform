@@ -31,32 +31,20 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
 
     func createCustomerKey(withAPIVersion apiVersion: String, completion: @escaping STPJSONResponseCompletionBlock) {
         
-        guard let currentUser = Auth.auth().currentUser else { return }
-        
-        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+        if let userIdToken = KeychainController.readItem(withAccountName: "FirebaseToken") {
             
-            if let error = error {
+            if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
                 
-                fatalError("Error getting user ID token: \(error)")
-                
-            } else {
-                
-                if let userIdtoken = idToken {
-                    
-                    if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
+                Alamofire.request(APIRouter.stripeEphemeralKey(userIdToken: userIdToken, customerId: customerId, apiVersion: apiVersion))
+                    .validate(statusCode: 200..<300)
+                    .responseJSON { responseJSON in
                         
-                        Alamofire.request(APIRouter.stripeEphemeralKey(userIdToken: userIdtoken, customerId: customerId, apiVersion: apiVersion))
-                            .validate(statusCode: 200..<300)
-                            .responseJSON { responseJSON in
-                                
-                                switch responseJSON.result {
-                                case .success(let json):
-                                    completion(json as? [String: AnyObject], nil)
-                                case .failure(let error):
-                                    completion(nil, error)
-                                }
+                        switch responseJSON.result {
+                        case .success(let json):
+                            completion(json as? [String: AnyObject], nil)
+                        case .failure(let error):
+                            completion(nil, error)
                         }
-                    }
                 }
             }
         }
