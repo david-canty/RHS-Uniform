@@ -16,9 +16,10 @@ protocol PaymentMethodsDelegate {
 class PaymentMethodsViewController: UITableViewController {
 
     var delegate: PaymentMethodsDelegate?
-    var customer: STPCustomer?
     
-    let nonStripePaymentMethods = ["BACS transfer", "Add to termly bill"]
+    let nonStripeSources = [["text": "BACS transfer", "detail": "BACS transfer"],
+                            ["text": "Add to termly bill", "detail": "Add to termly bill"]]
+    var stripeSources = [String: Any]()
     
     override func viewDidLoad() {
 
@@ -36,6 +37,8 @@ class PaymentMethodsViewController: UITableViewController {
             StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
                 
                 
+                let sources = customer?["sources"]
+                print(sources)
             })
         }
     }
@@ -64,7 +67,7 @@ class PaymentMethodsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return nonStripePaymentMethods.count
+            return nonStripeSources.count
         }
         
         return 0
@@ -76,9 +79,10 @@ class PaymentMethodsViewController: UITableViewController {
 
         if indexPath.section == 0 {
             
-            cell = tableView.dequeueReusableCell(withIdentifier: "nonStripePaymentTableViewCell", for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: "nonStripeSourceTableViewCell", for: indexPath)
             
-            cell.textLabel?.text = nonStripePaymentMethods[indexPath.row]
+            cell.textLabel?.text = nonStripeSources[indexPath.row]["text"]
+            cell.detailTextLabel?.text = nonStripeSources[indexPath.row]["detail"]
             
         } else {
             
