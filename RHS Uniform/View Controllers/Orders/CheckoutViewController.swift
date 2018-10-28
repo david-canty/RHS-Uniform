@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import AlamofireImage
+import Stripe
 
 enum Carrier: String, CustomStringConvertible {
     
@@ -32,7 +33,20 @@ struct PostageMethod {
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var managedObjectContext: NSManagedObjectContext!
+    let paymentContext: STPPaymentContext
+    var paymentInfoVC: PaymentInformationViewController!
     var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
+        paymentContext = STPPaymentContext(customerContext: customerContext)
+        
+        super.init(coder: aDecoder)
+        
+        paymentContext.delegate = self
+        paymentContext.hostViewController = self
+    }
     
     override func viewDidLoad() {
         
@@ -229,8 +243,8 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
         
         if segue.identifier == "paymentInformation" {
             
-            let paymentInformationController = segue.destination as! PaymentInformationViewController
-            paymentInformationController.delegate = self
+            paymentInfoVC = segue.destination as? PaymentInformationViewController
+            paymentInfoVC.delegate = self
         }
         
         if segue.identifier == "paymentMethods" {
@@ -303,15 +317,52 @@ extension CheckoutViewController: PaymentInformationDelegate {
     func showPaymentMethods() {
     
         performSegue(withIdentifier: "paymentMethods", sender: self)
+        
+        //self.paymentContext.pushPaymentMethodsViewController()
     }
     
     func placeOrder() {
         
+        //self.paymentContext.requestPayment()
         print("Place Order tapped")
     }
 }
 
 extension CheckoutViewController: PaymentMethodsDelegate {
     
+    
+}
+
+extension CheckoutViewController: STPPaymentContextDelegate {
+    
+    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
+        
+        paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
+        paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
+    }
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
+        
+        
+    }
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
+        
+        switch status {
+        case .error:
+            //self.showError(error)
+            return
+        case .success:
+            //self.showReceipt()
+            return
+        case .userCancellation:
+            return
+        }
+    }
+    
+    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
+        
+        
+    }
     
 }

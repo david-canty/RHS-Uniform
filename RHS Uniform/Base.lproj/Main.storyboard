@@ -1003,6 +1003,9 @@
                                                     <state key="normal" title="Place Order">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <state key="disabled">
+                                                        <color key="titleColor" white="0.89629523099999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="placeOrderTapped:" destination="JLZ-yU-Qib" eventType="touchUpInside" id="0kl-lC-EbP"/>
                                                     </connections>
@@ -1026,6 +1029,7 @@
                     </tableView>
                     <connections>
                         <outlet property="paymentMethodDetailTextLabel" destination="XJu-vS-Pqy" id="SBe-DW-r1s"/>
+                        <outlet property="placeOrderButton" destination="IAh-BC-Gpl" id="P3g-Kg-USm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejw-91-bIk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1043,15 +1047,15 @@
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="nonStripeSourceTableViewCell" textLabel="v5o-n8-JSa" detailTextLabel="FAY-3C-H3J" style="IBUITableViewCellStyleSubtitle" id="MHL-WN-wP9">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="nonStripePaymentTableViewCell" textLabel="v5o-n8-JSa" detailTextLabel="FAY-3C-H3J" style="IBUITableViewCellStyleSubtitle" id="MHL-WN-wP9">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MHL-WN-wP9" id="H5O-oI-GRS">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Non-Stripe Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5o-n8-JSa">
-                                            <rect key="frame" x="16" y="5" width="132" height="18"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Non-Stripe Payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5o-n8-JSa">
+                                            <rect key="frame" x="16" y="5" width="144.5" height="18"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="16"/>
                                             <nil key="highlightedColor"/>

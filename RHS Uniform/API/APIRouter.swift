@@ -21,6 +21,7 @@ public enum APIRouter: URLRequestConvertible {
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
     case stripeCustomerCreate(userIdToken: String, email: String)
+    case stripeCustomerGet(userIdToken: String, customerId: String)
     case stripeChargeCreate(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
     
     var method: HTTPMethod {
@@ -53,6 +54,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .stripeCustomerCreate:
             return .post
+            
+        case .stripeCustomerGet:
+            return .get
             
         case .stripeChargeCreate:
             return .post
@@ -89,6 +93,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .stripeCustomerCreate:
             return "/stripe/customer"
+            
+        case let .stripeCustomerGet(_, customerId):
+            return "/stripe/customer/\(customerId)"
             
         case .stripeChargeCreate:
             return "/stripe/charge"
@@ -153,6 +160,9 @@ public enum APIRouter: URLRequestConvertible {
                 return idToken
                 
             case .stripeCustomerCreate (let idToken, _):
+                return idToken
+                
+            case .stripeCustomerGet (let idToken, _):
                 return idToken
                 
             case .stripeChargeCreate (let idToken, _, _, _, _):

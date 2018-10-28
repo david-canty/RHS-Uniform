@@ -19,6 +19,7 @@ class PaymentInformationViewController: UITableViewController {
     var delegate: PaymentInformationDelegate?
     
     @IBOutlet weak var paymentMethodDetailTextLabel: UILabel!
+    @IBOutlet weak var placeOrderButton: UIButton!
     
     override func viewDidLoad() {
         
