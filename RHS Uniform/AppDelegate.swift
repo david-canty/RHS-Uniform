@@ -133,7 +133,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         
-        APIPoll.sharedInstance.startPolling()
+        if firebaseAuth?.currentUser != nil {
+            APIPoll.sharedInstance.startPolling()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

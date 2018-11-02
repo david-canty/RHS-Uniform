@@ -17,8 +17,8 @@ class PaymentMethodsViewController: UITableViewController {
 
     var delegate: PaymentMethodsDelegate?
     
-    let nonStripeSources = [["text": "BACS transfer", "detail": "BACS transfer"],
-                            ["text": "Add to termly bill", "detail": "Add to termly bill"]]
+    let nonStripeSources = [["text": "BACS transfer", "detail": "Transfer full amount via BACS transfer"],
+                            ["text": "Add to school bill", "detail": "Add full amount to next school bill"]]
     var stripeSources = [String: Any]()
     
     override func viewDidLoad() {
@@ -37,7 +37,7 @@ class PaymentMethodsViewController: UITableViewController {
             StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
                 
                 
-                let sources = customer?["sources"]
+                let sources = (customer?["sources"] as! [String: Any])["data"]
                 print(sources)
             })
         }

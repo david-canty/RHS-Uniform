@@ -76,29 +76,46 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
                 
                 if let userIdToken = idToken {
                     
-                    Alamofire.request(APIRouter.stripeCustomerCreate(userIdToken: userIdToken, email: email))
-                        .validate(statusCode: 200..<300)
-                        .responseJSON { response in
-                            
-                            switch response.result {
+                    if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
+                     
+                        Alamofire.request(APIRouter.stripeCustomerGet(userIdToken: userIdToken, customerId: customerId))
+                            .validate(statusCode: 200..<300)
+                            .responseJSON { responseJSON in
                                 
-                            case .success:
-                                
-                                if let customer = response.result.value as? [String: Any] {
-                                    
-                                    let customerId = customer["id"] as! String
-                                    KeychainController.save(item: customerId, withAccountName: "StripeCustomerId")
-                                    
-                                } else {
-                                    
-                                    print("Failed to get Stripe customer id")
+                                switch responseJSON.result {
+                                case .success:
+                                    completion(Result.success)
+                                case .failure(let error):
+                                    completion(Result.failure(error))
                                 }
+                        }
+                        
+                    } else {
+                    
+                        Alamofire.request(APIRouter.stripeCustomerCreate(userIdToken: userIdToken, email: email))
+                            .validate(statusCode: 200..<300)
+                            .responseJSON { response in
                                 
-                                completion(Result.success)
-                                
-                            case .failure(let error):
-                                completion(Result.failure(error))
-                            }
+                                switch response.result {
+                                    
+                                case .success:
+                                    
+                                    if let customer = response.result.value as? [String: Any] {
+                                        
+                                        let customerId = customer["id"] as! String
+                                        KeychainController.save(item: customerId, withAccountName: "StripeCustomerId")
+                                        
+                                    } else {
+                                        
+                                        print("Failed to get Stripe customer id")
+                                    }
+                                    
+                                    completion(Result.success)
+                                    
+                                case .failure(let error):
+                                    completion(Result.failure(error))
+                                }
+                        }
                     }
                 }
             }
