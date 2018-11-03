@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TpQ-5W-74s">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TpQ-5W-74s">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1047,20 +1047,20 @@
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="nonStripeSourceTableViewCell" textLabel="v5o-n8-JSa" detailTextLabel="FAY-3C-H3J" style="IBUITableViewCellStyleSubtitle" id="MHL-WN-wP9">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="nonStripeSourceTableViewCell" textLabel="v5o-n8-JSa" detailTextLabel="FAY-3C-H3J" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="MHL-WN-wP9">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MHL-WN-wP9" id="H5O-oI-GRS">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Non-Stripe Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5o-n8-JSa">
-                                            <rect key="frame" x="16" y="5" width="132" height="18"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Non-Stripe Source" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5o-n8-JSa">
+                                            <rect key="frame" x="16" y="5" width="140.5" height="18"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="16"/>
+                                            <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FAY-3C-H3J">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FAY-3C-H3J">
                                             <rect key="frame" x="16" y="23" width="47" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
@@ -1070,22 +1070,56 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="stripeSourceTableViewCell" textLabel="Xeq-yX-D1l" style="IBUITableViewCellStyleDefault" id="srx-oP-UPx">
-                                <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="stripeSourceTableViewCell" rowHeight="60" id="srx-oP-UPx" customClass="StripeSourceTableViewCell" customModule="RHS_Uniform" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="99.5" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="srx-oP-UPx" id="sZ1-7l-Rlf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xeq-yX-D1l">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Ending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L5e-9q-bhd">
+                                            <rect key="frame" x="16" y="5" width="95.5" height="18"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="18" id="Qu1-yv-N7v"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxI-60-gdh">
+                                            <rect key="frame" x="16" y="23" width="37.5" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="HcT-r8-dks"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expiry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwz-2r-di1">
+                                            <rect key="frame" x="16" y="39" width="39" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="DIy-jr-NgE"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="L5e-9q-bhd" firstAttribute="leading" secondItem="sZ1-7l-Rlf" secondAttribute="leading" constant="16" id="5mt-ZX-H9s"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cwz-2r-di1" secondAttribute="trailing" constant="20" symbolic="YES" id="F8U-qS-BGc"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="L5e-9q-bhd" secondAttribute="trailing" constant="20" symbolic="YES" id="FMq-gO-C9y"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cxI-60-gdh" secondAttribute="trailing" constant="20" symbolic="YES" id="LgW-ID-3eS"/>
+                                        <constraint firstItem="cwz-2r-di1" firstAttribute="top" secondItem="cxI-60-gdh" secondAttribute="bottom" id="TId-Sj-1oA"/>
+                                        <constraint firstItem="L5e-9q-bhd" firstAttribute="top" secondItem="sZ1-7l-Rlf" secondAttribute="top" constant="5" id="Uee-9J-i7S"/>
+                                        <constraint firstItem="cxI-60-gdh" firstAttribute="leading" secondItem="sZ1-7l-Rlf" secondAttribute="leading" constant="16" id="Vr2-id-wea"/>
+                                        <constraint firstItem="cxI-60-gdh" firstAttribute="top" secondItem="L5e-9q-bhd" secondAttribute="bottom" id="de5-7t-4Uf"/>
+                                        <constraint firstItem="cwz-2r-di1" firstAttribute="leading" secondItem="sZ1-7l-Rlf" secondAttribute="leading" constant="16" id="kPb-ht-0PA"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="cardEndingLabel" destination="L5e-9q-bhd" id="TFg-8S-3sD"/>
+                                    <outlet property="cardExpiryLabel" destination="cwz-2r-di1" id="DWh-Rp-xjn"/>
+                                    <outlet property="cardNameLabel" destination="cxI-60-gdh" id="1j1-yw-FkZ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1096,7 +1130,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qpa-VL-RWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8148" y="330"/>
+            <point key="canvasLocation" x="8148" y="329.68515742128938"/>
         </scene>
         <!--Order Summary View Controller-->
         <scene sceneID="ekS-fA-fKd">

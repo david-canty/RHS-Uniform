@@ -53,6 +53,7 @@
 		1F30AFF1204DCAB000246E64 /* ItemFilterAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30AFF0204DCAB000246E64 /* ItemFilterAnimatedTransitioningController.swift */; };
 		1F30AFF3205019E300246E64 /* ItemFilterCheckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30AFF2205019E300246E64 /* ItemFilterCheckTableViewCell.swift */; };
 		1F30AFF520501A1600246E64 /* ItemFilterRadioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30AFF420501A1600246E64 /* ItemFilterRadioTableViewCell.swift */; };
+		1F31A721218DBC98003E4B47 /* StripeSourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F31A720218DBC98003E4B47 /* StripeSourceTableViewCell.swift */; };
 		1F3F5BA9205C5FBE00B2EDBA /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5BA8205C5FBE00B2EDBA /* ChangePasswordViewController.swift */; };
 		1F6D119E21669E5A00353E72 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D119D21669E5A00353E72 /* Image+Extension.swift */; };
 		1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D119F21669E7200353E72 /* Customer+Extension.swift */; };
@@ -126,6 +127,7 @@
 		1F30AFF0204DCAB000246E64 /* ItemFilterAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFilterAnimatedTransitioningController.swift; sourceTree = "<group>"; };
 		1F30AFF2205019E300246E64 /* ItemFilterCheckTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFilterCheckTableViewCell.swift; sourceTree = "<group>"; };
 		1F30AFF420501A1600246E64 /* ItemFilterRadioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFilterRadioTableViewCell.swift; sourceTree = "<group>"; };
+		1F31A720218DBC98003E4B47 /* StripeSourceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeSourceTableViewCell.swift; sourceTree = "<group>"; };
 		1F3F5BA8205C5FBE00B2EDBA /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		1F6D119D21669E5A00353E72 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		1F6D119F21669E7200353E72 /* Customer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Customer+Extension.swift"; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				1F9A549E2179EB210078492B /* CheckoutTableViewCell.swift */,
 				1F30AFF2205019E300246E64 /* ItemFilterCheckTableViewCell.swift */,
 				1F30AFF420501A1600246E64 /* ItemFilterRadioTableViewCell.swift */,
+				1F31A720218DBC98003E4B47 /* StripeSourceTableViewCell.swift */,
 			);
 			path = "Table Cells";
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				1FEED7EE200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift in Sources */,
 				1F2A11452034823B00B5A26A /* ShopItem+Extension.swift in Sources */,
 				1F1A69982042C266001660E0 /* BagTableViewCell.swift in Sources */,
+				1F31A721218DBC98003E4B47 /* StripeSourceTableViewCell.swift in Sources */,
 				1F2F9FDF2059A0C400049FFB /* RegisterViewController.swift in Sources */,
 				1F28CDE5203B28990074C0D3 /* ModalSelectTransitioningDelegate.swift in Sources */,
 				1F2DC2F62050423600FD2A02 /* TaggedTableButton.swift in Sources */,
