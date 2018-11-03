@@ -14,34 +14,81 @@ protocol PaymentMethodsDelegate {
 }
 
 class PaymentMethodsViewController: UITableViewController {
+    
+    enum PaymentMethod {
+        case bacs
+        case schoolBill
+        case card(id: String)
+    }
 
     var delegate: PaymentMethodsDelegate?
     
     let sectionHeaderNames = ["Methods", "Cards"]
     
     let nonStripeSources = [["text": "BACS transfer", "detail": "Pay full amount via BACS transfer"],
-                            ["text": "Add to school bill", "detail": "Add full amount to next school bill"]]
+                            ["text": "School bill", "detail": "Add full amount to next school bill"]]
+    
     var stripeSources = [[String: Any]]()
+    
+    let bacsIndexPath: IndexPath
+    let schoolBillIndexPath: IndexPath
+    
+    var selectedIndexPath: IndexPath
+    var selectedPaymentMethod: PaymentMethod
+    
+    @IBOutlet weak var addCardButton: UIButton!
+    @IBOutlet weak var sourcesActivityIndicator: UIActivityIndicatorView!
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        bacsIndexPath = IndexPath(row: 0, section: 0)
+        schoolBillIndexPath = IndexPath(row: 1, section: 0)
+        
+        selectedIndexPath = bacsIndexPath
+        selectedPaymentMethod = .bacs
+        
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
 
         super.viewDidLoad()
         
+        addRightBarButtonItem()
+        
         getStripeSources()
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super .viewWillAppear(animated)
         
+        checkSelectedSource()
+    }
+    
+    func addRightBarButtonItem() {
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+    }
+    
+    func removeRightBarButtonItem() {
+        
+        self.navigationItem.rightBarButtonItem = nil
+    }
+    
+    func checkSelectedSource() {
+        
+        let selectedCell = tableView.cellForRow(at: selectedIndexPath)
+        selectedCell?.accessoryType = .checkmark
     }
     
     func getStripeSources() {
         
         if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
+            
+            addCardButton.isHidden = true
+            removeRightBarButtonItem()
+            sourcesActivityIndicator.startAnimating()
             
             StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
                 
@@ -57,11 +104,18 @@ class PaymentMethodsViewController: UITableViewController {
                         }
                     }
                 }
+                
+                DispatchQueue.main.async {
+                    
+                    self.addCardButton.isHidden = false
+                    self.addRightBarButtonItem()
+                    self.sourcesActivityIndicator.stopAnimating()
+                }
             })
         }
     }
 
-    @objc func addTapped(_ sender: UIBarButtonItem) {
+    @IBAction func addTapped(_ sender: Any) {
         
 //        let paymentConfig = STPPaymentConfiguration()
 //        paymentConfig.canDeletePaymentMethods = true
@@ -145,6 +199,30 @@ class PaymentMethodsViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            
+        let oldSelectedCell = tableView.cellForRow(at: selectedIndexPath)
+        oldSelectedCell?.accessoryType = .none
+        
+        let newSelectedCell = tableView.cellForRow(at: indexPath)
+        newSelectedCell?.accessoryType = .checkmark
+        
+        selectedIndexPath = indexPath
+        
+        switch selectedIndexPath {
+        case bacsIndexPath:
+            selectedPaymentMethod = .bacs
+        case schoolBillIndexPath:
+            selectedPaymentMethod = .schoolBill
+        default:
+            let cardId = stripeSources[indexPath.row]["id"] as! String
+            selectedPaymentMethod = .card(id: cardId)
+        }
+        
+        print(selectedIndexPath)
+        print(selectedPaymentMethod)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -157,7 +235,6 @@ class PaymentMethodsViewController: UITableViewController {
 
 }
 
-
 extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
     
     func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
@@ -167,13 +244,29 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
     
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
     
-        
-        StripeClient.sharedInstance.createCustomerSource(token.tokenId) { (result, error) in
+        StripeClient.sharedInstance.createCustomerSource(token.tokenId) { (source, error) in
             
+            if let error = error as NSError? {
+                
+                print("Error creating customer source: \(error.localizedDescription)")
+                completion(error)
+            }
             
+            if let source = source as? [String: Any] {
+                
+                self.stripeSources.append(source)
+                
+                DispatchQueue.main.async {
+                    
+                    self.tableView.reloadData()
+                }
+            }
+            
+            completion(nil)
+            
+            self.navigationController?.popViewController(animated: true)
         }
         
-        self.navigationController?.popViewController(animated: true)
 //        StripeClient.sharedInstance.completeCharge(with: token, amount: 999) { result in
 //
 //            switch result {

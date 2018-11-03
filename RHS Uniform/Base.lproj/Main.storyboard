@@ -1046,6 +1046,34 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="46Q-Pd-WVt">
+                            <rect key="frame" x="0.0" y="177.5" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56e-Td-8jB">
+                                    <rect key="frame" x="16" y="7" width="81" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="Sce-vJ-frg"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="16"/>
+                                    <state key="normal" title="Add a Card"/>
+                                    <connections>
+                                        <action selector="addTapped:" destination="Wdp-tP-SgT" eventType="touchUpInside" id="Pj4-fy-BhV"/>
+                                    </connections>
+                                </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-sf-r0J" userLabel="Activity Indicator">
+                                    <rect key="frame" x="16" y="12" width="20" height="20"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="56e-Td-8jB" firstAttribute="top" secondItem="46Q-Pd-WVt" secondAttribute="top" constant="7" id="965-dj-7uf"/>
+                                <constraint firstItem="Njv-sf-r0J" firstAttribute="leading" secondItem="46Q-Pd-WVt" secondAttribute="leading" constant="16" id="9az-Nc-p4z"/>
+                                <constraint firstItem="56e-Td-8jB" firstAttribute="leading" secondItem="46Q-Pd-WVt" secondAttribute="leading" constant="16" id="bTh-Z9-Vxy"/>
+                                <constraint firstItem="Njv-sf-r0J" firstAttribute="top" secondItem="46Q-Pd-WVt" secondAttribute="top" constant="12" id="cLq-f9-sgP"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="56e-Td-8jB" secondAttribute="trailing" constant="20" symbolic="YES" id="nTU-tC-8NC"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="nonStripeSourceTableViewCell" textLabel="v5o-n8-JSa" detailTextLabel="FAY-3C-H3J" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="MHL-WN-wP9">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
@@ -1127,6 +1155,10 @@
                             <outlet property="delegate" destination="Wdp-tP-SgT" id="M9I-va-bXE"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="addCardButton" destination="56e-Td-8jB" id="y1i-fb-Elf"/>
+                        <outlet property="sourcesActivityIndicator" destination="Njv-sf-r0J" id="6J6-En-4Dj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qpa-VL-RWE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
