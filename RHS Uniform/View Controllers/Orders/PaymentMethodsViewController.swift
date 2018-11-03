@@ -9,17 +9,17 @@
 import UIKit
 import Stripe
 
+enum PaymentMethod {
+    case bacs
+    case schoolBill
+    case card(id: String)
+}
+
 protocol PaymentMethodsDelegate {
     
 }
 
 class PaymentMethodsViewController: UITableViewController {
-    
-    enum PaymentMethod {
-        case bacs
-        case schoolBill
-        case card(id: String)
-    }
 
     var delegate: PaymentMethodsDelegate?
     
@@ -35,6 +35,8 @@ class PaymentMethodsViewController: UITableViewController {
     
     var selectedIndexPath: IndexPath
     var selectedPaymentMethod: PaymentMethod
+    
+    let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var addCardButton: UIButton!
     @IBOutlet weak var sourcesActivityIndicator: UIActivityIndicatorView!
@@ -63,7 +65,24 @@ class PaymentMethodsViewController: UITableViewController {
         
         super .viewWillAppear(animated)
         
-        checkSelectedSource()
+        guard let defaultPaymentMethod = userDefaults.dictionary(forKey: "defaultPaymentMethod") else {
+            fatalError("Failed to load default payment method")
+        }
+        
+        switch defaultPaymentMethod["name"] as! String {
+        case "bacs":
+            selectedPaymentMethod = .bacs
+            selectedIndexPath = bacsIndexPath
+            checkSelectedSource()
+        case "schoolBill":
+            selectedPaymentMethod = .schoolBill
+            selectedIndexPath = schoolBillIndexPath
+            checkSelectedSource()
+        default:
+            if let id = defaultPaymentMethod["id"] as? String {
+                selectedPaymentMethod = .card(id: id)
+            }
+        }
     }
     
     func addRightBarButtonItem() {
@@ -218,9 +237,6 @@ class PaymentMethodsViewController: UITableViewController {
             let cardId = stripeSources[indexPath.row]["id"] as! String
             selectedPaymentMethod = .card(id: cardId)
         }
-        
-        print(selectedIndexPath)
-        print(selectedPaymentMethod)
     }
     
     /*
