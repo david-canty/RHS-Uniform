@@ -20,8 +20,11 @@ public enum APIRouter: URLRequestConvertible {
     case itemSizes(userIdToken: String)
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
+    
     case stripeCustomerCreate(userIdToken: String, email: String)
     case stripeCustomerGet(userIdToken: String, customerId: String)
+    case stripeCustomerSourceCreate(userIdToken: String, customerId: String, source: String)
+    
     case stripeChargeCreate(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
     
     var method: HTTPMethod {
@@ -57,6 +60,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .stripeCustomerGet:
             return .get
+            
+        case .stripeCustomerSourceCreate:
+            return .post
             
         case .stripeChargeCreate:
             return .post
@@ -97,6 +103,9 @@ public enum APIRouter: URLRequestConvertible {
         case let .stripeCustomerGet(_, customerId):
             return "/stripe/customer/\(customerId)"
             
+        case let .stripeCustomerSourceCreate(_, customerId, _):
+            return "/stripe/customer/\(customerId)/source"
+            
         case .stripeChargeCreate:
             return "/stripe/charge"
         }
@@ -116,6 +125,10 @@ public enum APIRouter: URLRequestConvertible {
             case let .stripeCustomerCreate(_, email):
                 
                 return ["email": email]
+                
+            case let .stripeCustomerSourceCreate(_, _, source):
+                
+                return ["source": source]
                 
             case let .stripeChargeCreate(_, stripeToken, amount, currency, description):
                 
@@ -163,6 +176,9 @@ public enum APIRouter: URLRequestConvertible {
                 return idToken
                 
             case .stripeCustomerGet (let idToken, _):
+                return idToken
+                
+            case .stripeCustomerSourceCreate (let idToken, _, _):
                 return idToken
                 
             case .stripeChargeCreate (let idToken, _, _, _, _):

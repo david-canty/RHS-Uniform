@@ -17,7 +17,7 @@ class PaymentMethodsViewController: UITableViewController {
 
     var delegate: PaymentMethodsDelegate?
     
-    let sectionHeaderNames = ["Non-Card", "Cards"]
+    let sectionHeaderNames = ["Methods", "Cards"]
     
     let nonStripeSources = [["text": "BACS transfer", "detail": "Pay full amount via BACS transfer"],
                             ["text": "Add to school bill", "detail": "Add full amount to next school bill"]]
@@ -90,13 +90,13 @@ class PaymentMethodsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 40.0
+        return 44.0
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: tableView.frame.width , height: 40.0))
-        let headerLabel = UILabel(frame: CGRect(x: 16.0, y: 8.0, width: tableView.frame.width - 32.0, height: 24.0))
+        let headerLabel = UILabel(frame: CGRect(x: 16.0, y: 10.0, width: tableView.frame.width - 32.0, height: 24.0))
         headerView.addSubview(headerLabel)
         
         headerLabel.textColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
@@ -136,7 +136,7 @@ class PaymentMethodsViewController: UITableViewController {
             let name = source["name"] as? String
             
             stripeCell.cardEndingLabel.text = brand + " ****" + last4
-            stripeCell.cardNameLabel.text = (name == nil ? "-" : name)
+            stripeCell.cardNameLabel.text = name ?? "-"
             stripeCell.cardExpiryLabel.text = "Expires " + expMonth + "/" + expYear
             
             cell = stripeCell
@@ -167,8 +167,15 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
     
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
     
-        StripeClient.sharedInstance.completeCharge(with: token, amount: 999) { result in
+        
+        StripeClient.sharedInstance.createCustomerSource(token.tokenId) { (result, error) in
             
+            
+        }
+        
+        self.navigationController?.popViewController(animated: true)
+//        StripeClient.sharedInstance.completeCharge(with: token, amount: 999) { result in
+//
 //            switch result {
 //
 //            case .success:
@@ -190,7 +197,7 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
 //
 //                completion(error)
 //            }
-        }
+//        }
     }
     
 }

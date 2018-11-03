@@ -152,6 +152,39 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
         }
     }
     
+    func createCustomerSource(_ source: String, completion: @escaping STPJSONResponseCompletionBlock) {
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let userIdToken = idToken {
+                    
+                    if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
+                        
+                        Alamofire.request(APIRouter.stripeCustomerSourceCreate(userIdToken: userIdToken, customerId: customerId, source: source))
+                            .validate(statusCode: 200..<300)
+                            .responseJSON { responseJSON in
+                                
+                                switch responseJSON.result {
+                                case .success(let json):
+                                    completion(json as? [String: AnyObject], nil)
+                                case .failure(let error):
+                                    completion(nil, error)
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func completeCharge(with token: STPToken, amount: Int, completion: @escaping (Result) -> Void) {
         
         guard let currentUser = Auth.auth().currentUser else { return }
