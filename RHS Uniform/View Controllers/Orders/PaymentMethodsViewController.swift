@@ -53,8 +53,8 @@ class PaymentMethodsViewController: UITableViewController {
     let bacsIndexPath: IndexPath
     let schoolBillIndexPath: IndexPath
     
-    var selectedIndexPath: IndexPath
-    var selectedPaymentMethod: PaymentMethod
+    var selectedIndexPath: IndexPath?
+    var selectedPaymentMethod: PaymentMethod?
     
     let userDefaults = UserDefaults.standard
     
@@ -66,9 +66,6 @@ class PaymentMethodsViewController: UITableViewController {
         bacsIndexPath = IndexPath(row: 0, section: 0)
         schoolBillIndexPath = IndexPath(row: 1, section: 0)
         
-        selectedIndexPath = bacsIndexPath
-        selectedPaymentMethod = .bacs
-        
         super.init(coder: aDecoder)
     }
     
@@ -77,13 +74,13 @@ class PaymentMethodsViewController: UITableViewController {
         super.viewDidLoad()
         
         addRightBarButtonItem()
-        
-        getStripeSources()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super .viewWillAppear(animated)
+        
+        getStripeSources()
         
         guard let defaultPaymentMethod = userDefaults.dictionary(forKey: "defaultPaymentMethod") else {
             fatalError("Failed to load default payment method")
@@ -93,11 +90,9 @@ class PaymentMethodsViewController: UITableViewController {
         case "bacs":
             selectedPaymentMethod = .bacs
             selectedIndexPath = bacsIndexPath
-            checkSelectedSource()
         case "schoolBill":
             selectedPaymentMethod = .schoolBill
             selectedIndexPath = schoolBillIndexPath
-            checkSelectedSource()
         default:
             if let id = defaultPaymentMethod["id"] as? String {
                 selectedPaymentMethod = .card(id: id)
@@ -113,12 +108,6 @@ class PaymentMethodsViewController: UITableViewController {
     func removeRightBarButtonItem() {
         
         self.navigationItem.rightBarButtonItem = nil
-    }
-    
-    func checkSelectedSource() {
-        
-        let selectedCell = tableView.cellForRow(at: selectedIndexPath)
-        selectedCell?.accessoryType = .checkmark
     }
     
     func getStripeSources() {
@@ -137,11 +126,11 @@ class PaymentMethodsViewController: UITableViewController {
                         
                         self.stripeSources = sourcesData
                         
-                        if case .card = self.selectedPaymentMethod {
+                        if case .card? = self.selectedPaymentMethod {
                             
-                            let defaultCardId = self.selectedPaymentMethod.getId()
+                            let defaultCardId = self.selectedPaymentMethod?.getId()
                             
-                            if let cardIndex = self.stripeSources.index(where: { $0["id"] as! String == defaultCardId }) {
+                            if let cardIndex = self.stripeSources.index(where: { $0["id"] as? String == defaultCardId }) {
                                 
                                 self.selectedIndexPath = IndexPath(row: cardIndex, section: 1)
                                 
@@ -156,7 +145,6 @@ class PaymentMethodsViewController: UITableViewController {
                         DispatchQueue.main.async {
 
                             self.tableView.reloadData()
-                            self.checkSelectedSource()
                         }
                     }
                 }
@@ -173,14 +161,14 @@ class PaymentMethodsViewController: UITableViewController {
 
     @IBAction func addTapped(_ sender: Any) {
         
-//        let paymentConfig = STPPaymentConfiguration()
-//        paymentConfig.canDeletePaymentMethods = true
-//        paymentConfig.requiredBillingAddressFields = STPBillingAddressFields.full
-//
-//        let addCardViewController = STPAddCardViewController(configuration: paymentConfig, theme: .default())
-//        addCardViewController.prefilledInformation = STPUserInformation()
+        let paymentConfig = STPPaymentConfiguration()
+        paymentConfig.publishableKey = AppConfig.sharedInstance.stripePublishableKey()
+        paymentConfig.requiredBillingAddressFields = STPBillingAddressFields.name
+        //paymentConfig.canDeletePaymentMethods = true
+
+        let addCardViewController = STPAddCardViewController(configuration: paymentConfig, theme: .default())
         
-        let addCardViewController = STPAddCardViewController()
+        //addCardViewController.prefilledInformation = STPUserInformation()
         addCardViewController.delegate = self
         
         navigationController?.pushViewController(addCardViewController, animated: true)
@@ -252,12 +240,14 @@ class PaymentMethodsViewController: UITableViewController {
             cell = stripeCell
         }
 
+        cell.accessoryType = indexPath == selectedIndexPath ? .checkmark : .none
+        
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let oldSelectedCell = tableView.cellForRow(at: selectedIndexPath)
+        let oldSelectedCell = tableView.cellForRow(at: selectedIndexPath!)
         oldSelectedCell?.accessoryType = .none
         
         let newSelectedCell = tableView.cellForRow(at: indexPath)
@@ -280,8 +270,8 @@ class PaymentMethodsViewController: UITableViewController {
     
     func saveDefaultPaymentMethod() {
         
-        let defaultPaymentMethod = ["name": selectedPaymentMethod.getName(),
-                                    "id": selectedPaymentMethod.getId()]
+        let defaultPaymentMethod = ["name": selectedPaymentMethod?.getName(),
+                                    "id": selectedPaymentMethod?.getId()]
         userDefaults.set(defaultPaymentMethod, forKey: "defaultPaymentMethod")
     }
 
@@ -307,6 +297,16 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
             if let source = source as? [String: Any] {
                 
                 self.stripeSources.append(source)
+                
+                //set new card as Stripe default (+ on select)
+                
+                let selectedRow = self.stripeSources.count - 1
+                self.selectedIndexPath = IndexPath(row: selectedRow, section: 1)
+                
+                let cardId = source["id"] as! String
+                self.selectedPaymentMethod = .card(id: cardId)
+                
+                self.saveDefaultPaymentMethod()
                 
                 DispatchQueue.main.async {
                     
