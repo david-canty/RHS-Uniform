@@ -37,7 +37,53 @@ class PaymentInformationViewController: UITableViewController {
     
     func updatePaymentMethodLabel() {
         
-        paymentMethodDetailTextLabel.text = ""
+        let userDefaults = UserDefaults.standard
+        
+        guard let defaultPaymentMethod = userDefaults.dictionary(forKey: "defaultPaymentMethod") else {
+            fatalError("Failed to load default payment method")
+        }
+        
+        switch defaultPaymentMethod["name"] as! String {
+        case "bacs":
+            paymentMethodDetailTextLabel.text = "BACS transfer"
+        case "schoolBill":
+            paymentMethodDetailTextLabel.text = "School bill"
+        default:
+            if let cardId = defaultPaymentMethod["id"] as? String {
+                getCardDetailsWithId(cardId) { (details) in
+                    self.paymentMethodDetailTextLabel.text = details
+                }
+            }
+        }
+    }
+    
+    func getCardDetailsWithId(_ cardId: String, completion: @escaping (String?) -> Void) {
+        
+        if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
+            
+            StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
+                
+                if let sources = customer?["sources"] as? [String: Any] {
+                    
+                    if let cards = sources["data"] as? [[String: Any]] {
+                        
+                        if let card = cards.first(where: { $0["id"] as! String == cardId }) {
+                            
+                            let brand = card["brand"] as! String
+                            let last4 = card["last4"] as! String
+                            
+                            let cardDetails = brand + " ****" + last4
+                            
+                            completion(cardDetails)
+                            
+                        } else {
+                        
+                            completion(nil)
+                        }
+                    }
+                }
+            })
+        }
     }
 
     // MARK: - Table view data source

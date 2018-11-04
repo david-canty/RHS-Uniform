@@ -337,7 +337,7 @@ extension CheckoutViewController: STPPaymentContextDelegate {
     
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         
-        paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
+        //paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
         paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
     }
     
