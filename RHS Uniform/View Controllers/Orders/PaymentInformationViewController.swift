@@ -19,6 +19,7 @@ class PaymentInformationViewController: UITableViewController {
     var delegate: PaymentInformationDelegate?
     
     @IBOutlet weak var paymentMethodDetailTextLabel: UILabel!
+    @IBOutlet weak var paymentMethodActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var placeOrderButton: UIButton!
     
     override func viewDidLoad() {
@@ -36,6 +37,8 @@ class PaymentInformationViewController: UITableViewController {
     }
     
     func updatePaymentMethodLabel() {
+        
+        paymentMethodDetailTextLabel.text = ""
         
         let userDefaults = UserDefaults.standard
         
@@ -59,6 +62,8 @@ class PaymentInformationViewController: UITableViewController {
     
     func getCardDetailsWithId(_ cardId: String, completion: @escaping (String?) -> Void) {
         
+        self.paymentMethodActivityIndicator.startAnimating()
+        
         if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
             
             StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
@@ -80,6 +85,8 @@ class PaymentInformationViewController: UITableViewController {
                         
                             completion(nil)
                         }
+                        
+                        self.paymentMethodActivityIndicator.stopAnimating()
                     }
                 }
             })

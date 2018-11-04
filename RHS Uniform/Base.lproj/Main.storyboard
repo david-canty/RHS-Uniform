@@ -967,26 +967,42 @@
                         <sections>
                             <tableViewSection headerTitle="Payment Information" id="878-kV-8hb">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="qP3-Mk-RVq" detailTextLabel="XJu-vS-Pqy" style="IBUITableViewCellStyleSubtitle" id="dTE-mO-qbt">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="dTE-mO-qbt">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTE-mO-qbt" id="Khd-7n-q63">
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Payment Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qP3-Mk-RVq">
-                                                    <rect key="frame" x="16" y="6" width="112.5" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pay-nM-RlV">
+                                                    <rect key="frame" x="16" y="4" width="113" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16" id="3hE-7B-qkQ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Payment Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XJu-vS-Pqy">
-                                                    <rect key="frame" x="16" y="22" width="106" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="de3-ZF-BMP">
+                                                    <rect key="frame" x="16" y="24" width="0.0" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16" id="0XR-ho-y6e"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AZL-WM-Ja6">
+                                                    <rect key="frame" x="16" y="22" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Pay-nM-RlV" firstAttribute="top" secondItem="Khd-7n-q63" secondAttribute="top" constant="4" id="2LX-cn-EXD"/>
+                                                <constraint firstItem="de3-ZF-BMP" firstAttribute="leading" secondItem="Khd-7n-q63" secondAttribute="leading" constant="16" id="8XJ-la-MgC"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Pay-nM-RlV" secondAttribute="trailing" constant="20" symbolic="YES" id="YV2-6B-QIa"/>
+                                                <constraint firstItem="de3-ZF-BMP" firstAttribute="top" secondItem="Pay-nM-RlV" secondAttribute="bottom" constant="4" id="tec-3q-285"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="de3-ZF-BMP" secondAttribute="trailing" constant="20" symbolic="YES" id="ukn-j0-kOn"/>
+                                                <constraint firstItem="Pay-nM-RlV" firstAttribute="leading" secondItem="Khd-7n-q63" secondAttribute="leading" constant="16" id="x0E-Y4-l0k"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="eh0-GA-1Ft">
@@ -1028,7 +1044,8 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="paymentMethodDetailTextLabel" destination="XJu-vS-Pqy" id="SBe-DW-r1s"/>
+                        <outlet property="paymentMethodActivityIndicator" destination="AZL-WM-Ja6" id="kzS-s9-jJo"/>
+                        <outlet property="paymentMethodDetailTextLabel" destination="de3-ZF-BMP" id="vse-nh-U7H"/>
                         <outlet property="placeOrderButton" destination="IAh-BC-Gpl" id="P3g-Kg-USm"/>
                     </connections>
                 </tableViewController>
