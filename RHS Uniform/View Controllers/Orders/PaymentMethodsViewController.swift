@@ -13,6 +13,26 @@ enum PaymentMethod {
     case bacs
     case schoolBill
     case card(id: String)
+    
+    func getName() -> String {
+        switch self {
+        case .bacs:
+            return "bacs"
+        case .schoolBill:
+            return "schoolBill"
+        default:
+            return "card"
+        }
+    }
+    
+    func getId() -> String {
+        switch self {
+        case .card(let id):
+            return id
+        default:
+            return ""
+        }
+    }
 }
 
 protocol PaymentMethodsDelegate {
@@ -117,9 +137,26 @@ class PaymentMethodsViewController: UITableViewController {
                         
                         self.stripeSources = sourcesData
                         
+                        if case .card = self.selectedPaymentMethod {
+                            
+                            let defaultCardId = self.selectedPaymentMethod.getId()
+                            
+                            if let cardIndex = self.stripeSources.index(where: { $0["id"] as! String == defaultCardId }) {
+                                
+                                self.selectedIndexPath = IndexPath(row: cardIndex, section: 1)
+                                
+                            } else {
+                                
+                                self.selectedPaymentMethod = .bacs
+                                self.selectedIndexPath = self.bacsIndexPath
+                                self.saveDefaultPaymentMethod()
+                            }
+                        }
+                        
                         DispatchQueue.main.async {
 
                             self.tableView.reloadData()
+                            self.checkSelectedSource()
                         }
                     }
                 }
@@ -219,7 +256,7 @@ class PaymentMethodsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            
+        
         let oldSelectedCell = tableView.cellForRow(at: selectedIndexPath)
         oldSelectedCell?.accessoryType = .none
         
@@ -237,17 +274,16 @@ class PaymentMethodsViewController: UITableViewController {
             let cardId = stripeSources[indexPath.row]["id"] as! String
             selectedPaymentMethod = .card(id: cardId)
         }
+        
+        saveDefaultPaymentMethod()
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func saveDefaultPaymentMethod() {
+        
+        let defaultPaymentMethod = ["name": selectedPaymentMethod.getName(),
+                                    "id": selectedPaymentMethod.getId()]
+        userDefaults.set(defaultPaymentMethod, forKey: "defaultPaymentMethod")
     }
-    */
 
 }
 
