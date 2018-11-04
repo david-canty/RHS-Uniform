@@ -23,6 +23,7 @@ public enum APIRouter: URLRequestConvertible {
     
     case stripeCustomerCreate(userIdToken: String, email: String)
     case stripeCustomerGet(userIdToken: String, customerId: String)
+    case stripeCustomerUpdate(userIdToken: String, customerId: String, defaultSource: String)
     case stripeCustomerSourceCreate(userIdToken: String, customerId: String, source: String)
     
     case stripeChargeCreate(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
@@ -60,6 +61,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .stripeCustomerGet:
             return .get
+            
+        case .stripeCustomerUpdate:
+            return .put
             
         case .stripeCustomerSourceCreate:
             return .post
@@ -103,6 +107,9 @@ public enum APIRouter: URLRequestConvertible {
         case let .stripeCustomerGet(_, customerId):
             return "/stripe/customer/\(customerId)"
             
+        case let .stripeCustomerUpdate(_, customerId, _):
+            return "/stripe/customer/\(customerId)"
+            
         case let .stripeCustomerSourceCreate(_, customerId, _):
             return "/stripe/customer/\(customerId)/source"
             
@@ -126,6 +133,10 @@ public enum APIRouter: URLRequestConvertible {
                 
                 return ["email": email]
                 
+            case let .stripeCustomerUpdate(_, _, defaultSource):
+                
+                return ["source": defaultSource]
+            
             case let .stripeCustomerSourceCreate(_, _, source):
                 
                 return ["source": source]
@@ -176,6 +187,9 @@ public enum APIRouter: URLRequestConvertible {
                 return idToken
                 
             case .stripeCustomerGet (let idToken, _):
+                return idToken
+                
+            case .stripeCustomerUpdate (let idToken, _, _):
                 return idToken
                 
             case .stripeCustomerSourceCreate (let idToken, _, _):
