@@ -270,9 +270,27 @@ class PaymentMethodsViewController: UITableViewController {
     
     func saveDefaultPaymentMethod() {
         
-        let defaultPaymentMethod = ["name": selectedPaymentMethod?.getName(),
-                                    "id": selectedPaymentMethod?.getId()]
+        guard let paymentMethodName = selectedPaymentMethod?.getName() else { return }
+        guard let paymentMethodId = selectedPaymentMethod?.getId() else { return }
+        
+        let defaultPaymentMethod = ["name": paymentMethodName,
+                                    "id": paymentMethodId]
         userDefaults.set(defaultPaymentMethod, forKey: "defaultPaymentMethod")
+        
+        if paymentMethodId != "" {
+            updateStripeDefault(withCardId: paymentMethodId)
+        }
+    }
+    
+    func updateStripeDefault(withCardId cardId: String) {
+        
+        StripeClient.sharedInstance.updateCustomer(defaultSource: cardId) { (customer, error) in
+            
+            if let error = error as NSError? {
+                
+                print("Error updating customer source: \(error.localizedDescription)")
+            }
+        }
     }
 
 }
@@ -297,8 +315,6 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
             if let source = source as? [String: Any] {
                 
                 self.stripeSources.append(source)
-                
-                //set new card as Stripe default (+ on select)
                 
                 let selectedRow = self.stripeSources.count - 1
                 self.selectedIndexPath = IndexPath(row: selectedRow, section: 1)
