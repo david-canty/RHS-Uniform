@@ -218,9 +218,10 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
         }
     }
     
-    func completeCharge(with token: STPToken, amount: Int, completion: @escaping (Result) -> Void) {
+    func completeCharge(withAmount amount: Int, currency: String, description: String, completion: @escaping (Result) -> Void) {
         
         guard let currentUser = Auth.auth().currentUser else { return }
+        guard let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") else { return }
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -232,7 +233,7 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
                 
                 if let userIdToken = idToken {
                     
-                    Alamofire.request(APIRouter.stripeChargeCreate(userIdToken: userIdToken, stripeToken: token.tokenId, amount: amount, currency: "gbp", description: "Order from RHS Uniform app"))
+                    Alamofire.request(APIRouter.stripeChargeCreate(userIdToken: userIdToken, amount: amount, currency: currency, description: description, customerId: customerId))
                         .validate(statusCode: 200..<300)
                         .responseString { response in
                             
@@ -247,4 +248,34 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             }
         }
     }
+    
+//    func completeCharge(with token: STPToken, amount: Int, completion: @escaping (Result) -> Void) {
+//
+//        guard let currentUser = Auth.auth().currentUser else { return }
+//
+//        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+//
+//            if let error = error {
+//
+//                fatalError("Error getting user ID token: \(error)")
+//
+//            } else {
+//
+//                if let userIdToken = idToken {
+//
+//                    Alamofire.request(APIRouter.stripeChargeCreate(userIdToken: userIdToken, stripeToken: token.tokenId, amount: amount, currency: "gbp", description: "Order from RHS Uniform app"))
+//                        .validate(statusCode: 200..<300)
+//                        .responseString { response in
+//
+//                            switch response.result {
+//                            case .success:
+//                                completion(Result.success)
+//                            case .failure(let error):
+//                                completion(Result.failure(error))
+//                            }
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

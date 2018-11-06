@@ -24,6 +24,8 @@ final class AppConfig {
     
     private let stripeTestPublishableKey = ProcessInfo.processInfo.environment["STRIPE_TEST_PUBLISHABLE_KEY"]!
     private let stripeLivePublishableKey = ProcessInfo.processInfo.environment["STRIPE_LIVE_PUBLISHABLE_KEY"]!
+    private let stripeCurrency = "gbp"
+    private let stripeDescription = "Order from RHS Uniform app"
     
     private init() {}
     
@@ -39,5 +41,13 @@ final class AppConfig {
     
     func stripePublishableKey() -> String {
         return isDevMode ? stripeTestPublishableKey : stripeLivePublishableKey
+    }
+    
+    func stripeChargeCurrency() -> String {
+        return stripeCurrency
+    }
+    
+    func stripeChargeDescription() -> String {
+        return stripeDescription
     }
 }

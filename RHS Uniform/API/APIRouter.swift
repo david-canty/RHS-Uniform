@@ -26,7 +26,7 @@ public enum APIRouter: URLRequestConvertible {
     case stripeCustomerUpdate(userIdToken: String, customerId: String, defaultSource: String)
     case stripeCustomerSourceCreate(userIdToken: String, customerId: String, source: String)
     
-    case stripeChargeCreate(userIdToken: String, stripeToken: String, amount: Int, currency: String, description: String)
+    case stripeChargeCreate(userIdToken: String, amount: Int, currency: String, description: String, customerId: String)
     
     var method: HTTPMethod {
         
@@ -141,12 +141,12 @@ public enum APIRouter: URLRequestConvertible {
                 
                 return ["source": source]
                 
-            case let .stripeChargeCreate(_, stripeToken, amount, currency, description):
+            case let .stripeChargeCreate(_, amount, currency, description, customerId):
                 
-                return ["token": stripeToken,
-                        "amount": amount,
+                return ["amount": amount,
                         "currency": currency,
-                        "description": description]
+                        "description": description,
+                        "customerId": customerId]
                 
             default:
                 

@@ -426,6 +426,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             let checkOutVC = navigationController.topViewController as! CheckoutViewController
             
             checkOutVC.managedObjectContext = managedObjectContext
+            checkOutVC.orderAmount = getBagValue()
         }
     }
 
