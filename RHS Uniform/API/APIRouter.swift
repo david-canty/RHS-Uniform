@@ -23,8 +23,8 @@ public enum APIRouter: URLRequestConvertible {
     
     case stripeCustomerCreate(userIdToken: String, email: String)
     case stripeCustomerGet(userIdToken: String, customerId: String)
-    case stripeCustomerUpdate(userIdToken: String, customerId: String, defaultSource: String)
     case stripeCustomerSourceCreate(userIdToken: String, customerId: String, source: String)
+    case stripeCustomerDefaultSource(userIdToken: String, customerId: String, defaultSource: String)
     
     case stripeChargeCreate(userIdToken: String, amount: Int, currency: String, description: String, customerId: String)
     
@@ -62,11 +62,11 @@ public enum APIRouter: URLRequestConvertible {
         case .stripeCustomerGet:
             return .get
             
-        case .stripeCustomerUpdate:
-            return .put
-            
         case .stripeCustomerSourceCreate:
             return .post
+            
+        case .stripeCustomerDefaultSource:
+            return .patch
             
         case .stripeChargeCreate:
             return .post
@@ -107,11 +107,11 @@ public enum APIRouter: URLRequestConvertible {
         case let .stripeCustomerGet(_, customerId):
             return "/stripe/customer/\(customerId)"
             
-        case let .stripeCustomerUpdate(_, customerId, _):
-            return "/stripe/customer/\(customerId)"
-            
         case let .stripeCustomerSourceCreate(_, customerId, _):
             return "/stripe/customer/\(customerId)/source"
+            
+        case let .stripeCustomerDefaultSource(_, customerId, _):
+            return "/stripe/customer/\(customerId)/default-source"
             
         case .stripeChargeCreate:
             return "/stripe/charge"
@@ -132,14 +132,14 @@ public enum APIRouter: URLRequestConvertible {
             case let .stripeCustomerCreate(_, email):
                 
                 return ["email": email]
-                
-            case let .stripeCustomerUpdate(_, _, defaultSource):
-                
-                return ["source": defaultSource]
             
             case let .stripeCustomerSourceCreate(_, _, source):
                 
                 return ["source": source]
+                
+            case let .stripeCustomerDefaultSource(_, _, defaultSource):
+                
+                return ["source": defaultSource]
                 
             case let .stripeChargeCreate(_, amount, currency, description, customerId):
                 
@@ -189,10 +189,10 @@ public enum APIRouter: URLRequestConvertible {
             case .stripeCustomerGet (let idToken, _):
                 return idToken
                 
-            case .stripeCustomerUpdate (let idToken, _, _):
+            case .stripeCustomerSourceCreate (let idToken, _, _):
                 return idToken
                 
-            case .stripeCustomerSourceCreate (let idToken, _, _):
+            case .stripeCustomerDefaultSource (let idToken, _, _):
                 return idToken
                 
             case .stripeChargeCreate (let idToken, _, _, _, _):
