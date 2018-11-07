@@ -607,4 +607,10 @@ extension APIClient {
         }
     }
     
+    // MARK: - Customer
+    
+    func createCustomer(withFirebaseId firebaseId: String, email: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+        
+        
+    }
 }
