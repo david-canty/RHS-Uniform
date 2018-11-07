@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="SUBagItem" representedClassName="SUBagItem" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="quantity" attributeType="Integer 32" minValueString="1" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
@@ -18,12 +18,14 @@
         <attribute name="addressLine2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addressLine3" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
+        <attribute name="firebaseUserId" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tel" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="orders" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="SUOrder" inverseName="customer" inverseEntity="SUOrder" syncable="YES"/>
     </entity>
     <entity name="SUImage" representedClassName="SUImage" syncable="YES" codeGenerationType="class">
@@ -96,7 +98,7 @@
     <elements>
         <element name="SUBagItem" positionX="202.3203125" positionY="-636.390625" width="128" height="105"/>
         <element name="SUCategory" positionX="-302.94921875" positionY="-423.953125" width="128" height="120"/>
-        <element name="SUCustomer" positionX="-223.10546875" positionY="-690.09375" width="128" height="208"/>
+        <element name="SUCustomer" positionX="-223.10546875" positionY="-698.09375" width="128" height="238"/>
         <element name="SUImage" positionX="-309.01953125" positionY="-279.6953125" width="128" height="105"/>
         <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
         <element name="SUOrder" positionX="-21.078125" positionY="-720.28125" width="128" height="135"/>

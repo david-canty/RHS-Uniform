@@ -19,8 +19,9 @@ public enum APIRouter: URLRequestConvertible {
     case items(userIdToken: String)
     case itemSizes(userIdToken: String)
     
-    case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
     
+    
+    case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
     case stripeCustomerCreate(userIdToken: String, email: String)
     case stripeCustomerGet(userIdToken: String, customerId: String)
     case stripeCustomerSourceCreate(userIdToken: String, customerId: String, source: String)

@@ -294,7 +294,10 @@ class SignInViewController: UIViewController {
                 KeychainController.saveIdToken()
                 KeychainController.save(email: email, password: password)
                 
-                self.createCustomer(withEmail: email)
+                if let uid = Auth.auth().currentUser?.uid {
+                
+                    self.createCustomer(withEmail: email, firebaseUserId: uid)
+                }
                 
                 if self.isFirstLaunch() {
                     
@@ -310,7 +313,7 @@ class SignInViewController: UIViewController {
         }
     }
     
-    func createCustomer(withEmail email: String) {
+    func createCustomer(withEmail email: String, firebaseUserId uid: String) {
         
         if SUCustomer.getObjectWithEmail(email) == nil {
             

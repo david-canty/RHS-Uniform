@@ -322,8 +322,6 @@ extension CheckoutViewController: PaymentInformationDelegate {
     func showPaymentMethods() {
     
         performSegue(withIdentifier: "paymentMethods", sender: self)
-        
-        //self.paymentContext.pushPaymentMethodsViewController()
     }
     
     func placeOrder(withPaymentMethod paymentMethod: PaymentMethod) {
