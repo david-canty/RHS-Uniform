@@ -29,9 +29,14 @@ struct PostageMethod {
     var cost: Double
 }
 
+protocol CheckoutDelegate {
+    func orderAmount() -> Double
+}
+
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var managedObjectContext: NSManagedObjectContext!
+    var delegate: CheckoutDelegate?
     //let paymentContext: STPPaymentContext
     var paymentInfoVC: PaymentInformationViewController!
     var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
@@ -53,6 +58,9 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
         super.viewDidLoad()
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
+        
+        guard let orderAmount = delegate?.orderAmount() else { return }
+        self.orderAmount = orderAmount
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -320,32 +328,34 @@ extension CheckoutViewController: PaymentInformationDelegate {
     
     func placeOrder() {
         
-        let amount = Int(orderAmount * 100)
-        let currency = AppConfig.sharedInstance.stripeChargeCurrency()
-        let description = AppConfig.sharedInstance.stripeChargeDescription()
+        performSegue(withIdentifier: "orderConfirmation", sender: self)
         
-        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { (result) in
-            
-            switch result {
-
-            case .success:
-
-                let alertController = UIAlertController(title: "Success",
-                                                        message: "Your payment was successful!",
-                                                        preferredStyle: .alert)
-
-                let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    self.navigationController?.popViewController(animated: true)
-                })
-                alertController.addAction(alertAction)
-
-                self.present(alertController, animated: true)
-
-            case .failure(let error):
-
-                print("Error completing charge: \(error.localizedDescription)")
-            }
-        }
+//        let amount = Int(orderAmount * 100)
+//        let currency = AppConfig.sharedInstance.stripeChargeCurrency()
+//        let description = AppConfig.sharedInstance.stripeChargeDescription()
+//
+//        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { (result) in
+//
+//            switch result {
+//
+//            case .success:
+//
+//                let alertController = UIAlertController(title: "Success",
+//                                                        message: "Your payment was successful!",
+//                                                        preferredStyle: .alert)
+//
+//                let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+//                    self.navigationController?.popViewController(animated: true)
+//                })
+//                alertController.addAction(alertAction)
+//
+//                self.present(alertController, animated: true)
+//
+//            case .failure(let error):
+//
+//                print("Error completing charge: \(error.localizedDescription)")
+//            }
+//        }
         
         //self.paymentContext.requestPayment()
     }

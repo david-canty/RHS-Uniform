@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 
 enum PaymentMethod {
+    
     case bacs
     case schoolBill
     case card(id: String)

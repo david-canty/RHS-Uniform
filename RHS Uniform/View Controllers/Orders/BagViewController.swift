@@ -426,7 +426,7 @@ class BagViewController: UITableViewController, NSFetchedResultsControllerDelega
             let checkOutVC = navigationController.topViewController as! CheckoutViewController
             
             checkOutVC.managedObjectContext = managedObjectContext
-            checkOutVC.orderAmount = getBagValue()
+            checkOutVC.delegate = self
         }
     }
 
@@ -470,6 +470,14 @@ extension BagViewController: ModalSelectViewControllerDelegate {
         }
         
         modalSelectMode = .none
+    }
+}
+
+extension BagViewController: CheckoutDelegate {
+    
+    func orderAmount() -> Double {
+        
+        return getBagValue()
     }
 }
 

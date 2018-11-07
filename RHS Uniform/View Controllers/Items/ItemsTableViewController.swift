@@ -289,6 +289,28 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             present(itemFilterVC, animated: true, completion: nil)
         }
     }
+    
+    func emptyBag() {
+        
+        let fetchRequest: NSFetchRequest<SUBagItem> = SUBagItem.fetchRequest()
+        fetchRequest.includesPropertyValues = false
+        
+        do {
+            
+            let bagItems = try managedObjectContext.fetch(fetchRequest)
+            
+            for item in bagItems {
+                managedObjectContext.delete(item)
+            }
+            
+            try managedObjectContext.save()
+            
+        } catch {
+            
+            let nserror = error as NSError
+            fatalError("Error deleting bag items: \(nserror), \(nserror.userInfo)")
+        }
+    }
 
     // MARK: - Segues
 
@@ -302,6 +324,14 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
 
+    @IBAction func unwindToShop(segue: UIStoryboardSegue) {
+        
+        emptyBag()
+        
+        let notificationCenter = NotificationCenter.default
+        let notification = Notification(name: Notification.Name(rawValue: "bagUpdated"))
+        notificationCenter.post(notification)
+    }
 }
 
 extension ItemsTableViewController: ItemFilterViewControllerDelegate {
