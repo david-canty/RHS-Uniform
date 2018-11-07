@@ -26,6 +26,17 @@ enum PaymentMethod {
         }
     }
     
+    func getDescription() -> String {
+        switch self {
+        case .bacs:
+            return "BACS transfer"
+        case .schoolBill:
+            return "School bill"
+        default:
+            return "Credit card"
+        }
+    }
+    
     func getId() -> String {
         switch self {
         case .card(let id):

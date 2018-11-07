@@ -326,38 +326,65 @@ extension CheckoutViewController: PaymentInformationDelegate {
         //self.paymentContext.pushPaymentMethodsViewController()
     }
     
+    func placeOrder(withPaymentMethod paymentMethod: PaymentMethod) {
+        
+        switch paymentMethod {
+        case .bacs, .schoolBill:
+            placeOrder()
+        default:
+            completeCharge { (result) in
+                
+                switch result {
+                case .success:
+                    self.placeOrder()
+                case .failure(let error):
+                    print("Error completing charge: \(error.localizedDescription)")
+                    self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+                    self.displayPaymentError()
+                }
+            }
+        }
+    }
+    
+    func completeCharge(completion: @escaping (Result) -> Void) {
+        
+        let amount = Int(orderAmount * 100)
+        let currency = AppConfig.sharedInstance.stripeChargeCurrency()
+        let description = AppConfig.sharedInstance.stripeChargeDescription()
+        
+        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { (result) in
+            
+            switch result {
+                
+            case .success:
+                
+                completion(Result.success)
+                
+            case .failure(let error):
+                
+                completion(Result.failure(error))
+            }
+        }
+    }
+    
+    func displayPaymentError() {
+        
+        let alertController = UIAlertController(title: "Payment Unsuccessful",
+                                                message: "Your payment was unsuccessful. Please check your card details and try again.",
+                                                preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true)
+    }
+    
     func placeOrder() {
         
-        performSegue(withIdentifier: "orderConfirmation", sender: self)
         
-//        let amount = Int(orderAmount * 100)
-//        let currency = AppConfig.sharedInstance.stripeChargeCurrency()
-//        let description = AppConfig.sharedInstance.stripeChargeDescription()
-//
-//        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { (result) in
-//
-//            switch result {
-//
-//            case .success:
-//
-//                let alertController = UIAlertController(title: "Success",
-//                                                        message: "Your payment was successful!",
-//                                                        preferredStyle: .alert)
-//
-//                let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-//                    self.navigationController?.popViewController(animated: true)
-//                })
-//                alertController.addAction(alertAction)
-//
-//                self.present(alertController, animated: true)
-//
-//            case .failure(let error):
-//
-//                print("Error completing charge: \(error.localizedDescription)")
-//            }
-//        }
         
-        //self.paymentContext.requestPayment()
+        paymentInfoVC.stopPlaceOrderActivityIndicator()
+        self.performSegue(withIdentifier: "orderConfirmation", sender: self)
     }
 }
 

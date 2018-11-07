@@ -11,16 +11,18 @@ import UIKit
 protocol PaymentInformationDelegate {
     func fetchPaymentInformation()
     func showPaymentMethods()
-    func placeOrder()
+    func placeOrder(withPaymentMethod: PaymentMethod)
 }
 
 class PaymentInformationViewController: UITableViewController {
 
     var delegate: PaymentInformationDelegate?
+    var paymentMethod: PaymentMethod?
     
     @IBOutlet weak var paymentMethodDetailTextLabel: UILabel!
     @IBOutlet weak var paymentMethodActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var placeOrderButton: UIButton!
+    @IBOutlet weak var placeOrderActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         
@@ -48,11 +50,14 @@ class PaymentInformationViewController: UITableViewController {
         
         switch defaultPaymentMethod["name"] as! String {
         case "bacs":
-            paymentMethodDetailTextLabel.text = "BACS transfer"
+            paymentMethod = PaymentMethod.bacs
+            paymentMethodDetailTextLabel.text = paymentMethod?.getDescription()
         case "schoolBill":
-            paymentMethodDetailTextLabel.text = "School bill"
+            paymentMethod = PaymentMethod.schoolBill
+            paymentMethodDetailTextLabel.text = paymentMethod?.getDescription()
         default:
             if let cardId = defaultPaymentMethod["id"] as? String {
+                paymentMethod = PaymentMethod.card(id: cardId)
                 getCardDetailsWithId(cardId) { (details) in
                     self.paymentMethodDetailTextLabel.text = details
                 }
@@ -125,7 +130,20 @@ class PaymentInformationViewController: UITableViewController {
     
     @IBAction func placeOrderTapped(_ sender: UIButton) {
         
-        delegate?.placeOrder()
+        if let paymentMethod = self.paymentMethod {
+            
+            startPlaceOrderActivityIndicator()
+            delegate?.placeOrder(withPaymentMethod: paymentMethod)
+        }
     }
     
+    func startPlaceOrderActivityIndicator() {
+        placeOrderButton.isEnabled = false
+        placeOrderActivityIndicator.startAnimating()
+    }
+    
+    func stopPlaceOrderActivityIndicator() {
+        placeOrderButton.isEnabled = true
+        placeOrderActivityIndicator.stopAnimating()
+    }
 }
