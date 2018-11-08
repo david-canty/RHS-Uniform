@@ -323,16 +323,42 @@ class SignInViewController: UIViewController {
                     
                 case .success:
                     
-                    let newCustomer = SUCustomer(context: self.context)
-                    newCustomer.id = UUID()
-                    newCustomer.email = email
+                    APIClient.sharedInstance.createCustomer(withFirebaseId: uid, email: email, completion: { (customer, error) in
                     
-                    do {
-                        try self.context.save()
-                    } catch {
-                        let nserror = error as NSError
-                        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                    }
+                        if let error = error as NSError? {
+                            
+                            print("Error creating customer with email '\(email)': \(error.localizedDescription)")
+                            
+                        } else {
+                            
+                            if let customerDict = customer {
+                                
+                                let id = UUID(uuidString: customerDict["id"] as! String)
+                                let firebaseUserId = customerDict["firebaseUserId"] as! String
+                                let email = customerDict["email"] as! String
+                                let timestamp = customerDict["timestamp"] as! String
+                                
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                                guard let timestampDate = dateFormatter.date(from: timestamp) else {
+                                    fatalError("Failed to convert date due to mismatched format")
+                                }
+                                
+                                let newCustomer = SUCustomer(context: self.context)
+                                newCustomer.id = id
+                                newCustomer.firebaseUserId = firebaseUserId
+                                newCustomer.email = email
+                                newCustomer.timestamp = timestampDate
+                                
+                                do {
+                                    try self.context.save()
+                                } catch {
+                                    let nserror = error as NSError
+                                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                                }
+                            }
+                        }
+                    })
                     
                 case .failure(let error):
                     

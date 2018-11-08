@@ -11,6 +11,10 @@ import CoreData
 import Alamofire
 import FirebaseAuth
 
+enum APIClientError: Error {
+    case error(String)
+}
+
 final class APIClient {
     
     static let sharedInstance = APIClient()
@@ -611,6 +615,38 @@ extension APIClient {
     
     func createCustomer(withFirebaseId firebaseId: String, email: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
-        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.customerCreate(userIdToken: token, firebaseUserId: firebaseId, email: email)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let customer = response.result.value as? [String: Any] {
+                                
+                                completion(customer, nil)
+                                
+                            } else {
+                             
+                                let error = APIClientError.error("Failed to get customer data")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
