@@ -37,21 +37,21 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
     
     var managedObjectContext: NSManagedObjectContext!
     var delegate: CheckoutDelegate?
-    //let paymentContext: STPPaymentContext
+    let paymentContext: STPPaymentContext
     var paymentInfoVC: PaymentInformationViewController!
     var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
     var orderAmount = 0.0
     
-//    required init?(coder aDecoder: NSCoder) {
-//
-//        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
-//        paymentContext = STPPaymentContext(customerContext: customerContext)
-//
-//        super.init(coder: aDecoder)
-//
-//        paymentContext.delegate = self
-//        paymentContext.hostViewController = self
-//    }
+    required init?(coder aDecoder: NSCoder) {
+
+        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
+        paymentContext = STPPaymentContext(customerContext: customerContext)
+
+        super.init(coder: aDecoder)
+
+        paymentContext.delegate = self
+        paymentContext.hostViewController = self
+    }
     
     override func viewDidLoad() {
         
@@ -59,7 +59,9 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
         
-        guard let orderAmount = delegate?.orderAmount() else { return }
+        guard let orderAmount = delegate?.orderAmount() else {
+            fatalError("Failed to get order amount")
+        }
         self.orderAmount = orderAmount
     }
     
@@ -391,36 +393,36 @@ extension CheckoutViewController: PaymentMethodsDelegate {
     
 }
 
-//extension CheckoutViewController: STPPaymentContextDelegate {
-//
-//    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-//
-//        //paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
-//        paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
-//    }
-//
-//    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
-//
-//
-//    }
-//
-//    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
-//
-//        switch status {
-//        case .error:
-//            //self.showError(error)
-//            return
-//        case .success:
-//            //self.showReceipt()
-//            return
-//        case .userCancellation:
-//            return
-//        }
-//    }
-//
-//    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
-//
-//
-//    }
-//
-//}
+extension CheckoutViewController: STPPaymentContextDelegate {
+
+    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
+
+        //paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
+        paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
+    }
+
+    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
+
+
+    }
+
+    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
+
+        switch status {
+        case .error:
+            //self.showError(error)
+            return
+        case .success:
+            //self.showReceipt()
+            return
+        case .userCancellation:
+            return
+        }
+    }
+
+    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
+
+
+    }
+
+}

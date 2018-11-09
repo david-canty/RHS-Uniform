@@ -57,7 +57,7 @@ class PaymentMethodsViewController: UITableViewController {
     
     let sectionHeaderNames = ["Methods", "Cards"]
     
-    let nonStripeSources = [["text": "BACS transfer", "detail": "Pay full amount via BACS transfer"],
+    let nonStripeSources = [["text": "BACS transfer", "detail": "Pay full amount by BACS transfer"],
                             ["text": "School bill", "detail": "Add full amount to next school bill"]]
     
     var stripeSources = [[String: Any]]()
