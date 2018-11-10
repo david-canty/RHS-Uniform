@@ -475,9 +475,27 @@ extension BagViewController: ModalSelectViewControllerDelegate {
 
 extension BagViewController: CheckoutDelegate {
     
-    func orderAmount() -> Double {
+    func getOrderAmount() -> Double {
         
         return getBagValue()
+    }
+    
+    func getOrderItems() -> [[String : String]] {
+        
+        var orderItems: [[String: String]] = []
+        
+        for bagItem in fetchedResultsController.fetchedObjects! {
+            
+            var orderItem: [String: String] = [:]
+            
+            orderItem["itemID"] = bagItem.item?.id?.uuidString
+            orderItem["sizeID"] = bagItem.size?.id?.uuidString
+            orderItem["quantity"] = String(bagItem.quantity)
+            
+            orderItems.append(orderItem)
+        }
+        
+        return orderItems
     }
 }
 

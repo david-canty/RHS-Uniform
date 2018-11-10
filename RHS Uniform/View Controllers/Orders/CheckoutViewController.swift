@@ -30,7 +30,8 @@ struct PostageMethod {
 }
 
 protocol CheckoutDelegate {
-    func orderAmount() -> Double
+    func getOrderAmount() -> Double
+    func getOrderItems() -> [[String: String]]
 }
 
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {
@@ -59,7 +60,7 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
         
-        guard let orderAmount = delegate?.orderAmount() else {
+        guard let orderAmount = delegate?.getOrderAmount() else {
             fatalError("Failed to get order amount")
         }
         self.orderAmount = orderAmount
@@ -381,13 +382,20 @@ extension CheckoutViewController: PaymentInformationDelegate {
     
     func placeOrder() {
         
-        APIClient.sharedInstance.createOrder(withOrderItems: <#T##[[String : String]]#>, paymentMethod: <#T##String#>) { (orderInfo, error) in
-            
-            
+        guard let orderItems = delegate?.getOrderItems() else {
+            fatalError("Failed to get order items")
         }
         
-        paymentInfoVC.stopPlaceOrderActivityIndicator()
-        self.performSegue(withIdentifier: "orderConfirmation", sender: self)
+        guard let paymentMethod = paymentInfoVC.paymentMethod?.getName() else {
+            fatalError("Failed to get payment method")
+        }
+        
+        APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod) { (orderInfo, error) in
+            
+         
+            self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+            self.performSegue(withIdentifier: "orderConfirmation", sender: self)
+        }
     }
 }
 

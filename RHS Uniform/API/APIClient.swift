@@ -652,13 +652,6 @@ extension APIClient {
     
     // MARK: - Orders
     func createOrder(withOrderItems orderItems: [[String: String]], paymentMethod: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
-     
-        guard let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") else {
-            
-            let error = APIClientError.error("Failed to get Stripe customer id")
-            completion(nil, error)
-            return
-        }
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -669,6 +662,12 @@ extension APIClient {
             } else {
                 
                 if let token = idToken {
+                    
+                    guard let customer = SUCustomer.getObjectWithEmail(self.currentUser.email!), let customerId = customer.id?.uuidString else {
+                        let error = APIClientError.error("Failed to get customer")
+                        completion(nil, error)
+                        return
+                    }
                     
                     Alamofire.request(APIRouter.orderCreate(userIdToken: token, customerId: customerId, orderItems: orderItems, paymentMethod: paymentMethod)).responseJSON { response in
                         
