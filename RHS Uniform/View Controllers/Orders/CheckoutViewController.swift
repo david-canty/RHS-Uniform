@@ -37,21 +37,21 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
     
     var managedObjectContext: NSManagedObjectContext!
     var delegate: CheckoutDelegate?
-    let paymentContext: STPPaymentContext
+    //let paymentContext: STPPaymentContext
     var paymentInfoVC: PaymentInformationViewController!
     var postageMethod: PostageMethod = PostageMethod(carrier: .collectionOnly, cost: 0.0)
     var orderAmount = 0.0
     
-    required init?(coder aDecoder: NSCoder) {
-
-        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
-        paymentContext = STPPaymentContext(customerContext: customerContext)
-
-        super.init(coder: aDecoder)
-
-        paymentContext.delegate = self
-        paymentContext.hostViewController = self
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//
+//        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
+//        paymentContext = STPPaymentContext(customerContext: customerContext)
+//
+//        super.init(coder: aDecoder)
+//
+//        paymentContext.delegate = self
+//        paymentContext.hostViewController = self
+//    }
     
     override func viewDidLoad() {
         
@@ -332,7 +332,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
         case .bacs, .schoolBill:
             placeOrder()
         default:
-            completeCharge { (result) in
+            completeCharge { result in
                 
                 switch result {
                 case .success:
@@ -381,7 +381,10 @@ extension CheckoutViewController: PaymentInformationDelegate {
     
     func placeOrder() {
         
-        
+        APIClient.sharedInstance.createOrder(withOrderItems: <#T##[[String : String]]#>, paymentMethod: <#T##String#>) { (orderInfo, error) in
+            
+            
+        }
         
         paymentInfoVC.stopPlaceOrderActivityIndicator()
         self.performSegue(withIdentifier: "orderConfirmation", sender: self)
@@ -393,36 +396,36 @@ extension CheckoutViewController: PaymentMethodsDelegate {
     
 }
 
-extension CheckoutViewController: STPPaymentContextDelegate {
-
-    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
-
-        //paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
-        paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
-    }
-
-    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
-
-
-    }
-
-    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
-
-        switch status {
-        case .error:
-            //self.showError(error)
-            return
-        case .success:
-            //self.showReceipt()
-            return
-        case .userCancellation:
-            return
-        }
-    }
-
-    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
-
-
-    }
-
-}
+//extension CheckoutViewController: STPPaymentContextDelegate {
+//
+//    func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
+//
+//        //paymentInfoVC.paymentMethodDetailTextLabel.text = paymentContext.selectedPaymentMethod?.label
+//        paymentInfoVC.placeOrderButton.isEnabled = paymentContext.selectedPaymentMethod != nil
+//    }
+//
+//    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPErrorBlock) {
+//
+//
+//    }
+//
+//    func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
+//
+//        switch status {
+//        case .error:
+//            //self.showError(error)
+//            return
+//        case .success:
+//            //self.showReceipt()
+//            return
+//        case .userCancellation:
+//            return
+//        }
+//    }
+//
+//    func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
+//
+//
+//    }
+//
+//}

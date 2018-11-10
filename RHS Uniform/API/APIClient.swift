@@ -611,7 +611,7 @@ extension APIClient {
         }
     }
     
-    // MARK: - Customer
+    // MARK: - Customers
     
     func createCustomer(withFirebaseId firebaseId: String, email: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
@@ -638,6 +638,51 @@ extension APIClient {
                             } else {
                              
                                 let error = APIClientError.error("Failed to get customer data")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - Orders
+    func createOrder(withOrderItems orderItems: [[String: String]], paymentMethod: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+     
+        guard let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") else {
+            
+            let error = APIClientError.error("Failed to get Stripe customer id")
+            completion(nil, error)
+            return
+        }
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.orderCreate(userIdToken: token, customerId: customerId, orderItems: orderItems, paymentMethod: paymentMethod)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let order = response.result.value as? [String: Any] {
+                                
+                                completion(order, nil)
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get order data")
                                 completion(nil, error)
                             }
                             
