@@ -413,7 +413,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
             let orderItemsData = orderInfo["orderItems"] as? [[String: Any]] else {
             fatalError("Failed to get order data")
         }
-        
+
         guard let customerId = customerData["id"] as? String else {
             fatalError("Failed to customer id")
         }
@@ -460,13 +460,23 @@ extension CheckoutViewController: PaymentInformationDelegate {
                   fatalError("Failed to get order item info")
             }
             
+            guard let item = SUShopItem.getObjectWithId(UUID(uuidString: itemIdString)!) else {
+                fatalError("Failed to get item for order")
+            }
+            
+            guard let size = SUSize.getObjectWithId(UUID(uuidString: sizeIdString)!) else {
+                fatalError("Failed to get size for order")
+            }
+            
+            // Attributes
             let orderItem = SUOrderItem(context: managedObjectContext)
             orderItem.id = UUID(uuidString: idString)
             orderItem.quantity = Int32(quantity)
             
+            // Relationships
             orderItem.order = order
-            
-            
+            orderItem.item = item
+            orderItem.size = size
         }
         
         // Save context
