@@ -651,7 +651,7 @@ extension APIClient {
     }
     
     // MARK: - Orders
-    func createOrder(withOrderItems orderItems: [[String: String]], paymentMethod: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func createOrder(withOrderItems orderItems: [[String: Any]], paymentMethod: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             

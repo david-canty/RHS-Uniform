@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RHS Uniform/View Controllers/Sign In/SignInViewController.swift"
-            timestampString = "563575347.451122"
+            timestampString = "563642040.0410219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RHS Uniform/View Controllers/Your Account/ChangeEmailViewController.swift"
-            timestampString = "563575347.451591"
+            timestampString = "563636149.069013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
@@ -58,75 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RHS Uniform/View Controllers/Orders/CheckoutViewController.swift"
-            timestampString = "563575347.451805"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RHS Uniform/View Controllers/Orders/CheckoutViewController.swift"
-            timestampString = "563575347.452372"
+            timestampString = "563642040.041539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "396"
             endingLineNumber = "396"
             landmarkName = "placeOrder()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RHS Uniform/View Controllers/Orders/CheckoutViewController.swift"
-            timestampString = "563575347.452656"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
-            landmarkName = "placeOrder()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RHS_Uniform.CheckoutViewController.placeOrder() -&gt; ()"
-                  moduleName = "RHS Uniform"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/davidcanty/Dev/iOS/RHS%20Uniform/RHS%20Uniform/View%20Controllers/Orders/CheckoutViewController.swift"
-                  timestampString = "563575347.489398"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "393"
-                  endingLineNumber = "393"
-                  offsetFromSymbolStart = "941">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in RHS_Uniform.CheckoutViewController.placeOrder() -&gt; ()"
-                  moduleName = "RHS Uniform"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/davidcanty/Dev/iOS/RHS%20Uniform/RHS%20Uniform/View%20Controllers/Orders/CheckoutViewController.swift"
-                  timestampString = "563575347.492448"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "396"
-                  endingLineNumber = "396"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

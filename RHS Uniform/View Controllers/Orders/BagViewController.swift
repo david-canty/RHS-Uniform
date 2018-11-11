@@ -480,17 +480,17 @@ extension BagViewController: CheckoutDelegate {
         return getBagValue()
     }
     
-    func getOrderItems() -> [[String : String]] {
+    func getOrderItems() -> [[String : Any]] {
         
-        var orderItems: [[String: String]] = []
+        var orderItems: [[String: Any]] = []
         
         for bagItem in fetchedResultsController.fetchedObjects! {
             
-            var orderItem: [String: String] = [:]
+            var orderItem: [String: Any] = [:]
             
             orderItem["itemID"] = bagItem.item?.id?.uuidString
             orderItem["sizeID"] = bagItem.size?.id?.uuidString
-            orderItem["quantity"] = String(bagItem.quantity)
+            orderItem["quantity"] = bagItem.quantity
             
             orderItems.append(orderItem)
         }

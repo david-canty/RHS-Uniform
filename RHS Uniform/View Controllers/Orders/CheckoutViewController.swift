@@ -31,7 +31,7 @@ struct PostageMethod {
 
 protocol CheckoutDelegate {
     func getOrderAmount() -> Double
-    func getOrderItems() -> [[String: String]]
+    func getOrderItems() -> [[String: Any]]
 }
 
 class CheckoutViewController: UITableViewController, NSFetchedResultsControllerDelegate {

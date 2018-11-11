@@ -20,7 +20,7 @@ public enum APIRouter: URLRequestConvertible {
     case itemSizes(userIdToken: String)
     
     case customerCreate(userIdToken: String, firebaseUserId: String, email: String)
-    case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: String]], paymentMethod: String)
+    case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String)
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
     case stripeCustomerCreate(userIdToken: String, email: String)
@@ -236,6 +236,11 @@ public enum APIRouter: URLRequestConvertible {
         request.setValue(userIdToken, forHTTPHeaderField: "Authorization")
         request.timeoutInterval = TimeInterval(10 * 1000)
         
-        return try URLEncoding.default.encode(request, with: parameters)
+        switch self {
+        case .orderCreate:
+            return try JSONEncoding.default.encode(request, with: parameters)
+        default:
+            return try URLEncoding.default.encode(request, with: parameters)
+        }
     }
 }
