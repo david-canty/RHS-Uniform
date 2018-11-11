@@ -47,4 +47,8 @@ extension UIStoryboard {
     static func yourAccountViewController() -> YourAccountViewController? {
         return mainStoryboard().instantiateViewController(withIdentifier: "YourAccountViewController") as? YourAccountViewController
     }
+    
+    static func ordersViewController() -> OrdersViewController? {
+        return mainStoryboard().instantiateViewController(withIdentifier: "OrdersViewController") as? OrdersViewController
+    }
 }

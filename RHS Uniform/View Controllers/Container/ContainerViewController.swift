@@ -230,7 +230,18 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
     
     func showYourOrders() {
         
-        print("Your Orders tapped")
+        let viewControllers: [UIViewController] = embeddedNavigationController.viewControllers
+        for viewController in viewControllers {
+            if viewController is OrdersViewController {
+                embeddedNavigationController.popToViewController(viewController, animated: true)
+                return
+            }
+        }
+        
+        if let ordersVC = UIStoryboard.ordersViewController() {
+            
+            embeddedNavigationController.pushViewController(ordersVC, animated: true)
+        }
     }
     
     func showYourAccount() {

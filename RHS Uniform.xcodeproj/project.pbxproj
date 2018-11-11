@@ -16,6 +16,7 @@
 		1F1599042177863A001A70A5 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1598FC2177863A001A70A5 /* ItemViewController.swift */; };
 		1F1599052177863A001A70A5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1598FE2177863A001A70A5 /* SearchViewController.swift */; };
 		1F19B6CE2192DC9100D98F96 /* OrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */; };
+		1F19BCD72198B0A900D98F96 /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */; };
 		1F1A6992203F3520001660E0 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A6991203F3520001660E0 /* ViewController+Extension.swift */; };
 		1F1A69982042C266001660E0 /* BagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1A69972042C266001660E0 /* BagTableViewCell.swift */; };
 		1F1B9C4520627A2F00E07E6C /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B9C4420627A2F00E07E6C /* KeychainController.swift */; };
@@ -88,6 +89,7 @@
 		1F1598FC2177863A001A70A5 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		1F1598FE2177863A001A70A5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirmationViewController.swift; sourceTree = "<group>"; };
+		1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		1F1A6991203F3520001660E0 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		1F1A69972042C266001660E0 /* BagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagTableViewCell.swift; sourceTree = "<group>"; };
 		1F1B9C4420627A2F00E07E6C /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */,
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
 				1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */,
+				1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */,
 				1F28CDE9203B28CF0074C0D3 /* ModalSelectAnimatedTransitioningController.swift in Sources */,
 				1F9A549F2179EB210078492B /* CheckoutTableViewCell.swift in Sources */,
+				1F19BCD72198B0A900D98F96 /* OrdersViewController.swift in Sources */,
 				1F30AFEF204DBEBB00246E64 /* ItemFilterPresentationController.swift in Sources */,
 				1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */,
 				1F6D119E21669E5A00353E72 /* Image+Extension.swift in Sources */,
