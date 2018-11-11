@@ -392,9 +392,89 @@ extension CheckoutViewController: PaymentInformationDelegate {
         
         APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod) { (orderInfo, error) in
             
-         
-            self.paymentInfoVC.stopPlaceOrderActivityIndicator()
-            self.performSegue(withIdentifier: "orderConfirmation", sender: self)
+            if let error = error as NSError? {
+                fatalError("Error creating order: \(error), \(error.userInfo)")
+            }
+            
+            if let orderInfo = orderInfo {
+                
+                self.saveOrder(withOrderInfo: orderInfo)
+                self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+                self.performSegue(withIdentifier: "orderConfirmation", sender: self)
+            }
+        }
+    }
+    
+    func saveOrder(withOrderInfo orderInfo: [String: Any]) {
+        
+        // Get order data
+        guard let customerData = orderInfo["customer"] as? [String: Any],
+            let orderData = orderInfo["order"] as? [String: Any],
+            let orderItemsData = orderInfo["orderItems"] as? [[String: Any]] else {
+            fatalError("Failed to get order data")
+        }
+        
+        guard let customerId = customerData["id"] as? String else {
+            fatalError("Failed to customer id")
+        }
+        
+        guard let customer = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) else {
+            fatalError("Failed to get customer")
+        }
+        
+        guard let idString = orderData["id"] as? String,
+            let orderStatus = orderData["orderStatus"] as? String,
+            let paymentMethod = orderData["paymentMethod"] as? String,
+            let orderDateString = orderData["orderDate"] as? String,
+            let timestampString = orderData["timestamp"] as? String else {
+                fatalError("Failed to get order info")
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        
+        guard let orderDate = dateFormatter.date(from: orderDateString) else {
+            fatalError("Failed to convert order date due to mismatched format")
+        }
+        
+        guard let timestampDate = dateFormatter.date(from: timestampString) else {
+            fatalError("Failed to convert order timestamp due to mismatched format")
+        }
+        
+        // Create order
+        let order = SUOrder(context: managedObjectContext)
+        order.id = UUID(uuidString: idString)
+        order.orderStatus = orderStatus
+        order.paymentMethod = paymentMethod
+        order.orderDate = orderDate
+        order.timestamp = timestampDate
+        order.customer = customer
+        
+        // Create order items
+        for orderItemData in orderItemsData {
+            
+            guard let idString = orderItemData["id"] as? String,
+                let itemIdString = orderItemData["itemID"] as? String,
+                let sizeIdString = orderItemData["sizeID"] as? String,
+                let quantity = orderItemData["quantity"] as? Int else {
+                  fatalError("Failed to get order item info")
+            }
+            
+            let orderItem = SUOrderItem(context: managedObjectContext)
+            orderItem.id = UUID(uuidString: idString)
+            orderItem.quantity = Int32(quantity)
+            
+            orderItem.order = order
+            
+            
+        }
+        
+        // Save context
+        do {
+            try self.managedObjectContext.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 }
