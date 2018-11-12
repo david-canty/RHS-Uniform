@@ -66,7 +66,7 @@ extension YourAccountViewController {
         let headerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: tableViewFrameWidth, height: 38.0))
         headerView.backgroundColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 0.8)
         
-        let headerLabel = UILabel(frame: CGRect(x: 8.0, y: 0.0, width: tableViewFrameWidth - 16.0, height: 38.0))
+        let headerLabel = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: tableViewFrameWidth - 32.0, height: 38.0))
         headerLabel.backgroundColor = UIColor.clear
         headerLabel.textColor = UIColor.white
         headerLabel.font = UIFont(name: "Arial-BoldMT", size: 14.0)

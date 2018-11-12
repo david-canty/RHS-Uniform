@@ -236,7 +236,7 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
             viewWithTag.removeFromSuperview()
         }
         
-        let chevronImageView = UIImageView(frame: CGRect(x: tableViewWidth - 16, y: 15, width: 8, height: 8));
+        let chevronImageView = UIImageView(frame: CGRect(x: tableViewWidth - 32.0, y: 15.0, width: 8.0, height: 8.0));
         chevronImageView.image = UIImage(named: "img_down_chevron")
         chevronImageView.tag = 1000 + section
         headerView.addSubview(chevronImageView)
