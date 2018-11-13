@@ -240,6 +240,7 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
         
         if let ordersVC = UIStoryboard.ordersViewController() {
             
+            ordersVC.managedObjectContext = managedObjectContext
             embeddedNavigationController.pushViewController(ordersVC, animated: true)
         }
     }
