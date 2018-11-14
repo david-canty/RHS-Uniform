@@ -24,12 +24,13 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
     
-    let orderStatusFilterStrings = ["Ordered",
-                           "Awaiting Stock",
-                           "Ready for Collection",
-                           "Awaiting Payment",
-                           "Complete"]
-    var selectedOrderStatusFilter: String?
+    let orderStatusFilterStrings = ["All",
+                                    "Ordered",
+                                    "Awaiting Stock",
+                                    "Ready for Collection",
+                                    "Awaiting Payment",
+                                    "Complete"]
+    var selectedOrderStatusFilter = "All"
     
     @IBOutlet weak var tableHeaderLabel: UILabel!
     @IBOutlet weak var filterLabel: UILabel!

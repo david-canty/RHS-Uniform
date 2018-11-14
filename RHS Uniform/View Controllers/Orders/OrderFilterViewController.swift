@@ -18,12 +18,12 @@ protocol OrderFilterViewControllerDelegate {
 class OrderFilterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var managedObjectContext: NSManagedObjectContext!
-    var delegate: OrderFilterViewControllerDelegate?
+    var delegate: OrderFilterViewControllerDelegate!
     let notificationCenter = NotificationCenter.default
     
-    var filterStrings: [String]?
-    var selectedRow: Int?
-    var selectedFilterString: String?
+    var filterStrings = [String]()
+    var selectedRow = 0
+    var selectedFilterString = ""
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -31,9 +31,7 @@ class OrderFilterViewController: UIViewController, UITableViewDataSource, UITabl
         
         super.viewDidLoad()
         
-        filterStrings = delegate?.getFilterStrings()
-        selectedRow = 0
-        selectedFilterString = filterStrings[selectedRow]
+        filterStrings = delegate.getFilterStrings()
         
         notificationCenter.addObserver(self, selector: #selector(chromeTapped(_:)), name:NSNotification.Name(rawValue: "itemFilterChromeTapped"), object: nil)
     }
@@ -42,12 +40,15 @@ class OrderFilterViewController: UIViewController, UITableViewDataSource, UITabl
         
         super.viewWillAppear(animated)
         
-        
+        if filterStrings.count > 0 {
+            selectedRow = 0
+            selectedFilterString = filterStrings[selectedRow]
+        }
     }
     
     func updateDelegate() {
         
-        delegate?.orderFilterUpdatedWith(filter: selectedFilterString)
+        delegate.orderFilterUpdatedWith(filter: selectedFilterString)
     }
     
     func setupSelectedRows() {
