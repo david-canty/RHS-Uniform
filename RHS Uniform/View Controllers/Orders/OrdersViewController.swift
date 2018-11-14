@@ -20,11 +20,20 @@ enum OrderStatus: String {
 class OrdersViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext!
+    let notificationCenter = NotificationCenter.default
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
-    var orderStatusFilterStrings = [String]()
+    
+    let orderStatusFilterStrings = ["Ordered",
+                           "Awaiting Stock",
+                           "Ready for Collection",
+                           "Awaiting Payment",
+                           "Complete"]
+    var selectedOrderStatusFilter: String?
     
     @IBOutlet weak var tableHeaderLabel: UILabel!
+    @IBOutlet weak var filterLabel: UILabel!
+    @IBOutlet weak var filterButton: UIButton!
     
     override func viewDidLoad() {
         
@@ -32,6 +41,25 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
 
         dateFormatter.dateFormat = "d MMMM yyyy"
         numberFormatter.numberStyle = .currency
+        
+        notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
+    }
+    
+    @objc func apiUpdated(notification: NSNotification) {
+        
+        UIView.transition(with: tableView,
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            
+                            self.tableView.reloadData()
+                            self.setFilterLabelText()
+                            self.filterButton.isHidden = false
+        })
+    }
+    
+    deinit {
+        notificationCenter.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,6 +67,29 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         super.viewWillAppear(animated)
         
         tableHeaderLabel.text = "Your Orders"
+        
+        if fetchedResultsController.sections!.count == 0 {
+            
+            filterLabel.text = "No orders"
+            filterButton.isHidden = true
+            
+        } else {
+         
+            setFilterLabelText()
+        }
+    }
+    
+    func setFilterLabelText() {
+        
+        if fetchedResultsController.sections?.count == 0 {
+            
+            filterLabel.text = "No orders match filter criteria"
+            
+        } else {
+            
+            let selectedFilter = selectedOrderStatusFilter ?? "All"
+            filterLabel.text = "Showing: \(selectedFilter)"
+        }
     }
 
     // MARK: - Table View
@@ -64,9 +115,28 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
     
     func configureCell(_ cell: OrdersTableViewCell, withOrder order: SUOrder) {
         
-        cell.orderedLabel.text = "Ordered " + dateFormatter.string(from: order.orderDate!)
-        cell.statusLabel.text = order.orderStatus
+        // Ordered label
+        let orderedLabelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
+        let orderedLabelAttributedString = NSMutableAttributedString(string: "Ordered: ", attributes: orderedLabelAttributes as! [NSAttributedString.Key: NSObject])
         
+        var dateAttributedString: NSAttributedString
+        let dateAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
+        let formattedDate = dateFormatter.string(from: order.orderDate!)
+        dateAttributedString = NSMutableAttributedString(string: formattedDate, attributes: dateAttributes as! [NSAttributedString.Key: NSObject])
+        orderedLabelAttributedString.append(dateAttributedString)
+        cell.orderedLabel.attributedText = orderedLabelAttributedString
+        
+        // Status label
+        let statusLabelAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
+        let statusLabelAttributedString = NSMutableAttributedString(string: "Status: ", attributes: statusLabelAttributes as! [NSAttributedString.Key: NSObject])
+        
+        var statusAttributedString: NSAttributedString
+        let statusAttributes = [NSAttributedString.Key.font: UIFont(name: "Arial", size: 14.0), NSAttributedString.Key.foregroundColor: UIColor.black]
+        statusAttributedString = NSMutableAttributedString(string: order.orderStatus!, attributes: statusAttributes as! [NSAttributedString.Key: NSObject])
+        statusLabelAttributedString.append(statusAttributedString)
+        cell.statusLabel.attributedText = statusLabelAttributedString
+        
+        // Items count and total labels
         let (itemsCount, orderTotal) = getItemsCountAndTotal(for: order)
         cell.itemsLabel.text = String(itemsCount) + (itemsCount == 1 ? " item" : " items")
         let formattedTotal = numberFormatter.string(from: orderTotal as NSNumber)
@@ -151,6 +221,12 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         
     }
 
+    // MARK: - Button Actions
+    
+    @IBAction func filterButtonTapped(_ sender: UIButton) {
+        
+        
+    }
 }
 
 extension OrdersViewController {

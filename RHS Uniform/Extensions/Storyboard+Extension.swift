@@ -51,4 +51,8 @@ extension UIStoryboard {
     static func ordersViewController() -> OrdersViewController? {
         return mainStoryboard().instantiateViewController(withIdentifier: "OrdersViewController") as? OrdersViewController
     }
+    
+    static func orderFilterViewController() -> OrderFilterViewController? {
+        return mainStoryboard().instantiateViewController(withIdentifier: "OrderFilterViewController") as? OrderFilterViewController
+    }
 }
