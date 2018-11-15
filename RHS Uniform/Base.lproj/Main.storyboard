@@ -682,22 +682,40 @@
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="a6a-Fn-vwY" userLabel="Header View">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BUy-1w-bWt">
                                     <rect key="frame" x="16" y="12" width="88" height="20"/>
                                     <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="A5A-YY-ofk"/>
                                         <constraint firstAttribute="height" constant="20" id="spx-hi-bQJ"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
                                     <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGJ-Rq-UI2">
-                                    <rect key="frame" x="327" y="8" width="32" height="28"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddo-TF-wlk">
+                                    <rect key="frame" x="16" y="40" width="70" height="16"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="28" id="jvQ-Bj-fMe"/>
+                                        <constraint firstAttribute="height" constant="16" id="oPn-pg-4qE"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                    <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1l-fo-8Cu">
+                                    <rect key="frame" x="0.0" y="70" width="375" height="1"/>
+                                    <color key="backgroundColor" white="0.89629523099999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="1" id="L2W-DL-8BM"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="XSm-K4-ghl"/>
+                                    </constraints>
+                                </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGJ-Rq-UI2">
+                                    <rect key="frame" x="327" y="34" width="32" height="28"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="28" id="2Mn-Yk-InA"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
                                     <state key="normal" title="Filter"/>
@@ -705,42 +723,27 @@
                                         <action selector="filterButtonTapped:" destination="hCY-AH-ckl" eventType="touchUpInside" id="sIg-0P-Zkp"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddo-TF-wlk">
-                                    <rect key="frame" x="16" y="40" width="70" height="16"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="16" id="29b-Ak-kms"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1l-fo-8Cu">
-                                    <rect key="frame" x="0.0" y="63" width="375" height="1"/>
-                                    <color key="backgroundColor" white="0.89629523099999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="L2W-DL-8BM"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="XSm-K4-ghl"/>
-                                    </constraints>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="iGJ-Rq-UI2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BUy-1w-bWt" secondAttribute="trailing" constant="8" symbolic="YES" id="7TZ-3p-9tK"/>
-                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ddo-TF-wlk" secondAttribute="trailing" constant="20" symbolic="YES" id="BAl-0K-pKf"/>
-                                <constraint firstAttribute="trailing" secondItem="iGJ-Rq-UI2" secondAttribute="trailing" constant="16" id="DLM-Pq-cTR"/>
-                                <constraint firstItem="Ddo-TF-wlk" firstAttribute="leading" secondItem="a6a-Fn-vwY" secondAttribute="leading" constant="16" id="GL4-Fk-iIH"/>
+                                <constraint firstItem="BUy-1w-bWt" firstAttribute="leading" secondItem="a6a-Fn-vwY" secondAttribute="leading" constant="16" id="1EO-1n-Ueh"/>
                                 <constraint firstItem="BUy-1w-bWt" firstAttribute="leading" secondItem="a6a-Fn-vwY" secondAttribute="leading" constant="16" id="HJu-hz-Uqr"/>
                                 <constraint firstAttribute="trailing" secondItem="k1l-fo-8Cu" secondAttribute="trailing" id="IHl-2y-NaQ"/>
+                                <constraint firstItem="k1l-fo-8Cu" firstAttribute="top" secondItem="iGJ-Rq-UI2" secondAttribute="bottom" constant="8" id="K5N-4d-ql2"/>
+                                <constraint firstItem="iGJ-Rq-UI2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ddo-TF-wlk" secondAttribute="trailing" constant="8" symbolic="YES" id="OWU-Rf-TUK"/>
+                                <constraint firstItem="BUy-1w-bWt" firstAttribute="top" secondItem="a6a-Fn-vwY" secondAttribute="top" constant="12" id="RL9-Kz-1dD"/>
+                                <constraint firstItem="Ddo-TF-wlk" firstAttribute="leading" secondItem="a6a-Fn-vwY" secondAttribute="leading" constant="16" id="WBp-nw-Vfg"/>
                                 <constraint firstItem="BUy-1w-bWt" firstAttribute="top" secondItem="a6a-Fn-vwY" secondAttribute="top" constant="12" id="WZ3-0c-Hxf"/>
                                 <constraint firstAttribute="bottom" secondItem="k1l-fo-8Cu" secondAttribute="bottom" id="iqu-JJ-MVR"/>
-                                <constraint firstItem="iGJ-Rq-UI2" firstAttribute="top" secondItem="a6a-Fn-vwY" secondAttribute="top" constant="8" id="ke7-KI-Ppu"/>
+                                <constraint firstItem="Ddo-TF-wlk" firstAttribute="top" secondItem="BUy-1w-bWt" secondAttribute="bottom" constant="8" id="lDx-4v-zqR"/>
                                 <constraint firstItem="k1l-fo-8Cu" firstAttribute="leading" secondItem="a6a-Fn-vwY" secondAttribute="leading" id="oF9-aG-U7s"/>
-                                <constraint firstAttribute="bottom" secondItem="Ddo-TF-wlk" secondAttribute="bottom" constant="8" id="qZ5-Xi-L0O"/>
-                                <constraint firstItem="Ddo-TF-wlk" firstAttribute="top" secondItem="BUy-1w-bWt" secondAttribute="bottom" constant="8" id="zvc-9Q-0it"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BUy-1w-bWt" secondAttribute="trailing" constant="20" symbolic="YES" id="oal-Po-IAE"/>
+                                <constraint firstAttribute="trailing" secondItem="iGJ-Rq-UI2" secondAttribute="trailing" constant="16" id="wsW-UJ-g1O"/>
                             </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ordersTableViewCell" rowHeight="56" id="SKd-Lb-eZM" customClass="OrdersTableViewCell" customModule="RHS_Uniform" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="375" height="56"/>
+                                <rect key="frame" x="0.0" y="99" width="375" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SKd-Lb-eZM" id="mPw-Xa-CkN">
                                     <rect key="frame" x="0.0" y="0.0" width="341" height="56"/>
@@ -829,7 +832,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IWm-3P-tx4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3878" y="1202"/>
+            <point key="canvasLocation" x="3877.5999999999999" y="1201.3493253373315"/>
         </scene>
         <!--Bag View Controller-->
         <scene sceneID="yls-cd-4Mq">

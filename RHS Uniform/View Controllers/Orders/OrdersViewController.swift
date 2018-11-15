@@ -83,7 +83,7 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
     
     func setFilterLabelText() {
         
-        if fetchedResultsController.sections?.count == 0 {
+        if fetchedResultsController.fetchedObjects?.count == 0 {
             
             filterLabel.text = "No orders match filter criteria"
             
@@ -269,7 +269,9 @@ extension OrdersViewController: OrderFilterViewControllerDelegate {
     
     func orderFilterUpdatedWith(filter: String) {
         
-        
+        selectedOrderStatusFilter = filter
+        tableView.reloadData()
+        setFilterLabelText()
     }
     
 }
