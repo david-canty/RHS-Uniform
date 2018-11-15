@@ -79,7 +79,7 @@ class ItemFilterPresentationController: UIPresentationController {
         let containerViewBounds = containerView.bounds
         
         let presentedViewXOrigin = containerViewBounds.width * 0.3
-        let presentedViewYOrigin = filterButtonConvertedFrame.origin.y + filterButtonConvertedFrame.size.height + 8.0
+        let presentedViewYOrigin = filterButtonConvertedFrame.origin.y + filterButtonConvertedFrame.size.height
         
         let frameWidth: CGFloat = containerViewBounds.width - presentedViewXOrigin
         let frameHeight: CGFloat = containerViewBounds.height - presentedViewYOrigin

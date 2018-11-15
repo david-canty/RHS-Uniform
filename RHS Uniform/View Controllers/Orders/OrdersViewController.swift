@@ -85,7 +85,7 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         
         if fetchedResultsController.fetchedObjects?.count == 0 {
             
-            filterLabel.text = "No orders match filter criteria"
+            filterLabel.text = "No orders: \(selectedOrderStatusFilter)"
             
         } else {
             
