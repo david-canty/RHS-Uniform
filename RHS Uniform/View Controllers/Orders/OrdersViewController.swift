@@ -20,6 +20,7 @@ enum OrderStatus: String {
 class OrdersViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext!
+    let orderFilterTransitioningDelegate = OrderFilterTransitioningDelegate()
     let notificationCenter = NotificationCenter.default
     let dateFormatter = DateFormatter()
     let numberFormatter = NumberFormatter()
@@ -88,8 +89,7 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
             
         } else {
             
-            let selectedFilter = selectedOrderStatusFilter ?? "All"
-            filterLabel.text = "Showing: \(selectedFilter)"
+            filterLabel.text = "Showing: \(selectedOrderStatusFilter)"
         }
     }
 
@@ -154,9 +154,9 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         fetchRequest.sortDescriptors = [orderDateSortDescriptor]
         
         var orderStatusPredicate: NSPredicate?
-        if !orderStatusFilterStrings.isEmpty {
+        if selectedOrderStatusFilter != "All" {
             
-            orderStatusPredicate = NSPredicate(format: "orderStatus IN %@", orderStatusFilterStrings)
+            orderStatusPredicate = NSPredicate(format: "orderStatus == %@", selectedOrderStatusFilter)
         }
         fetchRequest.predicate = orderStatusPredicate
         
@@ -226,7 +226,16 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
     
     @IBAction func filterButtonTapped(_ sender: UIButton) {
         
-        
+        if let orderFilterVC = UIStoryboard.orderFilterViewController() {
+            
+            orderFilterVC.transitioningDelegate = orderFilterTransitioningDelegate
+            orderFilterVC.modalPresentationStyle = .custom
+            orderFilterVC.delegate = self
+            
+            orderFilterVC.selectedFilterString = selectedOrderStatusFilter
+            
+            present(orderFilterVC, animated: true, completion: nil)
+        }
     }
 }
 
@@ -249,4 +258,18 @@ extension OrdersViewController {
         
         return (itemsCount, orderTotal)
     }
+}
+
+extension OrdersViewController: OrderFilterViewControllerDelegate {
+    
+    func getFilterStrings() -> [String] {
+        
+        return orderStatusFilterStrings
+    }
+    
+    func orderFilterUpdatedWith(filter: String) {
+        
+        
+    }
+    
 }

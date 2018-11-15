@@ -1,14 +1,14 @@
 //
-//  ItemFilterAnimatedTransitioningController.swift
+//  OrderFilterAnimatedTransitioningController.swift
 //  RHS Uniform
 //
-//  Created by David Canty on 05/03/2018.
+//  Created by David Canty on 15/11/2018.
 //  Copyright © 2018 ddijitall. All rights reserved.
 //
 
 import UIKit
 
-class ItemFilterAnimatedTransitioningController: NSObject, UIViewControllerAnimatedTransitioning {
+class OrderFilterAnimatedTransitioningController: NSObject, UIViewControllerAnimatedTransitioning {
     
     var isPresenting: Bool
     let duration: TimeInterval = 0.1

@@ -69,6 +69,9 @@
 		1FBCDD162198C38E00958511 /* OrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD152198C38E00958511 /* OrdersTableViewCell.swift */; };
 		1FBCDD18219C8E4000958511 /* OrderFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD17219C8E4000958511 /* OrderFilterViewController.swift */; };
 		1FBCDD1A219C9BDD00958511 /* OrderFilterRadioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD19219C9BDD00958511 /* OrderFilterRadioTableViewCell.swift */; };
+		1FBCDD1D219DDD9200958511 /* OrderFilterTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD1C219DDD9200958511 /* OrderFilterTransitioningDelegate.swift */; };
+		1FBCDD1F219DDDA200958511 /* OrderFilterPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD1E219DDDA200958511 /* OrderFilterPresentationController.swift */; };
+		1FBCDD21219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD20219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift */; };
 		1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC419B820039DC100E98754 /* SideMenuViewController.swift */; };
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
@@ -148,6 +151,9 @@
 		1FBCDD152198C38E00958511 /* OrdersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersTableViewCell.swift; sourceTree = "<group>"; };
 		1FBCDD17219C8E4000958511 /* OrderFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterViewController.swift; sourceTree = "<group>"; };
 		1FBCDD19219C9BDD00958511 /* OrderFilterRadioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterRadioTableViewCell.swift; sourceTree = "<group>"; };
+		1FBCDD1C219DDD9200958511 /* OrderFilterTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterTransitioningDelegate.swift; sourceTree = "<group>"; };
+		1FBCDD1E219DDDA200958511 /* OrderFilterPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterPresentationController.swift; sourceTree = "<group>"; };
+		1FBCDD20219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterAnimatedTransitioningController.swift; sourceTree = "<group>"; };
 		1FC419B820039DC100E98754 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1FC4D3262093716200C7744F /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
@@ -194,7 +200,7 @@
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
 				1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */,
 				1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */,
-				1FBCDD17219C8E4000958511 /* OrderFilterViewController.swift */,
+				1FBCDD1B219DD1A800958511 /* Order Filter */,
 			);
 			path = Orders;
 			sourceTree = "<group>";
@@ -386,6 +392,17 @@
 			path = "Table Cells";
 			sourceTree = "<group>";
 		};
+		1FBCDD1B219DD1A800958511 /* Order Filter */ = {
+			isa = PBXGroup;
+			children = (
+				1FBCDD17219C8E4000958511 /* OrderFilterViewController.swift */,
+				1FBCDD1C219DDD9200958511 /* OrderFilterTransitioningDelegate.swift */,
+				1FBCDD1E219DDDA200958511 /* OrderFilterPresentationController.swift */,
+				1FBCDD20219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift */,
+			);
+			path = "Order Filter";
+			sourceTree = "<group>";
+		};
 		1FC419BA2003F23500E98754 /* Side Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -568,7 +585,9 @@
 				1F2A4CCE20483FB900D12827 /* OrderItem+Extension.swift in Sources */,
 				1F6D11A221669E8500353E72 /* Order+Extension.swift in Sources */,
 				1F1599002177863A001A70A5 /* SettingsViewController.swift in Sources */,
+				1FBCDD1F219DDDA200958511 /* OrderFilterPresentationController.swift in Sources */,
 				1F1B9C472062B42500E07E6C /* BiometricAuth.swift in Sources */,
+				1FBCDD1D219DDD9200958511 /* OrderFilterTransitioningDelegate.swift in Sources */,
 				1F30AFF520501A1600246E64 /* ItemFilterRadioTableViewCell.swift in Sources */,
 				1F1599042177863A001A70A5 /* ItemViewController.swift in Sources */,
 				1F2A0A60205E73B60063F9AD /* ChangeNameViewController.swift in Sources */,
@@ -581,6 +600,7 @@
 				1F2A0A5D205D83BD0063F9AD /* KeychainSecuredItem.swift in Sources */,
 				1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */,
 				1FEDC6E6205C5EF7002D4125 /* YourAccountViewController.swift in Sources */,
+				1FBCDD21219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift in Sources */,
 				1F30AFE8204DAD9200246E64 /* Storyboard+Extension.swift in Sources */,
 				1F2A0A5B205D7DDB0063F9AD /* KeychainConfiguration.swift in Sources */,
 				1F9A549D2179EA1E0078492B /* CheckoutViewController.swift in Sources */,
