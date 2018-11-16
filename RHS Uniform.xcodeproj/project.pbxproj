@@ -72,6 +72,8 @@
 		1FBCDD1D219DDD9200958511 /* OrderFilterTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD1C219DDD9200958511 /* OrderFilterTransitioningDelegate.swift */; };
 		1FBCDD1F219DDDA200958511 /* OrderFilterPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD1E219DDDA200958511 /* OrderFilterPresentationController.swift */; };
 		1FBCDD21219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD20219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift */; };
+		1FBCDD23219F2D8100958511 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD22219F2D8100958511 /* OrderDetailViewController.swift */; };
+		1FBCDD25219F4C2500958511 /* OrderDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBCDD24219F4C2500958511 /* OrderDetailTableViewCell.swift */; };
 		1FC419B920039DC100E98754 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC419B820039DC100E98754 /* SideMenuViewController.swift */; };
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
@@ -154,6 +156,8 @@
 		1FBCDD1C219DDD9200958511 /* OrderFilterTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterTransitioningDelegate.swift; sourceTree = "<group>"; };
 		1FBCDD1E219DDDA200958511 /* OrderFilterPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterPresentationController.swift; sourceTree = "<group>"; };
 		1FBCDD20219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFilterAnimatedTransitioningController.swift; sourceTree = "<group>"; };
+		1FBCDD22219F2D8100958511 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
+		1FBCDD24219F4C2500958511 /* OrderDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailTableViewCell.swift; sourceTree = "<group>"; };
 		1FC419B820039DC100E98754 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1FC4D3262093716200C7744F /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
 				1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */,
 				1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */,
+				1FBCDD22219F2D8100958511 /* OrderDetailViewController.swift */,
 				1FBCDD1B219DD1A800958511 /* Order Filter */,
 			);
 			path = Orders;
@@ -388,6 +393,7 @@
 				1F31A720218DBC98003E4B47 /* StripeSourceTableViewCell.swift */,
 				1FBCDD152198C38E00958511 /* OrdersTableViewCell.swift */,
 				1FBCDD19219C9BDD00958511 /* OrderFilterRadioTableViewCell.swift */,
+				1FBCDD24219F4C2500958511 /* OrderDetailTableViewCell.swift */,
 			);
 			path = "Table Cells";
 			sourceTree = "<group>";
@@ -594,6 +600,7 @@
 				1FBCDD18219C8E4000958511 /* OrderFilterViewController.swift in Sources */,
 				1F2CBC662180CB8F0090D76E /* StripeClient.swift in Sources */,
 				1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */,
+				1FBCDD25219F4C2500958511 /* OrderDetailTableViewCell.swift in Sources */,
 				1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */,
 				1F1599022177863A001A70A5 /* ContainerViewController.swift in Sources */,
 				1F259A591F750473005E4681 /* RHS_Uniform.xcdatamodeld in Sources */,
@@ -607,6 +614,7 @@
 				1F28CDE7203B28B10074C0D3 /* ModalSelectPresentationController.swift in Sources */,
 				1F9A5A65217D05C20078492B /* PaymentMethodsViewController.swift in Sources */,
 				1F259A511F750473005E4681 /* AppDelegate.swift in Sources */,
+				1FBCDD23219F2D8100958511 /* OrderDetailViewController.swift in Sources */,
 				1F202AC8205E748C000C5290 /* ChangeEmailViewController.swift in Sources */,
 				1F9A54AF217BB4F10078492B /* PaymentInformationViewController.swift in Sources */,
 				1F9A54A9217B9D700078492B /* OrderSummaryViewController.swift in Sources */,
