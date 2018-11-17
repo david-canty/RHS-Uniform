@@ -219,7 +219,11 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        let orderDetailVC = segue.destination as! OrderDetailViewController
         
+        let order = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!)
+        orderDetailVC.order = order
+        orderDetailVC.orderItems = order.orderItems?.allObjects as? [SUOrderItem]
     }
 
     // MARK: - Button Actions

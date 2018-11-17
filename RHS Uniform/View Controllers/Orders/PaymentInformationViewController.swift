@@ -18,6 +18,7 @@ class PaymentInformationViewController: UITableViewController {
 
     var delegate: PaymentInformationDelegate?
     var paymentMethod: PaymentMethod?
+    var cardLast4: String?
     
     @IBOutlet weak var paymentMethodDetailTextLabel: UILabel!
     @IBOutlet weak var paymentMethodActivityIndicator: UIActivityIndicatorView!
@@ -80,9 +81,9 @@ class PaymentInformationViewController: UITableViewController {
                         if let card = cards.first(where: { $0["id"] as! String == cardId }) {
                             
                             let brand = card["brand"] as! String
-                            let last4 = card["last4"] as! String
+                            self.cardLast4 = card["last4"] as? String
                             
-                            let cardDetails = brand + " ****" + last4
+                            let cardDetails = brand + " ****" + self.cardLast4!
                             
                             completion(cardDetails)
                             

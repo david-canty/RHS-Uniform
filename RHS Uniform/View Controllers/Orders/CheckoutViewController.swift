@@ -386,8 +386,15 @@ extension CheckoutViewController: PaymentInformationDelegate {
             fatalError("Failed to get order items")
         }
         
-        guard let paymentMethod = paymentInfoVC.paymentMethod?.getName() else {
+        guard var paymentMethod = paymentInfoVC.paymentMethod?.getDescription() else {
             fatalError("Failed to get payment method")
+        }
+        
+        if case .card? = paymentInfoVC.paymentMethod {
+         
+            if let cardLast4 = paymentInfoVC.cardLast4 {
+                paymentMethod += " ending " + cardLast4
+            }
         }
         
         APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod) { (orderInfo, error) in

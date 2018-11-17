@@ -10,6 +10,11 @@ import UIKit
 
 class OrderDetailViewController: UITableViewController {
 
+    var order: SUOrder!
+    var orderItems: [SUOrderItem]!
+    
+    let numberFormatter = NumberFormatter()
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemsLabel: UILabel!
@@ -19,80 +24,85 @@ class OrderDetailViewController: UITableViewController {
     @IBOutlet weak var paymentTotal: UILabel!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        numberFormatter.numberStyle = .currency
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        displayOrderDetails()
+        displayPaymentInformation()
+    }
+    
+    func displayOrderDetails() {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
+        dateLabel.text = dateFormatter.string(from: order.orderDate!)
+        
+        statusLabel.text = order.orderStatus
+        itemsLabel.text = String(getNumItems())
+        
+        let formattedPostage = numberFormatter.string(from: 0.0 as NSNumber)
+        postageLabel.text = formattedPostage
+        
+        orderDetailsTotal.text = numberFormatter.string(from: getOrderTotal() as NSNumber)
+    }
+    
+    func getNumItems() -> Int {
+        
+        return orderItems.reduce(0) { return $0 + Int($1.quantity) }
+    }
+    
+    func getOrderTotal() -> Double {
+        
+        return orderItems.reduce(0.0, { (result, orderItem) -> Double in
+            
+            return result + ((orderItem.item!.itemPrice) * Double(orderItem.quantity))
+        })
+    }
+    
+    func displayPaymentInformation() {
+        
+        paymentMethodLabel.text = order.paymentMethod
+        paymentTotal.text = numberFormatter.string(from: getOrderTotal() as NSNumber)
     }
 
-    // MARK: - Table view data source
+    // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return orderItems.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "orderDetailTableViewCell", for: indexPath) as! OrderDetailTableViewCell
 
-        // Configure the cell...
+        let orderItem = orderItems[indexPath.row]
+        
+        cell.itemNameLabel.text = orderItem.item!.itemName
+        cell.itemSizeLabel.text = "Size: " + orderItem.size!.sizeName!
 
         return cell
     }
-    */
+    
+    // MARK: - Button Actions
+    
+    
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
+    // MARK: - Segues
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+
+        
     }
-    */
 
 }
