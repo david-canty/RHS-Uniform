@@ -10,11 +10,13 @@ import UIKit
 
 class OrderDetailTableViewCell: UITableViewCell {
 
+    
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
         
-        // Initialization code
+        
         
     }
 
@@ -22,7 +24,6 @@ class OrderDetailTableViewCell: UITableViewCell {
         
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
         
     }
 
