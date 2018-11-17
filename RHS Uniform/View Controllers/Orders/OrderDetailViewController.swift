@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class OrderDetailViewController: UITableViewController {
 
@@ -90,13 +91,62 @@ class OrderDetailViewController: UITableViewController {
         
         cell.itemNameLabel.text = orderItem.item!.itemName
         cell.itemSizeLabel.text = "Size: " + orderItem.size!.sizeName!
-
+        cell.itemQuantityLabel.text = "Qty: " + String(orderItem.quantity)
+        
+        let orderItemTotal = orderItem.item!.itemPrice * Double(orderItem.quantity)
+        cell.itemPriceLabel.text = numberFormatter.string(from: orderItemTotal as NSNumber)
+        
+        // Image
+        let itemImages = orderItem.item!.images as! Set<SUImage>
+        let firstImage = (itemImages.first { $0.sortOrder == 0 })
+        let imageFilename = firstImage?.filename ?? "dummy.png"
+        
+        let imagesUrlString = AppConfig.sharedInstance.s3BucketUrlString()
+        
+        let imageUrl = URL(string: "\(imagesUrlString)/\(imageFilename)")!
+        let placeholderImage = UIImage(named: "placeholder_64x64")!
+        
+        let filter = AspectScaledToFitSizeFilter(size: cell.itemImageView.frame.size)
+        
+        cell.itemImageView.af_setImage(withURL: imageUrl, placeholderImage: placeholderImage, filter: filter)
+        
+        // Cancel button
+        cell.cancelButton.addTarget(self, action: #selector(cellCancelButtonTapped(_:)), for: .touchUpInside)
+        cell.cancelButton.tag = indexPath.row
+        
+        // Buy Again button
+        cell.buyAgainButton.addTarget(self, action: #selector(cellBuyAgainButtonTapped(_:)), for: .touchUpInside)
+        cell.buyAgainButton.tag = indexPath.row
+        
+        // Return button
+        cell.returnButton.addTarget(self, action: #selector(cellReturnButtonTapped(_:)), for: .touchUpInside)
+        cell.returnButton.tag = indexPath.row
+        
         return cell
     }
     
     // MARK: - Button Actions
     
+    @objc func cellCancelButtonTapped(_ sender: UIButton) {
+        
+        let rowForTappedButton = sender.tag
+        
+        print("Order item Cancel button tapped at row \(rowForTappedButton)")
+    }
     
+    @objc func cellBuyAgainButtonTapped(_ sender: UIButton) {
+        
+        let rowForTappedButton = sender.tag
+        
+        print("Order item Buy Again button tapped at row \(rowForTappedButton)")
+    }
+    
+    @objc func cellReturnButtonTapped(_ sender: UIButton) {
+        
+        let rowForTappedButton = sender.tag
+        
+        print("Order item Return button tapped at row \(rowForTappedButton)")
+    }
 
     // MARK: - Segues
 
