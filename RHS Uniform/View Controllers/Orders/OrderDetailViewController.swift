@@ -10,6 +10,14 @@ import UIKit
 
 class OrderDetailViewController: UITableViewController {
 
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var itemsLabel: UILabel!
+    @IBOutlet weak var postageLabel: UILabel!
+    @IBOutlet weak var orderDetailsTotal: UILabel!
+    @IBOutlet weak var paymentMethodLabel: UILabel!
+    @IBOutlet weak var paymentTotal: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

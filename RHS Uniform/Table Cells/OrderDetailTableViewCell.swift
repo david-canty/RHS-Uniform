@@ -10,7 +10,15 @@ import UIKit
 
 class OrderDetailTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var itemSizeLabel: UILabel!
+    @IBOutlet weak var itemQuantityLabel: UILabel!
+    @IBOutlet weak var itemPriceLabel: UILabel!
     
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var buyAgainButton: UIButton!
+    @IBOutlet weak var returnButton: UIButton!
     
     override func awakeFromNib() {
         
