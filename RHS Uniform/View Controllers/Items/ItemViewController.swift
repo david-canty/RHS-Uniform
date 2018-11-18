@@ -40,6 +40,7 @@ class ItemViewController: UIViewController {
     
     var availableSizes = [[String: Any]]()
     var selectedSize: [String: Any]!
+    var preSelectedSizeId: UUID?
     
     var stock: Int32 = 0
     
@@ -65,11 +66,25 @@ class ItemViewController: UIViewController {
         super.viewDidLoad()
         
         getSizes()
-        selectedSize = availableSizes[0]
+        setSelectedSize()
         
         selectedQuantity = availableQuantities[0]
         
         notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
+    }
+    
+    func setSelectedSize() {
+        
+        guard let sizeId = preSelectedSizeId else {
+            return selectedSize = availableSizes[0]
+        }
+        
+        let availableSizeIds = availableSizes.map { $0["itemId"] as! UUID }
+        if let preSelectedSizeIndex = availableSizeIds.firstIndex(of: sizeId) {
+            selectedSize = availableSizes[preSelectedSizeIndex]
+        } else {
+            selectedSize = availableSizes[0]
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

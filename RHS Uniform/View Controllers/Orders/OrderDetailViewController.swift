@@ -165,8 +165,7 @@ class OrderDetailViewController: UITableViewController {
             
             let orderItem = orderItems[rowForTappedBuyAgainButton!]
             itemViewController.item = orderItem.item
-            
-            // set size
+            itemViewController.preSelectedSizeId = orderItem.size!.id!
         }
     }
 
