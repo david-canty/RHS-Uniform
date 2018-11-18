@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import CoreData
 import AlamofireImage
 
 class OrderDetailViewController: UITableViewController {
 
+    var managedObjectContext: NSManagedObjectContext!
     var order: SUOrder!
     var orderItems: [SUOrderItem]!
     
     let numberFormatter = NumberFormatter()
+    
+    var rowForTappedCancelButton: Int?
+    var rowForTappedBuyAgainButton: Int?
+    var rowForTappedReturnButton: Int?
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
@@ -129,30 +135,39 @@ class OrderDetailViewController: UITableViewController {
     
     @objc func cellCancelButtonTapped(_ sender: UIButton) {
         
-        let rowForTappedButton = sender.tag
+        rowForTappedCancelButton = sender.tag
         
-        print("Order item Cancel button tapped at row \(rowForTappedButton)")
+        print("Order item Cancel button tapped at row \(String(describing: rowForTappedCancelButton))")
     }
     
     @objc func cellBuyAgainButtonTapped(_ sender: UIButton) {
         
-        let rowForTappedButton = sender.tag
-        
-        print("Order item Buy Again button tapped at row \(rowForTappedButton)")
+        rowForTappedBuyAgainButton = sender.tag
+        performSegue(withIdentifier: "buyAgain", sender: self)
     }
     
     @objc func cellReturnButtonTapped(_ sender: UIButton) {
         
-        let rowForTappedButton = sender.tag
+        rowForTappedReturnButton = sender.tag
         
-        print("Order item Return button tapped at row \(rowForTappedButton)")
+        print("Order item Return button tapped at row \(String(describing: rowForTappedReturnButton))")
     }
 
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        
+        if segue.identifier == "buyAgain" {
+            
+            let itemViewController = segue.destination as! ItemViewController
+            
+            itemViewController.managedObjectContext = managedObjectContext
+            
+            let orderItem = orderItems[rowForTappedBuyAgainButton!]
+            itemViewController.item = orderItem.item
+            
+            // set size
+        }
     }
 
 }

@@ -1170,6 +1170,7 @@
                         <outlet property="paymentTotal" destination="AjV-NS-2sk" id="SBL-Sa-YrN"/>
                         <outlet property="postageLabel" destination="Hs5-6d-kP5" id="kkj-IJ-Vxg"/>
                         <outlet property="statusLabel" destination="4m9-z8-KIW" id="uMW-lg-ZdE"/>
+                        <segue destination="j08-ne-djc" kind="show" identifier="buyAgain" id="sgj-9d-zrx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auy-PT-t2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3239,6 +3240,6 @@
         <image name="placeholder_64x64" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hgQ-Vd-nNx"/>
+        <segue reference="sgj-9d-zrx"/>
     </inferredMetricsTieBreakers>
 </document>

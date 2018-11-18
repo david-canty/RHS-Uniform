@@ -221,6 +221,8 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let orderDetailVC = segue.destination as! OrderDetailViewController
         
+        orderDetailVC.managedObjectContext = managedObjectContext
+        
         let order = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!)
         orderDetailVC.order = order
         orderDetailVC.orderItems = order.orderItems?.allObjects as? [SUOrderItem]
