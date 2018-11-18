@@ -438,12 +438,12 @@ extension CheckoutViewController: PaymentInformationDelegate {
         }
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
         guard let orderDate = dateFormatter.date(from: orderDateString) else {
             fatalError("Failed to convert order date due to mismatched format")
         }
-        
+
         guard let timestampDate = dateFormatter.date(from: timestampString) else {
             fatalError("Failed to convert order timestamp due to mismatched format")
         }

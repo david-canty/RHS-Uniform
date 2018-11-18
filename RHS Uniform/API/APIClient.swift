@@ -28,7 +28,7 @@ final class APIClient {
         context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         currentUser = Auth.auth().currentUser
         dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     }
     
     // MARK: - Fetch data

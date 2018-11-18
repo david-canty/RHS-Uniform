@@ -339,7 +339,7 @@ class SignInViewController: UIViewController {
                                 let timestamp = customerDict["timestamp"] as! String
                                 
                                 let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                                 guard let timestampDate = dateFormatter.date(from: timestamp) else {
                                     fatalError("Failed to convert date due to mismatched format")
                                 }
