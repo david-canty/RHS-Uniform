@@ -237,7 +237,7 @@ public enum APIRouter: URLRequestConvertible {
         request.timeoutInterval = TimeInterval(10 * 1000)
         
         switch self {
-        case .orderCreate:
+        case .orderCreate, .customerCreate:
             return try JSONEncoding.default.encode(request, with: parameters)
         default:
             return try URLEncoding.default.encode(request, with: parameters)

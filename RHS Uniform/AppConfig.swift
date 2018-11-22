@@ -12,7 +12,7 @@ final class AppConfig {
     
     static let sharedInstance = AppConfig()
     
-    private let isDevMode = true
+    private let isDevMode = false
     
     private let baseDevUrlStr = "http://localhost:8080/api"
     private let baseUrlStr = "https://su-api.v2.vapor.cloud/api"
