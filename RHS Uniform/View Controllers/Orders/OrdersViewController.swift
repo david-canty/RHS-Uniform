@@ -15,6 +15,7 @@ enum OrderStatus: String {
     case readyForCollection = "Ready for Collection"
     case awaitingPayment = "Awaiting Payment"
     case complete = "Complete"
+    case cancelled = "Cancelled"
 }
 
 class OrdersViewController: UITableViewController, NSFetchedResultsControllerDelegate {
