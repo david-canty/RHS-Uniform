@@ -64,22 +64,86 @@ final class APIClient {
                         self.deleteCategoriesWith(categoriesJSON: categoriesJSON)
                         self.deleteSchoolsWith(schoolsJSON: schoolsJSON)
                         
-                        // Save context
-                        do {
-                            try self.context.save()
-                        } catch {
-                            let nserror = error as NSError
-                            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                        self.fetchOrders { ordersJSON, error in
+                            
+                            if error != nil {
+                                
+                                print("Error fetching orders JSON: \(error!.localizedDescription)")
+                                
+                            } else {
+                                
+                                if let ordersJSON = ordersJSON {
+                                
+                                    self.createOrdersWith(ordersJSON: ordersJSON)
+                                    self.deleteOrders(with: ordersJSON)
+                            
+                                    self.saveContextAndPostNotification()
+                                }
+                            }
                         }
-                        
-                        // Post notification
-                        let notificationCenter = NotificationCenter.default
-                        let notification = Notification(name: Notification.Name(rawValue: "apiPollDidFinish"))
-                        notificationCenter.post(notification)
                     }
                 }
             }
         }
+    }
+    
+    func fetchOrders(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    guard let customer = SUCustomer.getObjectWithEmail(self.currentUser.email!), let customerId = customer.id?.uuidString else {
+                        let error = APIClientError.error("Failed to get customer")
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    Alamofire.request(APIRouter.orders(userIdToken: token, customerId: customerId)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let orders = response.result.value as? [[String: Any]] {
+                                
+                                completion(orders, nil)
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get orders")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func saveContextAndPostNotification() {
+        
+        // Save context
+        do {
+            try self.context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        
+        // Post notification
+        let notificationCenter = NotificationCenter.default
+        let notification = Notification(name: Notification.Name(rawValue: "apiPollDidFinish"))
+        notificationCenter.post(notification)
     }
     
     // MARK: - Schools
@@ -691,6 +755,145 @@ extension APIClient {
                     }
                 }
             }
+        }
+    }
+    
+    private func createOrdersWith(ordersJSON: [[String: Any]]) {
+        
+        for orderJSON in ordersJSON {
+            
+            guard let order = orderJSON["order"] as? [String: Any] else {
+                fatalError("Error getting order JSON")
+            }
+            guard let orderItems = orderJSON["orderItems"] as? [[String: Any]] else {
+                fatalError("Error getting order items JSON")
+            }
+            guard let customerId = order["customerID"] as? String else {
+                fatalError("Failed to get customer id from order JSON")
+            }
+            guard let customer = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) else {
+                fatalError("Failed to get customer to create order")
+            }
+            
+            let timestampString = order["timestamp"] as! String
+            guard let timestampDate = dateFormatter.date(from: timestampString) else {
+                fatalError("Date conversion failed due to mismatched format")
+            }
+            
+            var tempOrder: SUOrder?
+            let id = UUID(uuidString: order["id"] as! String)!
+            
+            if let existingOrder = SUOrder.getObjectWithId(id) {
+                
+                if existingOrder.timestamp! < timestampDate {
+                    
+                    tempOrder = existingOrder
+                    
+                } else {
+                    
+                    create(orderItems: orderItems, forOrder: existingOrder)
+                }
+                
+            } else {
+                
+                tempOrder = SUOrder(context: context)
+                tempOrder!.id = id
+            }
+            
+            if let tempOrder = tempOrder {
+                
+                let orderDateString = order["orderDate"] as! String
+                guard let orderDate = dateFormatter.date(from: orderDateString) else {
+                    fatalError("Date conversion failed due to mismatched format")
+                }
+                
+                tempOrder.orderDate = orderDate
+                tempOrder.orderStatus = order["orderStatus"] as? String
+                tempOrder.paymentMethod = order["paymentMethod"] as? String
+                tempOrder.timestamp = timestampDate
+                tempOrder.customer = customer
+                
+                create(orderItems: orderItems, forOrder: tempOrder)
+            }
+        }
+    }
+    
+    private func create(orderItems orderItemsJSON: [[String: Any]], forOrder order: SUOrder) {
+        
+        guard let orderId = order.id else {
+            fatalError("Error getting order id")
+        }
+        
+        // Delete existing order items
+        let fetchRequest: NSFetchRequest<SUOrderItem> = SUOrderItem.fetchRequest()
+        let predicate = NSPredicate(format: "order.id == %@", orderId as CVarArg)
+        fetchRequest.predicate = predicate
+
+        do {
+
+            let fetchedOrderItems = try self.context.fetch(fetchRequest)
+
+            for fetchedOrderItem in fetchedOrderItems {
+                self.context.delete(fetchedOrderItem)
+            }
+
+        } catch {
+
+            print("Failed to fetch order items for deletion: \(error.localizedDescription)")
+        }
+        
+        // Create order items
+        for orderItemJSON in orderItemsJSON {
+            
+            guard let itemId = orderItemJSON["itemID"] as? String else {
+                fatalError("Failed to get item id from order item JSON")
+            }
+            guard let item = SUShopItem.getObjectWithId(UUID(uuidString: itemId)!) else {
+                fatalError("Failed to get item to create order item")
+            }
+            guard let sizeId = orderItemJSON["sizeID"] as? String else {
+                fatalError("Failed to get size id from order item JSON")
+            }
+            guard let size = SUSize.getObjectWithId(UUID(uuidString: sizeId)!) else {
+                fatalError("Failed to get size to create order item")
+            }
+            
+            let orderItem = SUOrderItem(context: context)
+            orderItem.id = UUID(uuidString: orderItemJSON["id"] as! String)!
+            orderItem.quantity = orderItemJSON["quantity"] as! Int32
+            
+            orderItem.order = order
+            orderItem.item = item
+            orderItem.size = size
+        }
+    }
+    
+    private func deleteOrders(with ordersJSON: [[String: Any]]) {
+        
+        var orderIds = [UUID]()
+        for orderJSON in ordersJSON {
+            
+            guard let order = orderJSON["order"] as? [String: Any] else { return}
+            guard let orderId = order["id"] as? String else { return }
+            guard let orderUUID = UUID(uuidString: orderId) else { return }
+            orderIds.append(orderUUID)
+        }
+        
+        let ordersFetchRequest: NSFetchRequest<SUOrder> = SUOrder.fetchRequest()
+        let orderIdPredicate = NSPredicate(format: "NOT (id IN %@)", orderIds)
+        ordersFetchRequest.predicate = orderIdPredicate
+        
+        do {
+            
+            let fetchedOrders = try self.context.fetch(ordersFetchRequest)
+            
+            for fetchedOrder in fetchedOrders {
+                self.context.delete(fetchedOrder)
+            }
+            
+        } catch {
+            
+            print("Failed to fetch orders for deletion: \(error.localizedDescription)")
         }
     }
 }
