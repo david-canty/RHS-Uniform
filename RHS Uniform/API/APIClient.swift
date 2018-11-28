@@ -866,13 +866,12 @@ extension APIClient {
     
     private func deleteOrders(with ordersJSON: [[String: Any]]) {
         
-        var orderIds = [UUID]()
+        var orderIds = [Int32]()
         for orderJSON in ordersJSON {
             
             guard let order = orderJSON["order"] as? [String: Any] else { return}
-            guard let orderId = order["id"] as? String else { return }
-            guard let orderUUID = UUID(uuidString: orderId) else { return }
-            orderIds.append(orderUUID)
+            guard let orderId = order["id"] as? Int else { return }
+            orderIds.append(Int32(orderId))
         }
         
         let ordersFetchRequest: NSFetchRequest<SUOrder> = SUOrder.fetchRequest()
