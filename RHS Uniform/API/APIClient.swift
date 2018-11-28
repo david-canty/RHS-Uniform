@@ -781,7 +781,7 @@ extension APIClient {
             }
             
             var tempOrder: SUOrder?
-            let id = UUID(uuidString: order["id"] as! String)!
+            let id = Int32(order["id"] as! Int)
             
             if let existingOrder = SUOrder.getObjectWithId(id) {
                 
@@ -820,13 +820,9 @@ extension APIClient {
     
     private func create(orderItems orderItemsJSON: [[String: Any]], forOrder order: SUOrder) {
         
-        guard let orderId = order.id else {
-            fatalError("Error getting order id")
-        }
-        
         // Delete existing order items
         let fetchRequest: NSFetchRequest<SUOrderItem> = SUOrderItem.fetchRequest()
-        let predicate = NSPredicate(format: "order.id == %@", orderId as CVarArg)
+        let predicate = NSPredicate(format: "order.id == %i", order.id)
         fetchRequest.predicate = predicate
 
         do {

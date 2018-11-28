@@ -12,14 +12,14 @@ import CoreData
 
 extension SUOrder {
     
-    class func getObjectWithId(_ id: UUID) -> SUOrder? {
+    class func getObjectWithId(_ id: Int32) -> SUOrder? {
         
         var order: SUOrder?
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         let fetchRequest: NSFetchRequest<SUOrder> = SUOrder.fetchRequest()
         
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let predicate = NSPredicate(format: "id == %i", id)
         fetchRequest.predicate = predicate
         
         do {

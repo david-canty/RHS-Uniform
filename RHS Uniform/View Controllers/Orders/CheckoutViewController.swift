@@ -429,7 +429,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
             fatalError("Failed to get customer")
         }
         
-        guard let idString = orderData["id"] as? String,
+        guard let id = orderData["id"] as? Int,
             let orderStatus = orderData["orderStatus"] as? String,
             let paymentMethod = orderData["paymentMethod"] as? String,
             let orderDateString = orderData["orderDate"] as? String,
@@ -450,7 +450,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
         
         // Create order
         let order = SUOrder(context: managedObjectContext)
-        order.id = UUID(uuidString: idString)
+        order.id = Int32(id)
         order.orderStatus = orderStatus
         order.paymentMethod = paymentMethod
         order.orderDate = orderDate
