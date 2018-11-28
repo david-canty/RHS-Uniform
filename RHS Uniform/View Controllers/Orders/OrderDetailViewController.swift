@@ -22,6 +22,7 @@ class OrderDetailViewController: UITableViewController {
     var rowForTappedBuyAgainButton: Int?
     var rowForTappedReturnButton: Int?
     
+    @IBOutlet weak var orderNoLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var itemsLabel: UILabel!
@@ -47,8 +48,10 @@ class OrderDetailViewController: UITableViewController {
     
     func displayOrderDetails() {
         
+        orderNoLabel.text = String(format: "%06d", order.id)
+        
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d MMMM yyyy"
+        dateFormatter.dateFormat = "d MMM yyyy"
         dateLabel.text = dateFormatter.string(from: order.orderDate!)
         
         statusLabel.text = order.orderStatus

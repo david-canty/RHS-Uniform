@@ -42,7 +42,7 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         
         super.viewDidLoad()
 
-        dateFormatter.dateFormat = "d MMMM yyyy"
+        dateFormatter.dateFormat = "d MMM yyyy"
         numberFormatter.numberStyle = .currency
         
         notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
