@@ -42,6 +42,7 @@
         <relationship name="size" maxCount="1" deletionRule="Nullify" destinationEntity="SUSize" inverseName="items" inverseEntity="SUSize" syncable="YES"/>
     </entity>
     <entity name="SUOrder" representedClassName="SUOrder" syncable="YES" codeGenerationType="class">
+        <attribute name="chargeId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="orderDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="orderStatus" attributeType="String" syncable="YES"/>
@@ -102,7 +103,7 @@
         <element name="SUCustomer" positionX="-223.10546875" positionY="-707.09375" width="128" height="238"/>
         <element name="SUImage" positionX="-309.01953125" positionY="-279.6953125" width="128" height="105"/>
         <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
-        <element name="SUOrder" positionX="-21.078125" positionY="-731.28125" width="128" height="148"/>
+        <element name="SUOrder" positionX="-21.078125" positionY="-731.28125" width="128" height="163"/>
         <element name="SUOrderItem" positionX="28.41796875" positionY="-543.3515625" width="128" height="118"/>
         <element name="SUSchool" positionX="225" positionY="-236" width="128" height="120"/>
         <element name="SUShopItem" positionX="-137" positionY="-419" width="128" height="238"/>

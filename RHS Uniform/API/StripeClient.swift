@@ -235,14 +235,18 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
                     
                     Alamofire.request(APIRouter.stripeChargeCreate(userIdToken: userIdToken, amount: amount, currency: currency, description: description, customerId: customerId))
                         .validate(statusCode: 200..<300)
-                        .responseString { response in
+                        .responseJSON { response in
                             
-                            switch response.result {
-                            case .success:
-                                completion(Result.success)
-                            case .failure(let error):
-                                completion(Result.failure(error))
-                            }
+                            let charge = response.result.value as? [String: Any]
+                            
+                            
+//                            switch response.result {
+//                            case .success:
+//                                let chargeId = response.result.value as? [String: Any]
+//                                completion(Result.success)
+//                            case .failure(let error):
+//                                completion(Result.failure(error))
+//                            }
                     }
                 }
             }
