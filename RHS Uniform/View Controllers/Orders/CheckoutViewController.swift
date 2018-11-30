@@ -330,41 +330,43 @@ extension CheckoutViewController: PaymentInformationDelegate {
     func placeOrder(withPaymentMethod paymentMethod: PaymentMethod) {
         
         switch paymentMethod {
+            
         case .bacs, .schoolBill:
+            
             placeOrder()
+            
         default:
-            completeCharge { result in
+            
+            completeCharge { chargeId, error in
                 
-                switch result {
-                case .success:
-                    self.placeOrder()
-                case .failure(let error):
-                    print("Error completing charge: \(error.localizedDescription)")
-                    self.paymentInfoVC.stopPlaceOrderActivityIndicator()
-                    self.displayPaymentError()
+                guard let chargeId = chargeId else {
+                    
+                    if let error = error {
+                        print("Error completing charge: \(error.localizedDescription)")
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+                        self.displayPaymentError()
+                    }
+                    
+                    return
                 }
+                
+                self.placeOrder(withChargeId: chargeId)
             }
         }
     }
     
-    func completeCharge(completion: @escaping (Result) -> Void) {
+    func completeCharge(completion: @escaping (String?, Error?) -> Void) {
         
         let amount = Int(orderAmount * 100)
         let currency = AppConfig.sharedInstance.stripeChargeCurrency()
         let description = AppConfig.sharedInstance.stripeChargeDescription()
         
-        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { (result) in
+        StripeClient.sharedInstance.completeCharge(withAmount: amount, currency: currency, description: description) { chargeId, error in
             
-            switch result {
-                
-            case .success:
-                
-                completion(Result.success)
-                
-            case .failure(let error):
-                
-                completion(Result.failure(error))
-            }
+            completion(chargeId, error)
         }
     }
     
@@ -380,7 +382,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
         self.present(alertController, animated: true)
     }
     
-    func placeOrder() {
+    func placeOrder(withChargeId chargeId: String? = nil) {
         
         guard let orderItems = delegate?.getOrderItems() else {
             fatalError("Failed to get order items")
@@ -397,7 +399,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
             }
         }
         
-        APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod) { (orderInfo, error) in
+        APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod, chargeId: chargeId) { (orderInfo, error) in
             
             if let error = error as NSError? {
                 fatalError("Error creating order: \(error), \(error.userInfo)")
@@ -406,7 +408,11 @@ extension CheckoutViewController: PaymentInformationDelegate {
             if let orderInfo = orderInfo {
                 
                 self.saveOrder(withOrderInfo: orderInfo)
-                self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+                
+                DispatchQueue.main.async {
+                    self.paymentInfoVC.stopPlaceOrderActivityIndicator()
+                }
+                
                 self.performSegue(withIdentifier: "orderConfirmation", sender: self)
             }
         }
@@ -437,6 +443,8 @@ extension CheckoutViewController: PaymentInformationDelegate {
                 fatalError("Failed to get order info")
         }
         
+        let chargeId = orderData["chargeId"] as? String
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
@@ -453,6 +461,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
         order.id = Int32(id)
         order.orderStatus = orderStatus
         order.paymentMethod = paymentMethod
+        order.chargeId = chargeId
         order.orderDate = orderDate
         order.timestamp = timestampDate
         order.customer = customer

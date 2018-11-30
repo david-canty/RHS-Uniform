@@ -16,6 +16,10 @@ enum Result {
     case failure(Error)
 }
 
+enum StripeClientError: Error {
+    case error(String)
+}
+
 final class StripeClient: NSObject, STPEphemeralKeyProvider {
     
     static let sharedInstance = StripeClient()
@@ -218,7 +222,7 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
         }
     }
     
-    func completeCharge(withAmount amount: Int, currency: String, description: String, completion: @escaping (Result) -> Void) {
+    func completeCharge(withAmount amount: Int, currency: String, description: String, completion: @escaping (String?, Error?) -> Void) {
         
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") else { return }
@@ -237,16 +241,28 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
                         .validate(statusCode: 200..<300)
                         .responseJSON { response in
                             
-                            let charge = response.result.value as? [String: Any]
-                            
-                            
-//                            switch response.result {
-//                            case .success:
-//                                let chargeId = response.result.value as? [String: Any]
-//                                completion(Result.success)
-//                            case .failure(let error):
-//                                completion(Result.failure(error))
-//                            }
+                            switch response.result {
+                                
+                            case .success:
+                                
+                                guard let chargeResponse = response.result.value as? [String: Any] else {
+                                    let error = StripeClientError.error("Failed to get charge response")
+                                    completion(nil, error)
+                                    return
+                                }
+                                
+                                guard let chargeId = chargeResponse["chargeId"] as? String else {
+                                    let error = StripeClientError.error("Failed to get charge id")
+                                    completion(nil, error)
+                                    return
+                                }
+                                
+                                completion(chargeId, nil)
+                                
+                            case .failure(let error):
+                                
+                                completion(nil, error)
+                            }
                     }
                 }
             }

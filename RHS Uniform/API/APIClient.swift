@@ -715,7 +715,7 @@ extension APIClient {
     }
     
     // MARK: - Orders
-    func createOrder(withOrderItems orderItems: [[String: Any]], paymentMethod: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func createOrder(withOrderItems orderItems: [[String: Any]], paymentMethod: String, chargeId: String? = nil, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -733,7 +733,7 @@ extension APIClient {
                         return
                     }
                     
-                    Alamofire.request(APIRouter.orderCreate(userIdToken: token, customerId: customerId, orderItems: orderItems, paymentMethod: paymentMethod)).responseJSON { response in
+                    Alamofire.request(APIRouter.orderCreate(userIdToken: token, customerId: customerId, orderItems: orderItems, paymentMethod: paymentMethod, chargeId: chargeId)).responseJSON { response in
                         
                         switch response.result {
                             

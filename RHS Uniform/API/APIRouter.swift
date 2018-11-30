@@ -21,7 +21,7 @@ public enum APIRouter: URLRequestConvertible {
     
     case customerCreate(userIdToken: String, firebaseUserId: String, email: String)
     
-    case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String)
+    case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String, chargeId: String?)
     case orders(userIdToken: String, customerId: String)
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
@@ -151,11 +151,12 @@ public enum APIRouter: URLRequestConvertible {
                 return ["firebaseUserId": firebaseUserId,
                         "email": email]
                 
-            case let .orderCreate(_, customerId, orderItems, paymentMethod):
+            case let .orderCreate(_, customerId, orderItems, paymentMethod, chargeId):
                 
                 return ["customerId": customerId,
                         "orderItems": orderItems,
-                        "paymentMethod": paymentMethod]
+                        "paymentMethod": paymentMethod,
+                        "chargeId": chargeId as Any]
                 
             case let .stripeEphemeralKey(_, customerId, apiVersion):
                 
@@ -216,7 +217,7 @@ public enum APIRouter: URLRequestConvertible {
             case .customerCreate (let idToken, _, _):
                 return idToken
                 
-            case .orderCreate (let idToken, _, _, _):
+            case .orderCreate (let idToken, _, _, _, _):
                 return idToken
                 
             case .orders (let idToken, _):
