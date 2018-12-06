@@ -360,13 +360,15 @@ extension CheckoutViewController: PaymentInformationDelegate {
     
     func completeCharge(completion: @escaping (String?, Error?) -> Void) {
         
-        let amountDecimal = NSDecimalNumber(value: orderAmount).multiplying(by: NSDecimalNumber(value: 100))
-        let amountInt = Int(truncating: amountDecimal)
-
+        let decimalNumberHandler = NSDecimalNumberHandler(roundingMode: .plain, scale: 2, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)
+        let roundedOrderAmount = NSDecimalNumber(value: orderAmount).rounding(accordingToBehavior: decimalNumberHandler)
+        let roundedOrderAmountInCents = roundedOrderAmount.multiplying(byPowerOf10: 2)
+        let orderAmountInCents = Int(truncating: roundedOrderAmountInCents)
+        
         let currency = AppConfig.sharedInstance.stripeChargeCurrency()
         let description = AppConfig.sharedInstance.stripeChargeDescription()
         
-        StripeClient.sharedInstance.completeCharge(withAmount: amountInt, currency: currency, description: description) { chargeId, error in
+        StripeClient.sharedInstance.completeCharge(withAmount: orderAmountInCents, currency: currency, description: description) { chargeId, error in
             
             completion(chargeId, error)
         }
