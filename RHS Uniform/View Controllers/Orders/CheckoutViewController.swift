@@ -362,7 +362,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
         
         let decimalNumberHandler = NSDecimalNumberHandler(roundingMode: .plain, scale: 2, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)
         let roundedOrderAmount = NSDecimalNumber(value: orderAmount).rounding(accordingToBehavior: decimalNumberHandler)
-        let roundedOrderAmountInCents = roundedOrderAmount.multiplying(byPowerOf10: 2)
+        let roundedOrderAmountInCents = roundedOrderAmount.multiplying(by: NSDecimalNumber(value: 100))
         let orderAmountInCents = Int(truncating: roundedOrderAmountInCents)
         
         let currency = AppConfig.sharedInstance.stripeChargeCurrency()
