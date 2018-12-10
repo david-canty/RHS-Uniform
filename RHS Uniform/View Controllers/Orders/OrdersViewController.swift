@@ -57,7 +57,6 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
                             
                             self.tableView.reloadData()
                             self.setFilterLabelText()
-                            self.filterButton.isHidden = false
         })
     }
     
@@ -70,27 +69,27 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
         super.viewWillAppear(animated)
         
         tableHeaderLabel.text = "Your Orders"
-        
-        if fetchedResultsController.sections!.count == 0 {
-            
-            filterLabel.text = "No orders"
-            filterButton.isHidden = true
-            
-        } else {
-         
-            setFilterLabelText()
-        }
+        setFilterLabelText()
     }
     
     func setFilterLabelText() {
         
-        if fetchedResultsController.fetchedObjects?.count == 0 {
+        let orderCount = fetchedResultsController.fetchedObjects?.count
+        
+        if orderCount == 0 && selectedOrderStatusFilter == "All" {
+         
+            filterLabel.text = "No orders"
+            filterButton.isHidden = true
+            
+        } else if orderCount == 0 {
             
             filterLabel.text = "No orders: \(selectedOrderStatusFilter)"
+            filterButton.isHidden = false
             
         } else {
             
             filterLabel.text = "Showing: \(selectedOrderStatusFilter)"
+            filterButton.isHidden = false
         }
     }
 
