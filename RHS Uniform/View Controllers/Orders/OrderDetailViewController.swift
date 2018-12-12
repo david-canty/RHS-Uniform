@@ -30,6 +30,7 @@ class OrderDetailViewController: UITableViewController {
     @IBOutlet weak var orderDetailsTotal: UILabel!
     @IBOutlet weak var paymentMethodLabel: UILabel!
     @IBOutlet weak var paymentTotal: UILabel!
+    @IBOutlet weak var cancelOrderButton: UIButton!
     
     override func viewDidLoad() {
         
@@ -44,6 +45,24 @@ class OrderDetailViewController: UITableViewController {
         
         displayOrderDetails()
         displayPaymentInformation()
+        displayCancelOrderButton()
+    }
+    
+    func displayCancelOrderButton() {
+        
+        guard let orderStatusString = order.orderStatus else { return }
+        guard let orderStatus = OrderStatus(rawValue: orderStatusString) else { return }
+        
+        switch orderStatus {
+            
+        case .ordered, .awaitingStock, .readyForCollection:
+            
+            cancelOrderButton.isHidden = false
+            
+        default:
+            
+            cancelOrderButton.isHidden = true
+        }
     }
     
     func displayOrderDetails() {
@@ -155,7 +174,11 @@ class OrderDetailViewController: UITableViewController {
         
         print("Order item Return button tapped at row \(String(describing: rowForTappedReturnButton))")
     }
-
+    @IBAction func cancelOrderTapped(_ sender: UIButton) {
+        
+        print("Cancel Order tapped")
+    }
+    
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -1003,7 +1003,7 @@
                             </constraints>
                         </view>
                         <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="by6-3S-9Nz" userLabel="Payment Information">
-                            <rect key="frame" x="0.0" y="403" width="375" height="147"/>
+                            <rect key="frame" x="0.0" y="403" width="375" height="191"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxr-P6-fDE">
@@ -1055,12 +1055,27 @@
                                     <color key="textColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ek7-VW-sCw">
+                                    <rect key="frame" x="16" y="155" width="343" height="28"/>
+                                    <color key="backgroundColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="28" id="GF5-eR-Zmx"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                    <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
+                                    <state key="normal" title="Cancel Order"/>
+                                    <connections>
+                                        <action selector="cancelOrderTapped:" destination="beS-wD-UaF" eventType="touchUpInside" id="XcE-IY-OdS"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="Tdm-FG-Phb" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="2hO-9K-VoT"/>
                                 <constraint firstAttribute="trailing" secondItem="AjV-NS-2sk" secondAttribute="trailing" constant="16" id="4MU-am-rhV"/>
                                 <constraint firstItem="AjV-NS-2sk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="y0s-wy-7Jw" secondAttribute="trailing" constant="8" symbolic="YES" id="9Oc-iP-YEG"/>
+                                <constraint firstItem="Ek7-VW-sCw" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="BuF-xa-zV5"/>
+                                <constraint firstItem="Ek7-VW-sCw" firstAttribute="top" secondItem="y0s-wy-7Jw" secondAttribute="bottom" constant="16" id="CSf-t6-nfX"/>
                                 <constraint firstItem="AjV-NS-2sk" firstAttribute="top" secondItem="rxr-P6-fDE" secondAttribute="bottom" constant="114" id="DHL-IU-HsV"/>
                                 <constraint firstItem="Usr-3B-UsW" firstAttribute="top" secondItem="Tdm-FG-Phb" secondAttribute="bottom" constant="16" id="HVP-LX-WcF"/>
                                 <constraint firstAttribute="trailing" secondItem="rxr-P6-fDE" secondAttribute="trailing" id="Hp6-fr-cht"/>
@@ -1071,7 +1086,9 @@
                                 <constraint firstItem="7Xl-tK-Te7" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="Z7w-4Q-gCb"/>
                                 <constraint firstItem="7Xl-tK-Te7" firstAttribute="top" secondItem="Usr-3B-UsW" secondAttribute="bottom" constant="16" id="eHw-Lt-LNu"/>
                                 <constraint firstItem="Usr-3B-UsW" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="fP0-Zt-OmQ"/>
+                                <constraint firstAttribute="bottom" secondItem="Ek7-VW-sCw" secondAttribute="bottom" constant="8" id="fbd-mt-c6c"/>
                                 <constraint firstItem="Tdm-FG-Phb" firstAttribute="top" secondItem="rxr-P6-fDE" secondAttribute="bottom" constant="16" id="gtC-ml-qQ0"/>
+                                <constraint firstAttribute="trailing" secondItem="Ek7-VW-sCw" secondAttribute="trailing" constant="16" id="hRE-nE-yyj"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Usr-3B-UsW" secondAttribute="trailing" constant="20" symbolic="YES" id="hUN-Wc-D5y"/>
                                 <constraint firstItem="y0s-wy-7Jw" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="nhL-zw-L38"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tdm-FG-Phb" secondAttribute="trailing" constant="20" symbolic="YES" id="vVC-5n-VKo"/>
@@ -1195,6 +1212,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="cancelOrderButton" destination="Ek7-VW-sCw" id="8cq-Co-tXH"/>
                         <outlet property="dateLabel" destination="stk-NE-HZd" id="gQD-dN-ydS"/>
                         <outlet property="itemsLabel" destination="FzJ-ve-gOw" id="2dv-yT-MyD"/>
                         <outlet property="orderDetailsTotal" destination="Xc0-BN-tcM" id="BNe-zy-hGa"/>
@@ -3272,6 +3290,6 @@
         <image name="placeholder_64x64" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sgj-9d-zrx"/>
+        <segue reference="hgQ-Vd-nNx"/>
     </inferredMetricsTieBreakers>
 </document>
