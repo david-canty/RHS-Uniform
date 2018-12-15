@@ -891,4 +891,34 @@ extension APIClient {
             print("Failed to fetch orders for deletion: \(error.localizedDescription)")
         }
     }
+    
+    func cancel(orderId: Int32, completion: @escaping (Error?) -> Void) {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.orderCancel(userIdToken: token, orderId: orderId)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            completion(nil)
+                            
+                        case .failure(let error):
+                            
+                            completion(error)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

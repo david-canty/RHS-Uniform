@@ -175,8 +175,16 @@ class OrderDetailViewController: UITableViewController {
         print("Order item Return button tapped at row \(String(describing: rowForTappedReturnButton))")
     }
     @IBAction func cancelOrderTapped(_ sender: UIButton) {
+    
+        guard let order = order else { return }
         
-        print("Cancel Order tapped")
+        APIClient.sharedInstance.cancel(orderId: order.id) { (error) in
+            
+            if let error = error as NSError? {
+                
+                self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
+            }
+        }
     }
     
     // MARK: - Segues
@@ -195,4 +203,18 @@ class OrderDetailViewController: UITableViewController {
         }
     }
 
+}
+
+extension OrderDetailViewController {
+    
+    func showAlert(title: String, message: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
