@@ -183,6 +183,10 @@ class OrderDetailViewController: UITableViewController {
             if let error = error as NSError? {
                 
                 self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
+                
+            } else {
+                
+                
             }
         }
     }

@@ -15,6 +15,7 @@ enum OrderStatus: String {
     case readyForCollection = "Ready for Collection"
     case awaitingPayment = "Awaiting Payment"
     case complete = "Complete"
+    case cancellationRequested = "Cancellation Requested"
     case cancelled = "Cancelled"
 }
 
