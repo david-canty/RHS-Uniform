@@ -892,7 +892,7 @@ extension APIClient {
         }
     }
     
-    func cancel(orderId: Int32, completion: @escaping (Error?) -> Void) {
+    func cancel(orderId: Int32, completion: @escaping (SUOrder?, Error?) -> Void) {
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -910,11 +910,35 @@ extension APIClient {
                             
                         case .success:
                             
-                            completion(nil)
+                            if let order = response.result.value as? [String: Any] {
+                                
+                                let orderId = order["id"] as! Int32
+                                let orderStatus = order["orderStatus"] as! String
+                                let timestampString = order["timestamp"] as! String
+                                
+                                guard let timestampDate = self.dateFormatter.date(from: timestampString) else {
+                                    fatalError("Date conversion failed due to mismatched format")
+                                }
+                                
+                                if let updatedOrder = SUOrder.updateObjectWithId(orderId, withStatus: orderStatus, andTimestamp: timestampDate) {
+                                    
+                                    completion(updatedOrder, nil)
+                                
+                                } else {
+                                
+                                    let error = APIClientError.error("Failed to update order status to: \(orderStatus)")
+                                    completion(nil, error)
+                                }
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get order data")
+                                completion(nil, error)
+                            }
                             
                         case .failure(let error):
                             
-                            completion(error)
+                            completion(nil, error)
                         }
                     }
                 }

@@ -161,7 +161,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="5hT-Ei-4Yj" userLabel="Header View">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="5hT-Ei-4Yj" userLabel="Header View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -1070,6 +1070,16 @@
                                         <action selector="cancelOrderTapped:" destination="beS-wD-UaF" eventType="touchUpInside" id="XcE-IY-OdS"/>
                                     </connections>
                                 </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="trL-g6-QSd" userLabel="Cancel Order Activity Indicator">
+                                    <rect key="frame" x="177" y="159" width="20" height="20"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cancellation Requested" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2b-Az-Xu4">
+                                    <rect key="frame" x="113" y="161" width="149" height="16"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                    <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -1084,6 +1094,7 @@
                                 <constraint firstItem="rxr-P6-fDE" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" id="JdE-Q6-3No"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Xl-tK-Te7" secondAttribute="trailing" constant="20" symbolic="YES" id="LbT-Jd-Ejn"/>
                                 <constraint firstItem="y0s-wy-7Jw" firstAttribute="top" secondItem="7Xl-tK-Te7" secondAttribute="bottom" constant="16" id="Rw7-4K-f7S"/>
+                                <constraint firstAttribute="trailing" secondItem="trL-g6-QSd" secondAttribute="trailing" constant="178" id="TMI-BQ-GpB"/>
                                 <constraint firstItem="rxr-P6-fDE" firstAttribute="top" secondItem="by6-3S-9Nz" secondAttribute="top" constant="8" id="VbD-IW-DLe"/>
                                 <constraint firstItem="7Xl-tK-Te7" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="Z7w-4Q-gCb"/>
                                 <constraint firstItem="7Xl-tK-Te7" firstAttribute="top" secondItem="Usr-3B-UsW" secondAttribute="bottom" constant="16" id="eHw-Lt-LNu"/>
@@ -1092,7 +1103,9 @@
                                 <constraint firstItem="Tdm-FG-Phb" firstAttribute="top" secondItem="rxr-P6-fDE" secondAttribute="bottom" constant="16" id="gtC-ml-qQ0"/>
                                 <constraint firstAttribute="trailing" secondItem="Ek7-VW-sCw" secondAttribute="trailing" constant="16" id="hRE-nE-yyj"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Usr-3B-UsW" secondAttribute="trailing" constant="20" symbolic="YES" id="hUN-Wc-D5y"/>
+                                <constraint firstAttribute="bottom" secondItem="trL-g6-QSd" secondAttribute="bottom" constant="12" id="jNa-pH-Nto"/>
                                 <constraint firstItem="y0s-wy-7Jw" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="16" id="nhL-zw-L38"/>
+                                <constraint firstItem="trL-g6-QSd" firstAttribute="leading" secondItem="by6-3S-9Nz" secondAttribute="leading" constant="177" id="twm-o2-TGX"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tdm-FG-Phb" secondAttribute="trailing" constant="20" symbolic="YES" id="vVC-5n-VKo"/>
                             </constraints>
                         </view>
@@ -1220,7 +1233,9 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="cancelOrderActivityIndicator" destination="trL-g6-QSd" id="Qo0-zU-qcd"/>
                         <outlet property="cancelOrderButton" destination="Ek7-VW-sCw" id="8cq-Co-tXH"/>
+                        <outlet property="cancellationRequestedLabel" destination="L2b-Az-Xu4" id="OPl-7H-om2"/>
                         <outlet property="dateLabel" destination="stk-NE-HZd" id="gQD-dN-ydS"/>
                         <outlet property="itemsLabel" destination="FzJ-ve-gOw" id="2dv-yT-MyD"/>
                         <outlet property="orderDetailsTotal" destination="Xc0-BN-tcM" id="BNe-zy-hGa"/>
@@ -1415,14 +1430,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <containerView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" id="LYV-u1-BDN" userLabel="Order Summary">
+                        <containerView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" misplaced="YES" id="LYV-u1-BDN" userLabel="Order Summary">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <connections>
                                 <segue destination="z1G-Pi-2Ip" kind="embed" identifier="orderSummary" id="54S-s2-NCh"/>
                             </connections>
                         </containerView>
-                        <containerView key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="sG2-lZ-dOg" userLabel="Payment Information">
+                        <containerView key="tableFooterView" opaque="NO" contentMode="scaleToFill" misplaced="YES" id="sG2-lZ-dOg" userLabel="Payment Information">
                             <rect key="frame" x="0.0" y="258" width="375" height="160"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <connections>
@@ -1687,7 +1702,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="46Q-Pd-WVt">
+                        <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="46Q-Pd-WVt">
                             <rect key="frame" x="0.0" y="177.5" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>

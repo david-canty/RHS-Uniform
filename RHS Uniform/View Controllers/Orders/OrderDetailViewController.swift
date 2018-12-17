@@ -31,6 +31,8 @@ class OrderDetailViewController: UITableViewController {
     @IBOutlet weak var paymentMethodLabel: UILabel!
     @IBOutlet weak var paymentTotal: UILabel!
     @IBOutlet weak var cancelOrderButton: UIButton!
+    @IBOutlet weak var cancelOrderActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var cancellationRequestedLabel: UILabel!
     
     override func viewDidLoad() {
         
@@ -58,10 +60,17 @@ class OrderDetailViewController: UITableViewController {
         case .ordered, .awaitingStock, .readyForCollection:
             
             cancelOrderButton.isHidden = false
+            cancellationRequestedLabel.isHidden = true
+            
+        case .cancellationRequested:
+            
+            cancelOrderButton.isHidden = true
+            cancellationRequestedLabel.isHidden = false
             
         default:
             
             cancelOrderButton.isHidden = true
+            cancellationRequestedLabel.isHidden = true
         }
     }
     
@@ -178,15 +187,32 @@ class OrderDetailViewController: UITableViewController {
     
         guard let order = order else { return }
         
-        APIClient.sharedInstance.cancel(orderId: order.id) { (error) in
+        cancelOrderButton.setTitle("", for: .normal)
+        cancelOrderActivityIndicator.startAnimating()
+        
+        APIClient.sharedInstance.cancel(orderId: order.id) { (order, error) in
             
             if let error = error as NSError? {
                 
-                self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    
+                    self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
+                    
+                    self.cancelOrderButton.setTitle("Cancel Order", for: .normal)
+                    self.cancelOrderActivityIndicator.stopAnimating()
+                }
                 
             } else {
                 
-                
+                if let order = order {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.cancelOrderActivityIndicator.stopAnimating()
+                        self.statusLabel.text = order.orderStatus
+                        self.displayCancelOrderButton()
+                    }
+                }
             }
         }
     }
