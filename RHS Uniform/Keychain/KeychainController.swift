@@ -153,4 +153,21 @@ class KeychainController {
         
         return (email: email, password: password)
     }
+    
+    static func deleteAppSecuredItems() {
+        
+        do {
+            
+            let securedItems = try KeychainSecuredItem.securedItems(forService: KeychainConfiguration.serviceName)
+            
+            for item in securedItems {
+                
+                try item.deleteItem()
+            }
+            
+        } catch {
+            
+            print("Error deleting keychain secured items: \(error)")
+        }
+    }
 }

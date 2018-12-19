@@ -24,24 +24,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        registerDefaultPreferences()
-        
-        STPPaymentConfiguration.shared().publishableKey = AppConfig.sharedInstance.stripePublishableKey()
-        setStripeTheme()
-        
+        // First launch checks
         FirebaseApp.configure()
         firebaseAuth = Auth.auth()
-        listenForAuthStateDidChange()
         
-        if firebaseAuth?.currentUser != nil {
-
-            APIPoll.sharedInstance.startPolling()
-            showContainerViewController()
-
-        } else {
-
-            showSignInViewController()
+        registerDefaultPreferences()
+        
+        if isFirstLaunch() {
+            
+            do {
+                try firebaseAuth?.signOut()
+            } catch {
+                print("Error signing out of Firebase: \(error)")
+            }
+            
+            KeychainController.deleteAppSecuredItems()
         }
+        
+        // Stripe
+        STPPaymentConfiguration.shared().publishableKey = AppConfig.sharedInstance.stripePublishableKey()
+        setStripeTheme()
         
         // Alamofire network activity indicator
         NetworkActivityIndicatorManager.shared.isEnabled = true
@@ -55,10 +57,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         reachabilityManager?.startListening()
         
-        // Push notifications
-        registerForPushNotifications()
+        // Show main view or sign in
+        listenForAuthStateDidChange()
+        
+        if firebaseAuth?.currentUser != nil {
+            
+            APIPoll.sharedInstance.startPolling()
+            showContainerViewController()
+            
+        } else {
+            
+            showSignInViewController()
+        }
         
         return true
+    }
+    
+    func isFirstLaunch() -> Bool {
+        
+        let defaults = UserDefaults.standard
+        
+        if defaults.bool(forKey: "isFirstLaunch") {
+            
+            defaults.set(false, forKey: "isFirstLaunch")
+            return true
+            
+        } else {
+            
+            return false
+        }
     }
     
     func listenForAuthStateDidChange() {
@@ -260,6 +287,7 @@ extension AppDelegate: SignInViewControllerDelegate {
     func didSignIn() {
         
         APIPoll.sharedInstance.startPolling()
+        registerForPushNotifications()
         showContainerViewController()
     }
 }

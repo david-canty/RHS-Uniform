@@ -19,7 +19,6 @@ class SignInViewController: UIViewController {
 
     var context: NSManagedObjectContext!
     var delegate: SignInViewControllerDelegate?
-    let defaults = UserDefaults.standard
     let biometricAuth = BiometricAuth()
     
     var feedbackGenerator: UINotificationFeedbackGenerator?
@@ -141,19 +140,6 @@ class SignInViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    func isFirstLaunch() -> Bool {
-        
-        if defaults.bool(forKey: "isFirstLaunch") {
-            
-            defaults.set(false, forKey: "isFirstLaunch")
-            return true
-            
-        } else {
-            
-            return false
-        }
     }
     
     func showInputUI(_ showUI: Bool) {
@@ -297,15 +283,6 @@ class SignInViewController: UIViewController {
                 if let uid = Auth.auth().currentUser?.uid {
                 
                     self.createCustomer(withEmail: email, firebaseUserId: uid)
-                }
-                
-                if self.isFirstLaunch() {
-                    
-                    let biometricType = self.biometricAuth.biometricType()
-                    if biometricType == .touchID || biometricType == .faceID {
-                        
-                        //self.promptForBiometricId()
-                    }
                 }
                 
                 self.delegate?.didSignIn()
