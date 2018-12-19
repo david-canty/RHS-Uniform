@@ -12,6 +12,7 @@ import Alamofire
 import AlamofireNetworkActivityIndicator
 import Firebase
 import Stripe
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -53,6 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         reachabilityManager?.startListening()
+        
+        // Push notifications
+        registerForPushNotifications()
         
         return true
     }
@@ -178,6 +182,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    // User Notifications
+    func registerForPushNotifications() {
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] (granted, error) in
+        
+            print("User notification permission granted: \(granted)")
+            
+            guard granted else { return }
+            self?.getNotificationSettings()
+        }
+    }
+    
+    func getNotificationSettings() {
+        
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            
+            print("User notification settings: \(settings)")
+            
+            guard settings.authorizationStatus == .authorized else { return }
+            
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        print("Remote notification device token: \(token)")
+        
+        APIClient.sharedInstance.save(apnsDeviceToken: token) { (customer, error) in
+            
+            if let error = error as NSError? {
+                
+                print("Error saving APNS token: \(error)")
+                
+            } else {
+                
+                if let customer = customer {
+                    
+                    let customerId = customer["id"]
+                    
+                }
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        
+        print("Failed to register for remote notifications: \(error)")
+    }
 }
 
 extension AppDelegate: ContainerViewControllerDelegate {

@@ -20,6 +20,7 @@ public enum APIRouter: URLRequestConvertible {
     case itemSizes(userIdToken: String)
     
     case customerCreate(userIdToken: String, firebaseUserId: String, email: String)
+    case customerAPNSDeviceToken(userIdToken: String, customerId: String, apnsDeviceToken: String)
     
     case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String, chargeId: String?)
     case orders(userIdToken: String, customerId: String)
@@ -60,6 +61,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .customerCreate:
             return .post
+            
+        case .customerAPNSDeviceToken:
+            return .patch
             
         case .orderCreate:
             return .post
@@ -118,6 +122,9 @@ public enum APIRouter: URLRequestConvertible {
         case .customerCreate:
             return "/customers"
             
+        case .customerAPNSDeviceToken (_, let customerId, _):
+            return "/customers/\(customerId)/apns-token"
+            
         case .orderCreate:
             return "/orders"
             
@@ -157,6 +164,10 @@ public enum APIRouter: URLRequestConvertible {
                 
                 return ["firebaseUserId": firebaseUserId,
                         "email": email]
+                
+            case let .customerAPNSDeviceToken(_, _, apnsDeviceToken):
+                
+                return ["token": apnsDeviceToken]
                 
             case let .orderCreate(_, customerId, orderItems, paymentMethod, chargeId):
                 
@@ -224,6 +235,9 @@ public enum APIRouter: URLRequestConvertible {
             case .customerCreate (let idToken, _, _):
                 return idToken
                 
+            case .customerAPNSDeviceToken (let idToken, _, _):
+                return idToken
+                
             case .orderCreate (let idToken, _, _, _, _):
                 return idToken
                 
@@ -260,7 +274,7 @@ public enum APIRouter: URLRequestConvertible {
         request.timeoutInterval = TimeInterval(10 * 1000)
         
         switch self {
-        case .orderCreate, .customerCreate:
+        case .orderCreate, .customerCreate, .customerAPNSDeviceToken:
             return try JSONEncoding.default.encode(request, with: parameters)
         default:
             return try URLEncoding.default.encode(request, with: parameters)

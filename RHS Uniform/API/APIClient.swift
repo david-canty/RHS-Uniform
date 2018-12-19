@@ -714,6 +714,49 @@ extension APIClient {
         }
     }
     
+    func save(apnsDeviceToken: String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    guard let customer = SUCustomer.getObjectWithEmail(self.currentUser.email!), let customerId = customer.id?.uuidString else {
+                        let error = APIClientError.error("Failed to get customer")
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    Alamofire.request(APIRouter.customerAPNSDeviceToken(userIdToken: token, customerId: customerId, apnsDeviceToken: apnsDeviceToken)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let customer = response.result.value as? [String: Any] {
+                                
+                                completion(customer, nil)
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get customer data")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Orders
     func createOrder(withOrderItems orderItems: [[String: Any]], paymentMethod: String, chargeId: String? = nil, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
