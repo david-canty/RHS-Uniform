@@ -186,7 +186,27 @@ class OrderDetailViewController: UITableViewController {
     @IBAction func cancelOrderTapped(_ sender: UIButton) {
     
         guard let order = order else { return }
+    
+        let alertTitle = "Cancel Order"
+        let alertMessage = "Are you sure you wish to cancel this order?"
         
+        let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        
+        let doNotCancelAction = UIAlertAction(title: "Do Not Cancel", style: .default, handler: nil)
+        alertController.addAction(doNotCancelAction)
+        
+        let cancelOrderAction = UIAlertAction(title: "Cancel Order", style: .default) { action in
+            
+            self.cancel(order: order)
+        }
+        alertController.addAction(cancelOrderAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func cancel(order: SUOrder) {
+    
         cancelOrderButton.setTitle("", for: .normal)
         cancelOrderActivityIndicator.startAnimating()
         
