@@ -72,6 +72,11 @@
             value = "pk_test_boaAcGP1oTQ6JZ7pbUpOnA0n"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "ONESIGNAL_APP_ID"
+            value = "8d4b6cb2-4fd0-4242-bffc-9ddb06461652"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>

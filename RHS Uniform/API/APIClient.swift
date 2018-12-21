@@ -130,15 +130,20 @@ final class APIClient {
         }
     }
     
-    func saveContextAndPostNotification() {
+    func saveContext() {
         
-        // Save context
         do {
             try self.context.save()
         } catch {
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
+    }
+    
+    func saveContextAndPostNotification() {
+        
+        // Save context
+        saveContext()
         
         // Post notification
         let notificationCenter = NotificationCenter.default

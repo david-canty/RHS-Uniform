@@ -13,6 +13,7 @@ import AlamofireNetworkActivityIndicator
 import Firebase
 import Stripe
 import UserNotifications
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let reachabilityManager = NetworkReachabilityManager(host: "localhost")
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
+    var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        self.launchOptions = launchOptions
         
         // First launch checks
         FirebaseApp.configure()
@@ -239,6 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
+        
         print("Remote notification device token: \(token)")
         
         APIClient.sharedInstance.save(apnsDeviceToken: token) { (customer, error) in
@@ -249,10 +254,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             } else {
                 
-                if let customer = customer {
+                if let customerData = customer {
                     
-                    let customerId = customer["id"]
+                    if let customerId = customerData["id"] as? String {
                     
+                        if let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) {
+                            
+                            let apnsDeviceToken = customerData["apnsDeviceToken"] as! String
+                            customerObject.apnsDeviceToken = apnsDeviceToken
+                            
+                           self.saveContext()
+                        }
+                    }
                 }
             }
         }
@@ -287,7 +300,33 @@ extension AppDelegate: SignInViewControllerDelegate {
     func didSignIn() {
         
         APIPoll.sharedInstance.startPolling()
-        registerForPushNotifications()
+        
+        //registerForPushNotifications()
+        
+        // OneSignal
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        let oneSignalAppId = ProcessInfo.processInfo.environment["ONESIGNAL_APP_ID"]!
+        
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: oneSignalAppId,
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
+        
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            
+            print("User accepted notifications: \(accepted)")
+            
+            if accepted {
+                
+                if let currentUser = Auth.auth().currentUser {
+                    
+                    OneSignal.setEmail(currentUser.email!)
+                }
+            }
+        })
+        
         showContainerViewController()
     }
 }
