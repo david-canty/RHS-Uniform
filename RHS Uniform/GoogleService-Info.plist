@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>162126283724-acvgcqntd99rh53rgm7uprljb2muksg2.apps.googleusercontent.com</string>
+	<string>162126283724-27343ql8bssueansfggu053s2hoo1p4a.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.162126283724-acvgcqntd99rh53rgm7uprljb2muksg2</string>
+	<string>com.googleusercontent.apps.162126283724-27343ql8bssueansfggu053s2hoo1p4a</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBdDZizCSv0pPj1i3gs0SfHodbkZxn7ehY</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ddijitall.co.uk.RHS-Uniform</string>
+	<string>uk.co.ddijitall.RHS-Uniform</string>
 	<key>PROJECT_ID</key>
 	<string>red-house-school</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:162126283724:ios:7a7e1100f606871e</string>
+	<string>1:162126283724:ios:d502dbb563e2180c</string>
 	<key>DATABASE_URL</key>
 	<string>https://red-house-school.firebaseio.com</string>
 </dict>

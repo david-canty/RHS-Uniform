@@ -22,11 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let reachabilityManager = NetworkReachabilityManager(host: "localhost")
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
-    var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    var apnsToken: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        self.launchOptions = launchOptions
         
         // First launch checks
         FirebaseApp.configure()
@@ -60,6 +58,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         reachabilityManager?.startListening()
+        
+        // OneSignal
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        let oneSignalAppId = ProcessInfo.processInfo.environment["ONESIGNAL_APP_ID"]!
+        
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: oneSignalAppId,
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
         
         // Show main view or sign in
         listenForAuthStateDidChange()
@@ -214,30 +223,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // User Notifications
-    func registerForPushNotifications() {
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] (granted, error) in
-        
-            print("User notification permission granted: \(granted)")
-            
-            guard granted else { return }
-            self?.getNotificationSettings()
-        }
-    }
-    
-    func getNotificationSettings() {
-        
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            
-            print("User notification settings: \(settings)")
-            
-            guard settings.authorizationStatus == .authorized else { return }
-            
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        }
-    }
+//    func registerForPushNotifications() {
+//
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] (granted, error) in
+//
+//            print("User notification permission granted: \(granted)")
+//
+//            guard granted else { return }
+//            self?.getNotificationSettings()
+//        }
+//    }
+//
+//    func getNotificationSettings() {
+//
+//        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+//
+//            print("User notification settings: \(settings)")
+//
+//            guard settings.authorizationStatus == .authorized else { return }
+//
+//            DispatchQueue.main.async {
+//                UIApplication.shared.registerForRemoteNotifications()
+//            }
+//        }
+//    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
@@ -245,6 +254,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token = tokenParts.joined()
         
         print("Remote notification device token: \(token)")
+        
+        self.apnsToken = token
+    }
+    
+    func saveAPNSToken() {
+        
+        guard let token = self.apnsToken else { return }
         
         APIClient.sharedInstance.save(apnsDeviceToken: token) { (customer, error) in
             
@@ -257,23 +273,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let customerData = customer {
                     
                     if let customerId = customerData["id"] as? String {
-                    
+                        
                         if let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) {
                             
                             let apnsDeviceToken = customerData["apnsDeviceToken"] as! String
                             customerObject.apnsDeviceToken = apnsDeviceToken
                             
-                           self.saveContext()
+                            self.saveContext()
                         }
                     }
                 }
             }
+            
+            self.apnsToken = nil
         }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         
         print("Failed to register for remote notifications: \(error)")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        
     }
 }
 
@@ -303,17 +326,6 @@ extension AppDelegate: SignInViewControllerDelegate {
         
         //registerForPushNotifications()
         
-        // OneSignal
-        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
-        let oneSignalAppId = ProcessInfo.processInfo.environment["ONESIGNAL_APP_ID"]!
-        
-        OneSignal.initWithLaunchOptions(launchOptions,
-                                        appId: oneSignalAppId,
-                                        handleNotificationAction: nil,
-                                        settings: onesignalInitSettings)
-        
-        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
-        
         OneSignal.promptForPushNotifications(userResponse: { accepted in
             
             print("User accepted notifications: \(accepted)")
@@ -325,6 +337,8 @@ extension AppDelegate: SignInViewControllerDelegate {
                     OneSignal.setEmail(currentUser.email!)
                 }
             }
+            
+            self.saveAPNSToken()
         })
         
         showContainerViewController()
