@@ -77,7 +77,7 @@
 		1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FC4D3262093716200C7744F /* DefaultPreferences.plist */; };
 		1FCEA6ED21CC2E8B00A45878 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCEA6EC21CC2E8B00A45878 /* NotificationService.swift */; };
 		1FCEA6F121CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FCEA6EA21CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		1FCEA6F821CED61300A45878 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCEA6F721CED61300A45878 /* GoogleService-Info.plist */; };
+		1FCEA6FA21CFF4CF00A45878 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
 		1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC362030AA2900C05ABC /* AppConfig.swift */; };
 		1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC392030CAD400C05ABC /* APIClient.swift */; };
@@ -191,7 +191,7 @@
 		1FCEA6EC21CC2E8B00A45878 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FCEA6EE21CC2E8B00A45878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FCEA6F621CC31DF00A45878 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
-		1FCEA6F721CED61300A45878 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		1FE58CE72056DAB2009A13F9 /* APIPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPoll.swift; sourceTree = "<group>"; };
 		1FE9AC362030AA2900C05ABC /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -323,8 +323,8 @@
 				1F259A5C1F750473005E4681 /* LaunchScreen.storyboard */,
 				1F259A5A1F750473005E4681 /* Assets.xcassets */,
 				1F259A5F1F750473005E4681 /* Info.plist */,
+				1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */,
 				1FC4D3262093716200C7744F /* DefaultPreferences.plist */,
-				1FCEA6F721CED61300A45878 /* GoogleService-Info.plist */,
 				1F2A0A5E205DB61C0063F9AD /* RHS Uniform.entitlements */,
 			);
 			path = "RHS Uniform";
@@ -622,7 +622,7 @@
 				1F2F208E2046ED9200CAB6AC /* BagTableSectionHeader.xib in Resources */,
 				1F259A561F750473005E4681 /* Main.storyboard in Resources */,
 				1FC4D3272093716200C7744F /* DefaultPreferences.plist in Resources */,
-				1FCEA6F821CED61300A45878 /* GoogleService-Info.plist in Resources */,
+				1FCEA6FA21CFF4CF00A45878 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Base URL String</key>
+	<string>$(BASE_URL_STR)</string>
 	<key>OneSignal_app_groups_key</key>
 	<string>group.uk.co.ddijitall.RHS-Uniform.onesignal</string>
 	<key>CFBundleDevelopmentRegion</key>

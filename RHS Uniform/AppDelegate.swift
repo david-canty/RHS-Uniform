@@ -16,7 +16,7 @@ import UserNotifications
 import OneSignal
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     let reachabilityManager = NetworkReachabilityManager(host: "localhost")
@@ -81,6 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             
             showSignInViewController()
+        }
+        
+        if let baseURL = AppConfig.sharedInstance.configValueForKey("Base URL String") {
+            
+            print(baseURL)
         }
         
         return true
@@ -298,6 +303,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        
+    }
 }
 
 extension AppDelegate: ContainerViewControllerDelegate {
@@ -330,12 +348,8 @@ extension AppDelegate: SignInViewControllerDelegate {
             
             print("User accepted notifications: \(accepted)")
             
-            if accepted {
-                
-                if let currentUser = Auth.auth().currentUser {
-                    
-                    OneSignal.setEmail(currentUser.email!)
-                }
+            if let currentUser = Auth.auth().currentUser {
+                OneSignal.setEmail(currentUser.email!)
             }
             
             self.saveAPNSToken()

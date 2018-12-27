@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6FCA1012C6A2587352A8716F72F517FB"
+               BlueprintIdentifier = "D5E5B9FFF0EF10509D17C1F4B7D2B1B8"
                BuildableName = "Pods_OneSignalNotificationServiceExtension.framework"
                BlueprintName = "Pods-OneSignalNotificationServiceExtension"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6FCA1012C6A2587352A8716F72F517FB"
+            BlueprintIdentifier = "D5E5B9FFF0EF10509D17C1F4B7D2B1B8"
             BuildableName = "Pods_OneSignalNotificationServiceExtension.framework"
             BlueprintName = "Pods-OneSignalNotificationServiceExtension"
             ReferencedContainer = "container:Pods.xcodeproj">
