@@ -4,6 +4,10 @@
 <dict>
 	<key>Base URL String</key>
 	<string>$(BASE_URL_STR)</string>
+	<key>Stripe Publishable Key</key>
+	<string>$(STRIPE_PUBLISHABLE_KEY)</string>
+	<key>OneSignal App ID</key>
+	<string>$(ONESIGNAL_APP_ID)</string>
 	<key>OneSignal_app_groups_key</key>
 	<string>group.uk.co.ddijitall.RHS-Uniform.onesignal</string>
 	<key>CFBundleDevelopmentRegion</key>

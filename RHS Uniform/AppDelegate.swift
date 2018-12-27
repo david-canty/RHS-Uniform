@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // OneSignal
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
-        let oneSignalAppId = ProcessInfo.processInfo.environment["ONESIGNAL_APP_ID"]!
+        let oneSignalAppId = AppConfig.sharedInstance.oneSignalAppID()
         
         OneSignal.initWithLaunchOptions(launchOptions,
                                         appId: oneSignalAppId,
@@ -81,11 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             
             showSignInViewController()
-        }
-        
-        if let baseURL = AppConfig.sharedInstance.configValueForKey("Base URL String") {
-            
-            print(baseURL)
         }
         
         return true
