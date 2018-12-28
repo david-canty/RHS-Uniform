@@ -863,7 +863,6 @@
 /* Begin XCBuildConfiguration section */
 		1F259A601F750473005E4681 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F46EFBD21D68EA800C2FCED /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -923,7 +922,6 @@
 		};
 		1F259A611F750473005E4681 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F46EFBE21D68EA800C2FCED /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1016,7 +1014,6 @@
 		};
 		1F41193421D5389700FAFA24 /* Device - Local */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F46EFBC21D68EA800C2FCED /* Device.local.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1118,7 +1115,6 @@
 		};
 		1F41193921D56C4500FAFA24 /* Device - VC2 */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F46EFBF21D68EA800C2FCED /* Device.vc2.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
