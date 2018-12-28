@@ -24,14 +24,14 @@ final class AppConfig {
     private init() {}
     
     func baseUrlString() -> String {
-        guard let baseUrlString = configValueForKey("Base URL String") else {
+        guard let baseUrlString = configValueForKey("BASE_URL_STR") else {
             fatalError("Failed to get base URL string")
         }
         return baseUrlString
     }
     
     func stripePublishableKey() -> String {
-        guard let stripePublishableKey = configValueForKey("Stripe Publishable Key") else {
+        guard let stripePublishableKey = configValueForKey("STRIPE_PUBLISHABLE_KEY") else {
             fatalError("Failed to get Stripe publishable key")
         }
         return stripePublishableKey
@@ -44,7 +44,7 @@ final class AppConfig {
     func s3BucketUrlString() -> String { return s3BucketUrlStr }
     
     func oneSignalAppID() -> String {
-        guard let oneSignalAppID = configValueForKey("OneSignal App ID") else {
+        guard let oneSignalAppID = configValueForKey("ONESIGNAL_APP_ID") else {
             fatalError("Failed to get OneSignal app ID")
         }
         return oneSignalAppID
