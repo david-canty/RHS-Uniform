@@ -34,6 +34,10 @@ final class APIClient {
     // MARK: - Fetch data
     func fetchData() {
         
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
             if let error = error {
@@ -70,6 +74,10 @@ final class APIClient {
                                 
                                 print("Error fetching orders JSON: \(error!.localizedDescription)")
                                 
+                                DispatchQueue.main.async {
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                                }
+                                
                             } else {
                                 
                                 if let ordersJSON = ordersJSON {
@@ -78,9 +86,17 @@ final class APIClient {
                                     self.deleteOrders(with: ordersJSON)
                             
                                     self.saveContextAndPostNotification()
+                                    
+                                    DispatchQueue.main.async {
+                                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                                    }
                                 }
                             }
                         }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
                     }
                 }
             }

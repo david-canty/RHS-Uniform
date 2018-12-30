@@ -14,6 +14,7 @@ import Firebase
 import Stripe
 import UserNotifications
 import OneSignal
+import FTLinearActivityIndicator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -50,6 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Alamofire network activity indicator
         NetworkActivityIndicatorManager.shared.isEnabled = true
         NetworkActivityIndicatorManager.shared.startDelay = 0
+        
+        UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         
         // Alamofire reachability manager
         reachabilityManager?.listener = { status in
@@ -343,9 +346,9 @@ extension AppDelegate: SignInViewControllerDelegate {
             
             print("User accepted notifications: \(accepted)")
             
-            if let currentUser = Auth.auth().currentUser {
-                OneSignal.setEmail(currentUser.email!)
-            }
+//            if let currentUser = Auth.auth().currentUser {
+//                OneSignal.setEmail(currentUser.email!)
+//            }
             
             self.saveAPNSToken()
         })

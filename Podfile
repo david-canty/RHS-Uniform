@@ -13,6 +13,7 @@ target 'RHS Uniform' do
   pod 'Firebase/Auth'
   pod 'Stripe'
   pod 'OneSignal', '>= 2.6.2', '< 3.0'
+  pod 'FTLinearActivityIndicator'
 
 end
 
