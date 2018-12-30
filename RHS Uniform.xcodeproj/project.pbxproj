@@ -92,6 +92,7 @@
 		1FEED7EE200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED7ED200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift */; };
 		1FEED7F020066834001E1358 /* SideMenuTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED7EF20066834001E1358 /* SideMenuTransitioningDelegate.swift */; };
 		1FEED7F220066933001E1358 /* SideMenuPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED7F120066933001E1358 /* SideMenuPresentationController.swift */; };
+		1FF7692721D95C13004B635E /* APNSController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7692621D95C13004B635E /* APNSController.swift */; };
 		716D1347C812DDD5026E40D8 /* Pods_RHS_Uniform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFE565C8C7F98DF6AB0A4FEB /* Pods_RHS_Uniform.framework */; };
 		8A7D6377C80F2F2FB9956C25 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E9DE22C70D6952DB4DF607 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 /* End PBXBuildFile section */
@@ -213,6 +214,7 @@
 		1FEED7ED200664C5001E1358 /* SideMenuAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuAnimatedTransitioningController.swift; sourceTree = "<group>"; };
 		1FEED7EF20066834001E1358 /* SideMenuTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTransitioningDelegate.swift; sourceTree = "<group>"; };
 		1FEED7F120066933001E1358 /* SideMenuPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuPresentationController.swift; sourceTree = "<group>"; };
+		1FF7692621D95C13004B635E /* APNSController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNSController.swift; sourceTree = "<group>"; };
 		20E9DE22C70D6952DB4DF607 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EFC77B430159B09D498706D /* Pods-RHS Uniform.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RHS Uniform.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RHS Uniform/Pods-RHS Uniform.debug.xcconfig"; sourceTree = "<group>"; };
 		9F20F820ACF2B5A3DB4C0D58 /* Pods-OneSignalNotificationServiceExtension.device - local.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.device - local.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.device - local.xcconfig"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				1F259A501F750473005E4681 /* AppDelegate.swift */,
+				1FF7692621D95C13004B635E /* APNSController.swift */,
 				1F46EFBB21D68EA800C2FCED /* Config */,
 				1F2A0A57205D7D6D0063F9AD /* Keychain */,
 				1FE9AC382030CAB200C05ABC /* API */,
@@ -788,6 +791,7 @@
 				1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */,
 				1F28CDE9203B28CF0074C0D3 /* ModalSelectAnimatedTransitioningController.swift in Sources */,
 				1F9A549F2179EB210078492B /* CheckoutTableViewCell.swift in Sources */,
+				1FF7692721D95C13004B635E /* APNSController.swift in Sources */,
 				1F19BCD72198B0A900D98F96 /* OrdersViewController.swift in Sources */,
 				1F30AFEF204DBEBB00246E64 /* ItemFilterPresentationController.swift in Sources */,
 				1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */,

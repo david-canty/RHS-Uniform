@@ -210,7 +210,7 @@ class OrderDetailViewController: UITableViewController {
         cancelOrderButton.setTitle("", for: .normal)
         cancelOrderActivityIndicator.startAnimating()
         
-        APIClient.sharedInstance.cancel(orderId: order.id) { (order, error) in
+        APIClient.sharedInstance.cancel(orderId: order.id) { (cancelledOrder, error) in
             
             if let error = error as NSError? {
                 
@@ -224,12 +224,12 @@ class OrderDetailViewController: UITableViewController {
                 
             } else {
                 
-                if let order = order {
+                if let cancelledOrder = cancelledOrder {
                     
                     DispatchQueue.main.async {
                         
                         self.cancelOrderActivityIndicator.stopAnimating()
-                        self.statusLabel.text = order.orderStatus
+                        self.statusLabel.text = cancelledOrder.orderStatus
                         self.displayCancelOrderButton()
                     }
                 }
