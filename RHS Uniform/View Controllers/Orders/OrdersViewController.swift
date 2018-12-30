@@ -17,6 +17,7 @@ enum OrderStatus: String {
     case complete = "Complete"
     case cancellationRequested = "Cancellation Requested"
     case cancelled = "Cancelled"
+    case returned = "Returned"
 }
 
 class OrdersViewController: UITableViewController, NSFetchedResultsControllerDelegate {
