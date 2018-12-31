@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MessageUI
 
 protocol ContainerViewControllerDelegate {
     
@@ -285,16 +286,46 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
     
     func showContact() {
         
-        print("Contact tapped")
+        if !MFMailComposeViewController.canSendMail() {
+            
+            let alertController = UIAlertController(title: "Cannot Send Email", message: "This device is not configured to send email.", preferredStyle: .alert)
+            alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+            
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(alertAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        let composeVC = MFMailComposeViewController()
+        let recipient = AppConfig.sharedInstance.schoolAdminEmail()
+        composeVC.setToRecipients([recipient])
+        composeVC.setSubject("Uniform Shop App")
+        composeVC.mailComposeDelegate = self
+        
+        composeVC.navigationBar.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        composeVC.view.tintColor = UIColor(red: 62.0/255.0, green: 60.0/255.0, blue: 146.0/255.0, alpha: 1.0)
+        
+        self.present(composeVC, animated: true, completion: nil)
     }
     
     func showTermsAndConditions() {
         
         let viewControllers: [UIViewController] = embeddedNavigationController.viewControllers
+        
         for viewController in viewControllers {
+            
             if viewController is LegalInformationViewController {
-                embeddedNavigationController.popToViewController(viewController, animated: true)
-                return
+                
+                let existingLegalInfoVC = viewController as! LegalInformationViewController
+                
+                if existingLegalInfoVC.informationType == LegalInformationType.termsAndConditions {
+                    
+                    embeddedNavigationController.popToViewController(viewController, animated: true)
+                    return
+                }
             }
         }
         
@@ -308,10 +339,18 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
     func showPrivacyPolicy() {
         
         let viewControllers: [UIViewController] = embeddedNavigationController.viewControllers
+        
         for viewController in viewControllers {
+            
             if viewController is LegalInformationViewController {
-                embeddedNavigationController.popToViewController(viewController, animated: true)
-                return
+                
+                let existingLegalInfoVC = viewController as! LegalInformationViewController
+                
+                if existingLegalInfoVC.informationType == LegalInformationType.privacyPolicy {
+                    
+                    embeddedNavigationController.popToViewController(viewController, animated: true)
+                    return
+                }
             }
         }
         

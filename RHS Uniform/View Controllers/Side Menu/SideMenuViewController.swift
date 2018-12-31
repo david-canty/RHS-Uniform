@@ -127,8 +127,9 @@ extension SideMenuViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let menuItem = tableRowLabels[indexPath.section][indexPath.row]
-        delegate?.sideMenuDidSelectItem(menuItem)
         
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            self.delegate?.sideMenuDidSelectItem(menuItem)
+        }
     }
 }

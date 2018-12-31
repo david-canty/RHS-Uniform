@@ -23,6 +23,13 @@ final class AppConfig {
     
     private init() {}
     
+    func schoolAdminEmail() -> String {
+        guard let email = configValueForKey("SCHOOL_ADMIN_EMAIL") else {
+            fatalError("Failed to get school admin email")
+        }
+        return email
+    }
+    
     func baseUrlString() -> String {
         guard let baseUrlString = configValueForKey("BASE_URL_STR") else {
             fatalError("Failed to get base URL string")

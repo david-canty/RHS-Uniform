@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 extension ContainerViewController: BackButtonDelegate {
     
@@ -41,5 +42,32 @@ extension ContainerViewController: SearchViewControllerDelegate {
     func searchButton(show: Bool) {
         
         searchButton.isHidden = !show
+    }
+}
+
+extension ContainerViewController: MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        if let error = error as NSError? {
+            
+            print("Mail compose error: \(error), \(error.userInfo)")
+            
+        } else {
+        
+            switch result {
+            case .cancelled:
+                print("Mail compose cancelled")
+            case .failed:
+                print("Mail compose failed")
+            case .saved:
+                print("Mail compose saved")
+            case .sent:
+                print("Mail compose sent")
+            }
+        
+        }
+        
+        controller.dismiss(animated: true, completion: nil)
     }
 }
