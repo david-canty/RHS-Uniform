@@ -20,7 +20,7 @@ import FTLinearActivityIndicator
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    let reachabilityManager = NetworkReachabilityManager(host: "localhost")
+    var reachabilityManager: NetworkReachabilityManager?
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
     var apnsToken: String?
@@ -55,11 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         
         // Alamofire reachability manager
-        reachabilityManager?.listener = { status in
-            
-            print("Network Status Changed: \(status)")
-        }
-        
+        reachabilityManager = NetworkReachabilityManager(host: AppConfig.sharedInstance.baseUrlString())
+        reachabilityManager?.listener = { status in print("Network Status Changed: \(status)") }
         reachabilityManager?.startListening()
         
         // OneSignal

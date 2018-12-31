@@ -215,6 +215,12 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
         case contactLabel:
             showContact()
             
+        case termsLabel:
+            showTermsAndConditions()
+            
+        case privacyLabel:
+            showPrivacyPolicy()
+            
         case signOutLabel:
             signOut()
             
@@ -280,6 +286,40 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
     func showContact() {
         
         print("Contact tapped")
+    }
+    
+    func showTermsAndConditions() {
+        
+        let viewControllers: [UIViewController] = embeddedNavigationController.viewControllers
+        for viewController in viewControllers {
+            if viewController is LegalInformationViewController {
+                embeddedNavigationController.popToViewController(viewController, animated: true)
+                return
+            }
+        }
+        
+        if let legalInfoVC = UIStoryboard.legalInformationViewController() {
+        
+            legalInfoVC.informationType = LegalInformationType.termsAndConditions
+            embeddedNavigationController.pushViewController(legalInfoVC, animated: true)
+        }
+    }
+    
+    func showPrivacyPolicy() {
+        
+        let viewControllers: [UIViewController] = embeddedNavigationController.viewControllers
+        for viewController in viewControllers {
+            if viewController is LegalInformationViewController {
+                embeddedNavigationController.popToViewController(viewController, animated: true)
+                return
+            }
+        }
+        
+        if let legalInfoVC = UIStoryboard.legalInformationViewController() {
+            
+            legalInfoVC.informationType = LegalInformationType.privacyPolicy
+            embeddedNavigationController.pushViewController(legalInfoVC, animated: true)
+        }
     }
     
     func signOut() {

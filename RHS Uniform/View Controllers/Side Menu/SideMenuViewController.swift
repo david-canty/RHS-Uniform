@@ -18,6 +18,8 @@ let yourOrdersLabel = "Your Orders"
 let yourAccountLabel = "Your Account"
 let settingsLabel = "Settings"
 let contactLabel = "Contact"
+let termsLabel = "Terms and Conditions"
+let privacyLabel = "Privacy Policy"
 let signOutLabel = "Sign Out"
 
 class SideMenuViewController: UIViewController {
@@ -25,7 +27,7 @@ class SideMenuViewController: UIViewController {
     var delegate: SideMenuViewControllerDelegate?
     let notificationCenter = NotificationCenter.default
     
-    let tableRowLabels = [[uniformShopLabel, yourOrdersLabel, yourAccountLabel], [settingsLabel, contactLabel],  [signOutLabel]]
+    let tableRowLabels = [[uniformShopLabel, yourOrdersLabel, yourAccountLabel], [settingsLabel, contactLabel], [termsLabel, privacyLabel],  [signOutLabel]]
     
     let tableCellIdentifier = "sideMenuTableCell"
     

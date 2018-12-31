@@ -75,7 +75,7 @@ final class APIClient {
                                 print("Error fetching orders JSON: \(error!.localizedDescription)")
                                 
                                 DispatchQueue.main.async {
-                                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 }
                                 
                             } else {
@@ -88,7 +88,7 @@ final class APIClient {
                                     self.saveContextAndPostNotification()
                                     
                                     DispatchQueue.main.async {
-                                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                     }
                                 }
                             }
@@ -96,7 +96,7 @@ final class APIClient {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                 }
             }

@@ -3297,6 +3297,51 @@
             </objects>
             <point key="canvasLocation" x="2996" y="2049"/>
         </scene>
+        <!--Legal Information View Controller-->
+        <scene sceneID="Whz-6M-tvh">
+            <objects>
+                <viewController storyboardIdentifier="LegalInformationViewController" id="uae-hO-r7K" customClass="LegalInformationViewController" customModule="RHS_Uniform" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I3P-0C-a6D">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SxQ-TF-qXd">
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8jc-9F-9iJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
+                                        <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="14"/>
+                                        <color key="textColor" red="0.24313725489999999" green="0.23529411759999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jAQ-aF-7Uc">
+                                        <rect key="frame" x="0.0" y="66" width="343" height="549"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="SxQ-TF-qXd" firstAttribute="top" secondItem="mQh-7h-eRM" secondAttribute="top" constant="16" id="0cR-1f-AXa"/>
+                            <constraint firstItem="mQh-7h-eRM" firstAttribute="trailing" secondItem="SxQ-TF-qXd" secondAttribute="trailing" constant="16" id="C07-QO-OCI"/>
+                            <constraint firstItem="SxQ-TF-qXd" firstAttribute="leading" secondItem="mQh-7h-eRM" secondAttribute="leading" constant="16" id="lJ6-5G-fsK"/>
+                            <constraint firstItem="mQh-7h-eRM" firstAttribute="bottom" secondItem="SxQ-TF-qXd" secondAttribute="bottom" constant="16" id="y3v-fW-Nke"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mQh-7h-eRM"/>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="jAQ-aF-7Uc" id="Su5-O4-SEE"/>
+                        <outlet property="titleLabel" destination="8jc-9F-9iJ" id="Jij-9H-waP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GfL-rw-9u9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1177" y="415"/>
+        </scene>
     </scenes>
     <resources>
         <image name="btn_back" width="22" height="22"/>
