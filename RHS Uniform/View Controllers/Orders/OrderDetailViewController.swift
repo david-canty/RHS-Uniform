@@ -13,8 +13,11 @@ import AlamofireImage
 class OrderDetailViewController: UITableViewController {
 
     var managedObjectContext: NSManagedObjectContext!
+    let notificationCenter = NotificationCenter.default
     var order: SUOrder!
     var orderItems: [SUOrderItem]!
+    
+    var orderStatus: OrderStatus?
     
     let numberFormatter = NumberFormatter()
     
@@ -39,15 +42,26 @@ class OrderDetailViewController: UITableViewController {
         super.viewDidLoad()
 
         numberFormatter.numberStyle = .currency
+        
+        notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         
+        displayOrder()
+    }
+    
+    func displayOrder() {
+        
         displayOrderDetails()
         displayPaymentInformation()
         displayCancelOrderButton()
+        
+        if let status = order.orderStatus {
+            orderStatus = OrderStatus(rawValue: status)
+        }
     }
     
     func displayCancelOrderButton() {
@@ -109,6 +123,21 @@ class OrderDetailViewController: UITableViewController {
         paymentMethodLabel.text = order.paymentMethod
         paymentTotal.text = numberFormatter.string(from: getOrderTotal() as NSNumber)
     }
+    
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+    
+    @objc func apiUpdated(notification: NSNotification) {
+        
+        order = SUOrder.getObjectWithId(order.id)
+        orderItems = order.orderItems?.allObjects as? [SUOrderItem]
+
+        DispatchQueue.main.async {
+            self.displayOrder()
+            self.tableView.reloadData()
+        }
+    }
 
     // MARK: - Table View
 
@@ -148,16 +177,31 @@ class OrderDetailViewController: UITableViewController {
         cell.itemImageView.af_setImage(withURL: imageUrl, placeholderImage: placeholderImage, filter: filter)
         
         // Cancel button
-        cell.cancelButton.addTarget(self, action: #selector(cellCancelButtonTapped(_:)), for: .touchUpInside)
-        cell.cancelButton.tag = indexPath.row
+        cell.cancelButton.isHidden = true
+        
+        if orderStatus == OrderStatus.ordered ||
+            orderStatus == OrderStatus.awaitingStock ||
+            orderStatus == OrderStatus.readyForCollection {
+        
+            cell.cancelButton.addTarget(self, action: #selector(cellCancelButtonTapped(_:)), for: .touchUpInside)
+            cell.cancelButton.tag = indexPath.row
+            cell.cancelButton.isHidden = false
+        }
+        
+        // Return button
+        cell.returnButton.isHidden = true
+        
+        if orderStatus == OrderStatus.awaitingPayment ||
+            orderStatus == OrderStatus.complete {
+            
+            cell.returnButton.addTarget(self, action: #selector(cellReturnButtonTapped(_:)), for: .touchUpInside)
+            cell.returnButton.tag = indexPath.row
+            cell.returnButton.isHidden = false
+        }
         
         // Buy Again button
         cell.buyAgainButton.addTarget(self, action: #selector(cellBuyAgainButtonTapped(_:)), for: .touchUpInside)
         cell.buyAgainButton.tag = indexPath.row
-        
-        // Return button
-        cell.returnButton.addTarget(self, action: #selector(cellReturnButtonTapped(_:)), for: .touchUpInside)
-        cell.returnButton.tag = indexPath.row
         
         return cell
     }

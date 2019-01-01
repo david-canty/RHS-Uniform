@@ -21,7 +21,14 @@ class LegalInformationViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
     
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
         
         loadContent()
     }

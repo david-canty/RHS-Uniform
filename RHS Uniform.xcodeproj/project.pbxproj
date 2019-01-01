@@ -87,6 +87,7 @@
 		1FCEA6ED21CC2E8B00A45878 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCEA6EC21CC2E8B00A45878 /* NotificationService.swift */; };
 		1FCEA6F121CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FCEA6EA21CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FCEA6FA21CFF4CF00A45878 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */; };
+		1FD3CBDA21DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
 		1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC362030AA2900C05ABC /* AppConfig.swift */; };
 		1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC392030CAD400C05ABC /* APIClient.swift */; };
@@ -211,6 +212,7 @@
 		1FCEA6EE21CC2E8B00A45878 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FCEA6F621CC31DF00A45878 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCancelReturnViewController.swift; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		1FE58CE72056DAB2009A13F9 /* APIPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPoll.swift; sourceTree = "<group>"; };
 		1FE9AC362030AA2900C05ABC /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */,
 				1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */,
 				1FBCDD22219F2D8100958511 /* OrderDetailViewController.swift */,
+				1FD3CBDB21DBEC920032DE2F /* Order Item */,
 				1FBCDD1B219DD1A800958511 /* Order Filter */,
 			);
 			path = Orders;
@@ -527,6 +530,14 @@
 				1FCEA6EE21CC2E8B00A45878 /* Info.plist */,
 			);
 			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		1FD3CBDB21DBEC920032DE2F /* Order Item */ = {
+			isa = PBXGroup;
+			children = (
+				1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */,
+			);
+			path = "Order Item";
 			sourceTree = "<group>";
 		};
 		1FE9AC382030CAB200C05ABC /* API */ = {
@@ -807,6 +818,7 @@
 				1FBCDD21219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift in Sources */,
 				1F30AFE8204DAD9200246E64 /* Storyboard+Extension.swift in Sources */,
 				1F2A0A5B205D7DDB0063F9AD /* KeychainConfiguration.swift in Sources */,
+				1FD3CBDA21DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift in Sources */,
 				1F9A549D2179EA1E0078492B /* CheckoutViewController.swift in Sources */,
 				1F28CDE7203B28B10074C0D3 /* ModalSelectPresentationController.swift in Sources */,
 				1F9A5A65217D05C20078492B /* PaymentMethodsViewController.swift in Sources */,
