@@ -294,13 +294,13 @@ class SignInViewController: UIViewController {
         
         if SUCustomer.getObjectWithEmail(email) == nil {
             
-            StripeClient.sharedInstance.createCustomer(withEmail: email) { result in
+            StripeClient.shared.createCustomer(withEmail: email) { result in
                 
                 switch result {
                     
                 case .success:
                     
-                    APIClient.sharedInstance.createCustomer(withFirebaseId: uid, email: email, completion: { (customer, error) in
+                    APIClient.shared.createCustomer(withFirebaseId: uid, email: email, completion: { (customer, error) in
                     
                         if let error = error as NSError? {
                             

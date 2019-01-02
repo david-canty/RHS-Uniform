@@ -45,7 +45,7 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
     
 //    required init?(coder aDecoder: NSCoder) {
 //
-//        let customerContext = STPCustomerContext(keyProvider: StripeClient.sharedInstance)
+//        let customerContext = STPCustomerContext(keyProvider: StripeClient.shared)
 //        paymentContext = STPPaymentContext(customerContext: customerContext)
 //
 //        super.init(coder: aDecoder)
@@ -130,7 +130,7 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
         let firstImage = (itemImages.first { $0.sortOrder == 0 })
         let imageFilename = firstImage?.filename ?? "dummy.png"
         
-        let imagesUrlString = AppConfig.sharedInstance.s3BucketUrlString()
+        let imagesUrlString = AppConfig.shared.s3BucketUrlString()
         
         let imageUrl = URL(string: "\(imagesUrlString)/\(imageFilename)")!
         let placeholderImage = UIImage(named: "placeholder_64x64")!
@@ -365,10 +365,10 @@ extension CheckoutViewController: PaymentInformationDelegate {
         let roundedOrderAmountInCents = roundedOrderAmount.multiplying(by: NSDecimalNumber(value: 100))
         let orderAmountInCents = Int(truncating: roundedOrderAmountInCents)
         
-        let currency = AppConfig.sharedInstance.stripeChargeCurrency()
-        let description = AppConfig.sharedInstance.stripeChargeDescription()
+        let currency = AppConfig.shared.stripeChargeCurrency()
+        let description = AppConfig.shared.stripeChargeDescription()
         
-        StripeClient.sharedInstance.completeCharge(withAmount: orderAmountInCents, currency: currency, description: description) { chargeId, error in
+        StripeClient.shared.completeCharge(withAmount: orderAmountInCents, currency: currency, description: description) { chargeId, error in
             
             completion(chargeId, error)
         }
@@ -403,7 +403,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
             }
         }
         
-        APIClient.sharedInstance.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod, chargeId: chargeId) { (orderInfo, error) in
+        APIClient.shared.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod, chargeId: chargeId) { (orderInfo, error) in
             
             if let error = error as NSError? {
                 fatalError("Error creating order: \(error), \(error.userInfo)")

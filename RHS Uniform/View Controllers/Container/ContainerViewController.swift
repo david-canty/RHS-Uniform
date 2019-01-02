@@ -300,7 +300,7 @@ extension ContainerViewController: SideMenuViewControllerDelegate {
         }
         
         let composeVC = MFMailComposeViewController()
-        let recipient = AppConfig.sharedInstance.schoolAdminEmail()
+        let recipient = AppConfig.shared.schoolAdminEmail()
         composeVC.setToRecipients([recipient])
         composeVC.setSubject("Uniform Shop App")
         composeVC.mailComposeDelegate = self

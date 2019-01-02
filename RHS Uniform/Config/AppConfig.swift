@@ -10,7 +10,7 @@ import Foundation
 
 final class AppConfig {
     
-    static let sharedInstance = AppConfig()
+    static let shared = AppConfig()
     
     private let stripeCurrency = "gbp"
     private let stripeDescription = "Order from RHS Uniform app"

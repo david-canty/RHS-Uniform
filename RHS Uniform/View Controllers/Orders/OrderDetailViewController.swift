@@ -14,6 +14,7 @@ class OrderDetailViewController: UITableViewController {
 
     var managedObjectContext: NSManagedObjectContext!
     let notificationCenter = NotificationCenter.default
+    let orderItemCancelReturnTransitioningDelegate = OrderItemCancelReturnTransitioningDelegate()
     var order: SUOrder!
     var orderItems: [SUOrderItem]!
     
@@ -167,7 +168,7 @@ class OrderDetailViewController: UITableViewController {
         let firstImage = (itemImages.first { $0.sortOrder == 0 })
         let imageFilename = firstImage?.filename ?? "dummy.png"
         
-        let imagesUrlString = AppConfig.sharedInstance.s3BucketUrlString()
+        let imagesUrlString = AppConfig.shared.s3BucketUrlString()
         
         let imageUrl = URL(string: "\(imagesUrlString)/\(imageFilename)")!
         let placeholderImage = UIImage(named: "placeholder_64x64")!
@@ -210,9 +211,38 @@ class OrderDetailViewController: UITableViewController {
     
     @objc func cellCancelButtonTapped(_ sender: UIButton) {
         
-        rowForTappedCancelButton = sender.tag
+        if let orderItemCancelReturnVC = UIStoryboard.orderItemCancelReturnViewController() {
+            
+            orderItemCancelReturnVC.transitioningDelegate = orderItemCancelReturnTransitioningDelegate
+            orderItemCancelReturnVC.modalPresentationStyle = .custom
+            
+            orderItemCancelReturnVC.cancelReturnItem = CancelReturnItem.cancelItem
+            
+            rowForTappedCancelButton = sender.tag
+            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelButton!]
+            
+            orderItemCancelReturnVC.delegate = self
+            
+            present(orderItemCancelReturnVC, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func cellReturnButtonTapped(_ sender: UIButton) {
         
-        print("Order item Cancel button tapped at row \(String(describing: rowForTappedCancelButton))")
+        if let orderItemCancelReturnVC = UIStoryboard.orderItemCancelReturnViewController() {
+            
+            orderItemCancelReturnVC.transitioningDelegate = orderItemCancelReturnTransitioningDelegate
+            orderItemCancelReturnVC.modalPresentationStyle = .custom
+            
+            orderItemCancelReturnVC.cancelReturnItem = CancelReturnItem.returnItem
+            
+            rowForTappedCancelButton = sender.tag
+            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelButton!]
+            
+            orderItemCancelReturnVC.delegate = self
+            
+            present(orderItemCancelReturnVC, animated: true, completion: nil)
+        }
     }
     
     @objc func cellBuyAgainButtonTapped(_ sender: UIButton) {
@@ -221,12 +251,6 @@ class OrderDetailViewController: UITableViewController {
         performSegue(withIdentifier: "buyAgain", sender: self)
     }
     
-    @objc func cellReturnButtonTapped(_ sender: UIButton) {
-        
-        rowForTappedReturnButton = sender.tag
-        
-        print("Order item Return button tapped at row \(String(describing: rowForTappedReturnButton))")
-    }
     @IBAction func cancelOrderTapped(_ sender: UIButton) {
     
         guard let order = order else { return }
@@ -254,7 +278,7 @@ class OrderDetailViewController: UITableViewController {
         cancelOrderButton.setTitle("", for: .normal)
         cancelOrderActivityIndicator.startAnimating()
         
-        APIClient.sharedInstance.cancel(orderId: order.id) { (cancelledOrder, error) in
+        APIClient.shared.cancel(orderId: order.id) { (cancelledOrder, error) in
             
             if let error = error as NSError? {
                 
@@ -310,5 +334,13 @@ extension OrderDetailViewController {
         alertController.addAction(alertAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension OrderDetailViewController: OrderItemCancelReturnDelegate {
+    
+    func orderItemCancelReturnDidFinish(withQuantity quantity: Int, ofType type: CancelReturnItem) {
+        
+        
     }
 }

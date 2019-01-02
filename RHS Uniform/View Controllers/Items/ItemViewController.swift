@@ -141,7 +141,7 @@ class ItemViewController: UIViewController {
         let image = (itemImages.first { $0.sortOrder == imageIndex })
         let imageFilename = image?.filename ?? "dummy.png"
         
-        let imagesUrlString = AppConfig.sharedInstance.s3BucketUrlString()
+        let imagesUrlString = AppConfig.shared.s3BucketUrlString()
         
         let imageUrl = URL(string: "\(imagesUrlString)/\(imageFilename)")!
         let placeholderImage = UIImage(named: "placeholder_192x192")!

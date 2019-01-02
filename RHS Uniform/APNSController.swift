@@ -10,7 +10,7 @@ import Foundation
 
 final class APNSController {
     
-    static let sharedInstance = APNSController()
+    static let shared = APNSController()
     
     
     

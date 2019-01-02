@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         // Stripe
-        STPPaymentConfiguration.shared().publishableKey = AppConfig.sharedInstance.stripePublishableKey()
+        STPPaymentConfiguration.shared().publishableKey = AppConfig.shared.stripePublishableKey()
         setStripeTheme()
         
         // Alamofire network activity indicator
@@ -55,13 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         
         // Alamofire reachability manager
-        reachabilityManager = NetworkReachabilityManager(host: AppConfig.sharedInstance.baseUrlString())
+        reachabilityManager = NetworkReachabilityManager(host: AppConfig.shared.baseUrlString())
         reachabilityManager?.listener = { status in print("Network Status Changed: \(status)") }
         reachabilityManager?.startListening()
         
         // OneSignal
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
-        let oneSignalAppId = AppConfig.sharedInstance.oneSignalAppID()
+        let oneSignalAppId = AppConfig.shared.oneSignalAppID()
         
         OneSignal.initWithLaunchOptions(launchOptions,
                                         appId: oneSignalAppId,
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if firebaseAuth?.currentUser != nil {
             
-            APIPoll.sharedInstance.startPolling()
+            APIPoll.shared.startPolling()
             showContainerViewController()
             
         } else {
@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        APIPoll.sharedInstance.stopPolling()
+        APIPoll.shared.stopPolling()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -178,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidBecomeActive(_ application: UIApplication) {
         
         if firebaseAuth?.currentUser != nil {
-            APIPoll.sharedInstance.startPolling()
+            APIPoll.shared.startPolling()
         }
     }
 
@@ -262,7 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         guard let token = self.apnsToken else { return }
         
-        APIClient.sharedInstance.save(apnsDeviceToken: token) { (customer, error) in
+        APIClient.shared.save(apnsDeviceToken: token) { (customer, error) in
             
             if let error = error as NSError? {
                 
@@ -321,7 +321,7 @@ extension AppDelegate: ContainerViewControllerDelegate {
             
             try firebaseAuth?.signOut()
             
-            APIPoll.sharedInstance.stopPolling()
+            APIPoll.shared.stopPolling()
             showSignInViewController()
             
         } catch let signOutError as NSError {
@@ -335,7 +335,7 @@ extension AppDelegate: SignInViewControllerDelegate {
     
     func didSignIn() {
         
-        APIPoll.sharedInstance.startPolling()
+        APIPoll.shared.startPolling()
         
         //registerForPushNotifications()
         

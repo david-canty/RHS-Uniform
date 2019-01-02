@@ -17,7 +17,7 @@ enum APIClientError: Error {
 
 final class APIClient {
     
-    static let sharedInstance = APIClient()
+    static let shared = APIClient()
     
     private let context: NSManagedObjectContext!
     private let currentUser: User!

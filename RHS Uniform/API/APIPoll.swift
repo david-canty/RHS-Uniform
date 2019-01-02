@@ -10,7 +10,7 @@ import Foundation
 
 class APIPoll {
     
-    static let sharedInstance = APIPoll()
+    static let shared = APIPoll()
     private var apiPollTimer: Timer?
     
     private init() {}
@@ -21,7 +21,7 @@ class APIPoll {
         
         fetchData()
         
-        let apiPollInterval: TimeInterval = AppConfig.sharedInstance.apiPollInterval()
+        let apiPollInterval: TimeInterval = AppConfig.shared.apiPollInterval()
         apiPollTimer = Timer.scheduledTimer(timeInterval: apiPollInterval, target: self, selector: #selector(fetchData), userInfo: nil, repeats: true)
     }
     
@@ -32,6 +32,6 @@ class APIPoll {
     
     @objc private func fetchData() {
         
-        APIClient.sharedInstance.fetchData()
+        APIClient.shared.fetchData()
     }
 }

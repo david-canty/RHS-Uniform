@@ -130,7 +130,7 @@ class PaymentMethodsViewController: UITableViewController {
             removeRightBarButtonItem()
             sourcesActivityIndicator.startAnimating()
             
-            StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
+            StripeClient.shared.getCustomer(withId: customerId, completion: { (customer, error) in
                 
                 if let sources = customer?["sources"] as? [String: Any] {
                     
@@ -174,7 +174,7 @@ class PaymentMethodsViewController: UITableViewController {
     @IBAction func addTapped(_ sender: Any) {
         
         let paymentConfig = STPPaymentConfiguration()
-        paymentConfig.publishableKey = AppConfig.sharedInstance.stripePublishableKey()
+        paymentConfig.publishableKey = AppConfig.shared.stripePublishableKey()
         paymentConfig.requiredBillingAddressFields = STPBillingAddressFields.name
         //paymentConfig.canDeletePaymentMethods = true
 
@@ -296,7 +296,7 @@ class PaymentMethodsViewController: UITableViewController {
     
     func updateStripeDefault(withCardId cardId: String) {
         
-        StripeClient.sharedInstance.updateCustomer(defaultSource: cardId) { (customer, error) in
+        StripeClient.shared.updateCustomer(defaultSource: cardId) { (customer, error) in
             
             if let error = error as NSError? {
                 
@@ -316,7 +316,7 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
     
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreateToken token: STPToken, completion: @escaping STPErrorBlock) {
     
-        StripeClient.sharedInstance.createCustomerSource(token.tokenId) { (source, error) in
+        StripeClient.shared.createCustomerSource(token.tokenId) { (source, error) in
             
             if let error = error as NSError? {
                 
@@ -347,7 +347,7 @@ extension PaymentMethodsViewController: STPAddCardViewControllerDelegate {
             self.navigationController?.popViewController(animated: true)
         }
         
-//        StripeClient.sharedInstance.completeCharge(with: token, amount: 999) { result in
+//        StripeClient.shared.completeCharge(with: token, amount: 999) { result in
 //
 //            switch result {
 //

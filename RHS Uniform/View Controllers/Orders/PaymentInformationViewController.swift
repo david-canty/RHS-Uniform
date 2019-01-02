@@ -72,7 +72,7 @@ class PaymentInformationViewController: UITableViewController {
         
         if let customerId = KeychainController.readItem(withAccountName: "StripeCustomerId") {
             
-            StripeClient.sharedInstance.getCustomer(withId: customerId, completion: { (customer, error) in
+            StripeClient.shared.getCustomer(withId: customerId, completion: { (customer, error) in
                 
                 if let sources = customer?["sources"] as? [String: Any] {
                     

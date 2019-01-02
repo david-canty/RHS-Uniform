@@ -267,7 +267,7 @@ public enum APIRouter: URLRequestConvertible {
             }
         }()
         
-        let url = try AppConfig.sharedInstance.baseUrlString().asURL()
+        let url = try AppConfig.shared.baseUrlString().asURL()
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
         request.setValue(userIdToken, forHTTPHeaderField: "Authorization")

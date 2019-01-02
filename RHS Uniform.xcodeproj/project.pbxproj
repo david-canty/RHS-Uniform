@@ -88,6 +88,9 @@
 		1FCEA6F121CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1FCEA6EA21CC2E8B00A45878 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1FCEA6FA21CFF4CF00A45878 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */; };
 		1FD3CBDA21DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */; };
+		1FD3CBDD21DCFC430032DE2F /* OrderItemCancelReturnTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD3CBDC21DCFC430032DE2F /* OrderItemCancelReturnTransitioningDelegate.swift */; };
+		1FD3CBDF21DCFC8C0032DE2F /* OrderItemCancelReturnPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD3CBDE21DCFC8C0032DE2F /* OrderItemCancelReturnPresentationController.swift */; };
+		1FD3CBE121DCFCA70032DE2F /* OrderItemCancelReturnAnimatedTransitioningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD3CBE021DCFCA70032DE2F /* OrderItemCancelReturnAnimatedTransitioningController.swift */; };
 		1FE58CE82056DAB2009A13F9 /* APIPoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE58CE72056DAB2009A13F9 /* APIPoll.swift */; };
 		1FE9AC372030AA2900C05ABC /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC362030AA2900C05ABC /* AppConfig.swift */; };
 		1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE9AC392030CAD400C05ABC /* APIClient.swift */; };
@@ -213,6 +216,9 @@
 		1FCEA6F621CC31DF00A45878 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		1FCEA6F921CFF4CE00A45878 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCancelReturnViewController.swift; sourceTree = "<group>"; };
+		1FD3CBDC21DCFC430032DE2F /* OrderItemCancelReturnTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCancelReturnTransitioningDelegate.swift; sourceTree = "<group>"; };
+		1FD3CBDE21DCFC8C0032DE2F /* OrderItemCancelReturnPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCancelReturnPresentationController.swift; sourceTree = "<group>"; };
+		1FD3CBE021DCFCA70032DE2F /* OrderItemCancelReturnAnimatedTransitioningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCancelReturnAnimatedTransitioningController.swift; sourceTree = "<group>"; };
 		1FE58CE62056D2AE009A13F9 /* RHS_Uniform 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RHS_Uniform 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		1FE58CE72056DAB2009A13F9 /* APIPoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPoll.swift; sourceTree = "<group>"; };
 		1FE9AC362030AA2900C05ABC /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -536,6 +542,9 @@
 			isa = PBXGroup;
 			children = (
 				1FD3CBD921DBEC5B0032DE2F /* OrderItemCancelReturnViewController.swift */,
+				1FD3CBDC21DCFC430032DE2F /* OrderItemCancelReturnTransitioningDelegate.swift */,
+				1FD3CBDE21DCFC8C0032DE2F /* OrderItemCancelReturnPresentationController.swift */,
+				1FD3CBE021DCFCA70032DE2F /* OrderItemCancelReturnAnimatedTransitioningController.swift */,
 			);
 			path = "Order Item";
 			sourceTree = "<group>";
@@ -829,6 +838,7 @@
 				1F9A54A9217B9D700078492B /* OrderSummaryViewController.swift in Sources */,
 				1F2A114120346E5900B5A26A /* Category+Extension.swift in Sources */,
 				1F6D11A021669E7200353E72 /* Customer+Extension.swift in Sources */,
+				1FD3CBDD21DCFC430032DE2F /* OrderItemCancelReturnTransitioningDelegate.swift in Sources */,
 				1F28CDE9203B28CF0074C0D3 /* ModalSelectAnimatedTransitioningController.swift in Sources */,
 				1F9A549F2179EB210078492B /* CheckoutTableViewCell.swift in Sources */,
 				1FF7692721D95C13004B635E /* APNSController.swift in Sources */,
@@ -840,6 +850,7 @@
 				1F6D11A52167582B00353E72 /* BagItem+Extension.swift in Sources */,
 				1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */,
 				1FBCDD162198C38E00958511 /* OrdersTableViewCell.swift in Sources */,
+				1FD3CBDF21DCFC8C0032DE2F /* OrderItemCancelReturnPresentationController.swift in Sources */,
 				1FBCDD1A219C9BDD00958511 /* OrderFilterRadioTableViewCell.swift in Sources */,
 				1F1599052177863A001A70A5 /* SearchViewController.swift in Sources */,
 				1F2A11432034785C00B5A26A /* Year+Extension.swift in Sources */,
@@ -864,6 +875,7 @@
 				1FE9AC3A2030CAD400C05ABC /* APIClient.swift in Sources */,
 				1F1599012177863A001A70A5 /* ContainerViewController+Extension.swift in Sources */,
 				1F28CDE3203AECEE0074C0D3 /* ModalSelectViewController.swift in Sources */,
+				1FD3CBE121DCFCA70032DE2F /* OrderItemCancelReturnAnimatedTransitioningController.swift in Sources */,
 				1F2A11472036D36100B5A26A /* Size+Extension.swift in Sources */,
 				1F30AFF1204DCAB000246E64 /* ItemFilterAnimatedTransitioningController.swift in Sources */,
 			);

@@ -22,12 +22,12 @@ enum StripeClientError: Error {
 
 final class StripeClient: NSObject, STPEphemeralKeyProvider {
     
-    static let sharedInstance = StripeClient()
+    static let shared = StripeClient()
     
     override private init() {}
     
     private lazy var baseURL: URL = {
-        guard let url = URL(string: AppConfig.sharedInstance.baseUrlString()) else {
+        guard let url = URL(string: AppConfig.shared.baseUrlString()) else {
             fatalError("Invalid base URL")
         }
         return url
