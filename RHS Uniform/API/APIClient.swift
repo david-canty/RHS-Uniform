@@ -921,6 +921,7 @@ extension APIClient {
             let orderItem = SUOrderItem(context: context)
             orderItem.id = UUID(uuidString: orderItemJSON["id"] as! String)!
             orderItem.quantity = orderItemJSON["quantity"] as! Int32
+            orderItem.orderItemStatus = orderItemJSON["orderItemStatus"] as? String
             
             orderItem.order = order
             orderItem.item = item
