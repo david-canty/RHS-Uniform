@@ -17,6 +17,7 @@ enum OrderStatus: String {
     case complete = "Complete"
     case cancellationRequested = "Cancellation Requested"
     case cancelled = "Cancelled"
+    case returnRequested = "Return Requested"
     case returned = "Returned"
 }
 
@@ -33,7 +34,11 @@ class OrdersViewController: UITableViewController, NSFetchedResultsControllerDel
                                     "Awaiting Stock",
                                     "Ready for Collection",
                                     "Awaiting Payment",
-                                    "Complete"]
+                                    "Complete",
+                                    "Cancellation Requested",
+                                    "Cancelled",
+                                    "Return Requested",
+                                    "Returned"]
     var selectedOrderStatusFilter = "All"
     
     @IBOutlet weak var tableHeaderLabel: UILabel!

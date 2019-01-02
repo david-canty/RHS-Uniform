@@ -89,8 +89,10 @@ class OrderItemCancelReturnViewController: UIViewController {
         itemSizeLabel.text = "Size: \(size.sizeName!)"
         itemQuantityLabel.text = "Qty ordered: \(orderItem.quantity)"
         cancelReturnQuantity = Int(orderItem.quantity)
+        
         quantityStepper.maximumValue = Double(orderItem.quantity)
         quantityStepper.value = Double(orderItem.quantity)
+        quantityStepper.isHidden = orderItem.quantity == 1
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
