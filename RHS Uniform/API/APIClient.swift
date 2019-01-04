@@ -1010,4 +1010,53 @@ extension APIClient {
             }
         }
     }
+    
+    func cancelReturn(orderItemId: UUID, action: String, quantity: Int, completion: @escaping (SUOrderItem?, Error?) -> Void) {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.orderItemCancelReturn(userIdToken: token, orderItemId: orderItemId.uuidString, action: action, quantity: quantity)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let orderItem = response.result.value as? [String: Any] {
+                                
+                                let orderItemId = UUID(uuidString: orderItem["id"] as! String)!
+                                let orderItemStatus = orderItem["orderItemStatus"] as! String
+                                
+                                if let updatedOrderItem = SUOrderItem.updateObjectWithId(orderItemId, withStatus: orderItemStatus) {
+                                    
+                                    completion(updatedOrderItem, nil)
+                                    
+                                } else {
+                                    
+                                    let error = APIClientError.error("Failed to update order item status to: \(orderItemStatus)")
+                                    completion(nil, error)
+                                }
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get order  itemdata")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

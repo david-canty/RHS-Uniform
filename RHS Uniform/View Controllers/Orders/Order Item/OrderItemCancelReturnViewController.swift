@@ -10,7 +10,7 @@ import UIKit
 import AlamofireImage
 
 protocol OrderItemCancelReturnDelegate {
-    func orderItemCancelReturnDidFinish(withQuantity quantity: Int, ofType type: CancelReturnItem)
+    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem)
 }
 
 enum CancelReturnItem: String {
@@ -140,8 +140,7 @@ class OrderItemCancelReturnViewController: UIViewController {
     @IBAction func requestButtonTapped(_ sender: UIButton) {
         
         if let cancelReturn = cancelReturnItem {
-            
-            delegate?.orderItemCancelReturnDidFinish(withQuantity: cancelReturnQuantity!, ofType: cancelReturn)
+            delegate?.orderItemCancelReturnDidFinish(withOrderItem: orderItem!, quantity: cancelReturnQuantity!, ofType: cancelReturn)
             dismiss(animated: true, completion: nil)
         }
     }

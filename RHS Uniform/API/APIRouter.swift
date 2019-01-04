@@ -25,6 +25,7 @@ public enum APIRouter: URLRequestConvertible {
     case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String, chargeId: String?)
     case orders(userIdToken: String, customerId: String)
     case orderCancel(userIdToken: String, orderId: Int32)
+    case orderItemCancelReturn(userIdToken: String, orderItemId: String, action: String, quantity: Int)
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
     case stripeCustomerCreate(userIdToken: String, email: String)
@@ -72,6 +73,9 @@ public enum APIRouter: URLRequestConvertible {
             return .get
             
         case .orderCancel:
+            return .post
+            
+        case .orderItemCancelReturn:
             return .post
             
         case .stripeEphemeralKey:
@@ -134,6 +138,9 @@ public enum APIRouter: URLRequestConvertible {
         case .orderCancel(_, let orderId):
             return "/orders/\(orderId)/cancel"
             
+        case .orderItemCancelReturn(_, let orderItemId, _, _):
+            return "/order-items/\(orderItemId)/cancel-return"
+            
         case .stripeEphemeralKey:
             return "/stripe/ephemeral-key"
             
@@ -175,6 +182,11 @@ public enum APIRouter: URLRequestConvertible {
                         "orderItems": orderItems,
                         "paymentMethod": paymentMethod,
                         "chargeId": chargeId as Any]
+                
+            case let .orderItemCancelReturn(_, _, action, quantity):
+                
+                return ["action": action,
+                        "quantity": quantity]
                 
             case let .stripeEphemeralKey(_, customerId, apiVersion):
                 
@@ -247,6 +259,9 @@ public enum APIRouter: URLRequestConvertible {
             case .orderCancel (let idToken, _):
                 return idToken
                 
+            case .orderItemCancelReturn (let idToken, _, _, _):
+                return idToken
+                
             case .stripeEphemeralKey (let idToken, _, _):
                 return idToken
                 
@@ -274,7 +289,7 @@ public enum APIRouter: URLRequestConvertible {
         request.timeoutInterval = TimeInterval(10 * 1000)
         
         switch self {
-        case .orderCreate, .customerCreate, .customerAPNSDeviceToken:
+        case .orderCreate, .orderItemCancelReturn, .customerCreate, .customerAPNSDeviceToken:
             return try JSONEncoding.default.encode(request, with: parameters)
         default:
             return try URLEncoding.default.encode(request, with: parameters)

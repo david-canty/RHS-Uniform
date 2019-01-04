@@ -43,9 +43,18 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
                           animations: {
                             
                             self.tableView.reloadData()
-                            self.setFilterLabelText()
-                            self.setFilterButtonTitle()
-                            self.filterButton.isHidden = false
+                            
+                            if self.fetchedResultsController.sections!.count == 0 {
+                                
+                                self.filterLabel.text = "No items are available"
+                                self.filterButton.isHidden = true
+                                
+                            } else {
+                                
+                                self.setFilterLabelText()
+                                self.setFilterButtonTitle()
+                                self.filterButton.isHidden = false
+                            }
         })
     }
     

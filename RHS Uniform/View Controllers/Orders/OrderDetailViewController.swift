@@ -339,8 +339,35 @@ extension OrderDetailViewController {
 
 extension OrderDetailViewController: OrderItemCancelReturnDelegate {
     
-    func orderItemCancelReturnDidFinish(withQuantity quantity: Int, ofType type: CancelReturnItem) {
+    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem) {
         
+        cancelOrderButton.setTitle("", for: .normal)
+        cancelOrderActivityIndicator.startAnimating()
         
+        APIClient.shared.cancel(orderId: order.id) { (cancelledOrder, error) in
+            
+            if let error = error as NSError? {
+                
+                DispatchQueue.main.async {
+                    
+                    self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
+                    
+                    self.cancelOrderButton.setTitle("Cancel Order", for: .normal)
+                    self.cancelOrderActivityIndicator.stopAnimating()
+                }
+                
+            } else {
+                
+                if let cancelledOrder = cancelledOrder {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.cancelOrderActivityIndicator.stopAnimating()
+                        self.statusLabel.text = cancelledOrder.orderStatus
+                        self.displayCancelOrderButton()
+                    }
+                }
+            }
+        }
     }
 }
