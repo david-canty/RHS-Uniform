@@ -184,7 +184,8 @@ class OrderDetailViewController: UITableViewController {
         // Cancel button
         cell.cancelButton.isHidden = true
         
-        if orderItem.orderItemStatus == OrderStatus.cancellationRequested.rawValue {
+        if orderItem.orderItemStatus == OrderStatus.cancellationRequested.rawValue &&
+            (orderStatus != OrderStatus.awaitingPayment && orderStatus != OrderStatus.complete) {
             
             cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
             cell.cancelButton.tag = indexPath.row
