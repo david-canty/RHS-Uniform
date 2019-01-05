@@ -38,6 +38,7 @@ class OrderItemCancelReturnViewController: UIViewController {
     @IBOutlet weak var quantityStepper: UIStepper!
     
     @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         
@@ -75,6 +76,8 @@ class OrderItemCancelReturnViewController: UIViewController {
                 titleLabel.text = "Return Item"
                 requestButton.setTitle("Request Return", for: .normal)
             }
+            
+            requestButton.isEnabled = true
         }
     }
     
@@ -139,14 +142,58 @@ class OrderItemCancelReturnViewController: UIViewController {
     
     @IBAction func requestButtonTapped(_ sender: UIButton) {
         
-        if let cancelReturn = cancelReturnItem {
-            delegate?.orderItemCancelReturnDidFinish(withOrderItem: orderItem!, quantity: cancelReturnQuantity!, ofType: cancelReturn)
-            dismiss(animated: true, completion: nil)
+        if let cancelReturnItem = cancelReturnItem,
+            let orderItem = orderItem {
+            
+            requestButton.setTitle("", for: .normal)
+            requestButton.isEnabled = false
+            activityIndicator.startAnimating()
+            
+            APIClient.shared.cancelReturn(orderItemId: orderItem.id!, action: cancelReturnItem.rawValue, quantity: cancelReturnQuantity!) { updatedOrderItem, error in
+                
+                if let error = error as NSError? {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.showAlert(title: "Error Amending Order", message: "The request to amend this order could not be completed: \(error.localizedDescription)")
+                        
+                        self.activityIndicator.stopAnimating()
+                        self.setTitles()
+                    }
+                    
+                } else {
+                    
+                    if let updatedOrderItem = updatedOrderItem {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.activityIndicator.stopAnimating()
+                            
+                            self.delegate?.orderItemCancelReturnDidFinish(withOrderItem: updatedOrderItem, quantity: self.cancelReturnQuantity!, ofType: cancelReturnItem)
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
         }
     }
     
     @IBAction func chromeTapped(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension OrderItemCancelReturnViewController {
+    
+    func showAlert(title: String, message: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }

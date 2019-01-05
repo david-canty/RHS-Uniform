@@ -22,9 +22,8 @@ class OrderDetailViewController: UITableViewController {
     
     let numberFormatter = NumberFormatter()
     
-    var rowForTappedCancelButton: Int?
+    var rowForTappedCancelReturnButton: Int?
     var rowForTappedBuyAgainButton: Int?
-    var rowForTappedReturnButton: Int?
     
     @IBOutlet weak var orderNoLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -70,21 +69,26 @@ class OrderDetailViewController: UITableViewController {
         guard let orderStatusString = order.orderStatus else { return }
         guard let orderStatus = OrderStatus(rawValue: orderStatusString) else { return }
         
+        cancelOrderButton.setTitle("Cancel Order", for: .normal)
+        
         switch orderStatus {
             
         case .ordered, .awaitingStock, .readyForCollection:
             
             cancelOrderButton.isHidden = false
+            cancelOrderButton.isEnabled = true
             cancellationRequestedLabel.isHidden = true
             
         case .cancellationRequested:
             
             cancelOrderButton.isHidden = true
+            cancelOrderButton.isEnabled = false
             cancellationRequestedLabel.isHidden = false
             
         default:
             
             cancelOrderButton.isHidden = true
+            cancelOrderButton.isEnabled = false
             cancellationRequestedLabel.isHidden = true
         }
     }
@@ -180,23 +184,42 @@ class OrderDetailViewController: UITableViewController {
         // Cancel button
         cell.cancelButton.isHidden = true
         
-        if orderStatus == OrderStatus.ordered ||
+        if orderItem.orderItemStatus == OrderStatus.cancellationRequested.rawValue {
+            
+            cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
+            cell.cancelButton.tag = indexPath.row
+            cell.cancelButton.isEnabled = false
+            cell.cancelButton.isHidden = false
+            
+        } else if orderStatus == OrderStatus.ordered ||
             orderStatus == OrderStatus.awaitingStock ||
             orderStatus == OrderStatus.readyForCollection {
         
             cell.cancelButton.addTarget(self, action: #selector(cellCancelButtonTapped(_:)), for: .touchUpInside)
+            cell.cancelButton.setTitle("Cancel", for: .normal)
             cell.cancelButton.tag = indexPath.row
+            cell.cancelButton.isEnabled = true
             cell.cancelButton.isHidden = false
+
         }
         
         // Return button
         cell.returnButton.isHidden = true
         
-        if orderStatus == OrderStatus.awaitingPayment ||
+        if orderItem.orderItemStatus == OrderStatus.returnRequested.rawValue {
+            
+            cell.returnButton.setTitle(OrderStatus.returnRequested.rawValue, for: .normal)
+            cell.returnButton.tag = indexPath.row
+            cell.returnButton.isEnabled = false
+            cell.returnButton.isHidden = false
+            
+        } else if orderStatus == OrderStatus.awaitingPayment ||
             orderStatus == OrderStatus.complete {
             
             cell.returnButton.addTarget(self, action: #selector(cellReturnButtonTapped(_:)), for: .touchUpInside)
+            cell.returnButton.setTitle("Return", for: .normal)
             cell.returnButton.tag = indexPath.row
+            cell.returnButton.isEnabled = true
             cell.returnButton.isHidden = false
         }
         
@@ -218,8 +241,8 @@ class OrderDetailViewController: UITableViewController {
             
             orderItemCancelReturnVC.cancelReturnItem = CancelReturnItem.cancelItem
             
-            rowForTappedCancelButton = sender.tag
-            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelButton!]
+            rowForTappedCancelReturnButton = sender.tag
+            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelReturnButton!]
             
             orderItemCancelReturnVC.delegate = self
             
@@ -236,8 +259,8 @@ class OrderDetailViewController: UITableViewController {
             
             orderItemCancelReturnVC.cancelReturnItem = CancelReturnItem.returnItem
             
-            rowForTappedCancelButton = sender.tag
-            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelButton!]
+            rowForTappedCancelReturnButton = sender.tag
+            orderItemCancelReturnVC.orderItem = orderItems[rowForTappedCancelReturnButton!]
             
             orderItemCancelReturnVC.delegate = self
             
@@ -276,6 +299,7 @@ class OrderDetailViewController: UITableViewController {
     func cancel(order: SUOrder) {
     
         cancelOrderButton.setTitle("", for: .normal)
+        cancelOrderButton.isEnabled = false
         cancelOrderActivityIndicator.startAnimating()
         
         APIClient.shared.cancel(orderId: order.id) { (cancelledOrder, error) in
@@ -286,8 +310,8 @@ class OrderDetailViewController: UITableViewController {
                     
                     self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
                     
-                    self.cancelOrderButton.setTitle("Cancel Order", for: .normal)
                     self.cancelOrderActivityIndicator.stopAnimating()
+                    self.displayCancelOrderButton()
                 }
                 
             } else {
@@ -297,8 +321,8 @@ class OrderDetailViewController: UITableViewController {
                     DispatchQueue.main.async {
                         
                         self.cancelOrderActivityIndicator.stopAnimating()
-                        self.statusLabel.text = cancelledOrder.orderStatus
                         self.displayCancelOrderButton()
+                        self.statusLabel.text = cancelledOrder.orderStatus
                     }
                 }
             }
@@ -341,33 +365,6 @@ extension OrderDetailViewController: OrderItemCancelReturnDelegate {
     
     func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem) {
         
-        cancelOrderButton.setTitle("", for: .normal)
-        cancelOrderActivityIndicator.startAnimating()
         
-        APIClient.shared.cancel(orderId: order.id) { (cancelledOrder, error) in
-            
-            if let error = error as NSError? {
-                
-                DispatchQueue.main.async {
-                    
-                    self.showAlert(title: "Error Cancelling Order", message: "The request to cancel this order could not be completed: \(error.localizedDescription)")
-                    
-                    self.cancelOrderButton.setTitle("Cancel Order", for: .normal)
-                    self.cancelOrderActivityIndicator.stopAnimating()
-                }
-                
-            } else {
-                
-                if let cancelledOrder = cancelledOrder {
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.cancelOrderActivityIndicator.stopAnimating()
-                        self.statusLabel.text = cancelledOrder.orderStatus
-                        self.displayCancelOrderButton()
-                    }
-                }
-            }
-        }
     }
 }
