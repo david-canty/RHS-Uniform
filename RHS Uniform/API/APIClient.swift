@@ -1011,7 +1011,7 @@ extension APIClient {
         }
     }
     
-    func cancelReturn(orderItemId: UUID, action: String, quantity: Int, completion: @escaping (SUOrderItem?, Error?) -> Void) {
+    func cancelReturn(orderItemId: UUID, action: String, quantity: Int, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -1029,7 +1029,19 @@ extension APIClient {
                             
                         case .success:
                             
-                            if let orderItem = response.result.value as? [String: Any] {
+                            if let orderItemData = response.result.value as? [String: Any] {
+                                
+                                guard let orderItem = orderItemData["orderItem"] as? [String: Any] else {
+                                    let error = APIClientError.error("Failed to get order item data")
+                                    completion(nil, error)
+                                    return
+                                }
+                                
+                                guard let orderItemAction = orderItemData["orderItemAction"] as? [String: Any] else {
+                                    let error = APIClientError.error("Failed to get order item action data")
+                                    completion(nil, error)
+                                    return
+                                }
                                 
                                 let orderItemId = UUID(uuidString: orderItem["id"] as! String)!
                                 let orderItemStatus = orderItem["orderItemStatus"] as! String
@@ -1046,7 +1058,7 @@ extension APIClient {
                                 
                             } else {
                                 
-                                let error = APIClientError.error("Failed to get order  itemdata")
+                                let error = APIClientError.error("Failed to get order item and action data")
                                 completion(nil, error)
                             }
                             

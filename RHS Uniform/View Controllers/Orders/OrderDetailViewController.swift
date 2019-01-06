@@ -207,7 +207,8 @@ class OrderDetailViewController: UITableViewController {
         // Return button
         cell.returnButton.isHidden = true
         
-        if orderItem.orderItemStatus == OrderStatus.returnRequested.rawValue {
+        if orderItem.orderItemStatus == OrderStatus.returnRequested.rawValue &&
+            (orderStatus != OrderStatus.ordered && orderStatus != OrderStatus.awaitingStock && orderStatus != OrderStatus.readyForCollection) {
             
             cell.returnButton.setTitle(OrderStatus.returnRequested.rawValue, for: .normal)
             cell.returnButton.tag = indexPath.row
@@ -365,6 +366,9 @@ extension OrderDetailViewController {
 extension OrderDetailViewController: OrderItemCancelReturnDelegate {
     
     func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem) {
+        
+        // create order item action
+        // update ui
         
         
     }

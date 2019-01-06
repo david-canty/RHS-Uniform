@@ -42,6 +42,7 @@
 		1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */; };
 		1F2A4CCE20483FB900D12827 /* OrderItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */; };
 		1F2AB35F20544EC30086BD5F /* School+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2AB35E20544EC30086BD5F /* School+Extension.swift */; };
+		1F2BAD8B21E2973100C077E0 /* OrderItemAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2BAD8A21E2973100C077E0 /* OrderItemAction+Extension.swift */; };
 		1F2CBC662180CB8F0090D76E /* StripeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2CBC652180CB8F0090D76E /* StripeClient.swift */; };
 		1F2DC2F62050423600FD2A02 /* TaggedTableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2DC2F52050423600FD2A02 /* TaggedTableButton.swift */; };
 		1F2F208C2046ED5C00CAB6AC /* BagTableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F208B2046ED5C00CAB6AC /* BagTableSectionHeader.swift */; };
@@ -168,6 +169,7 @@
 		1F2A11482036D4D600B5A26A /* ItemSize+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemSize+Extension.swift"; sourceTree = "<group>"; };
 		1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderItem+Extension.swift"; sourceTree = "<group>"; };
 		1F2AB35E20544EC30086BD5F /* School+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+Extension.swift"; sourceTree = "<group>"; };
+		1F2BAD8A21E2973100C077E0 /* OrderItemAction+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderItemAction+Extension.swift"; sourceTree = "<group>"; };
 		1F2CBC652180CB8F0090D76E /* StripeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeClient.swift; sourceTree = "<group>"; };
 		1F2DC2F52050423600FD2A02 /* TaggedTableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedTableButton.swift; sourceTree = "<group>"; };
 		1F2F208B2046ED5C00CAB6AC /* BagTableSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BagTableSectionHeader.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				1F6D119F21669E7200353E72 /* Customer+Extension.swift */,
 				1F6D11A121669E8500353E72 /* Order+Extension.swift */,
 				1F2A4CCD20483FB900D12827 /* OrderItem+Extension.swift */,
+				1F2BAD8A21E2973100C077E0 /* OrderItemAction+Extension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				1F1599022177863A001A70A5 /* ContainerViewController.swift in Sources */,
 				1F259A591F750473005E4681 /* RHS_Uniform.xcdatamodeld in Sources */,
 				1F2A0A5D205D83BD0063F9AD /* KeychainSecuredItem.swift in Sources */,
+				1F2BAD8B21E2973100C077E0 /* OrderItemAction+Extension.swift in Sources */,
 				1F2A11492036D4D600B5A26A /* ItemSize+Extension.swift in Sources */,
 				1FEDC6E6205C5EF7002D4125 /* YourAccountViewController.swift in Sources */,
 				1FBCDD21219DDDB800958511 /* OrderFilterAnimatedTransitioningController.swift in Sources */,
