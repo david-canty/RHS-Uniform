@@ -55,6 +55,8 @@ class OrderDetailViewController: UITableViewController {
     
     func displayOrder() {
         
+        orderItems = orderItems!.sorted { $0.item!.itemName! < $1.item!.itemName! }
+        
         displayOrderDetails()
         displayPaymentInformation()
         displayCancelOrderButton()
@@ -187,7 +189,15 @@ class OrderDetailViewController: UITableViewController {
         if orderItem.orderItemStatus == OrderStatus.cancellationRequested.rawValue &&
             (orderStatus != OrderStatus.awaitingPayment && orderStatus != OrderStatus.complete) {
             
-            cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
+            var cancelCount: Int32?
+            if let cancelAction = orderItem.orderItemAction {
+                cancelCount = cancelAction.quantity
+            }
+            
+            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel x \(cancelCount!)"
+            
+            //cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
+            cell.cancelButton.setTitle(cancelButtonTitle, for: .normal)
             cell.cancelButton.tag = indexPath.row
             cell.cancelButton.isEnabled = false
             cell.cancelButton.isHidden = false
@@ -365,11 +375,12 @@ extension OrderDetailViewController {
 
 extension OrderDetailViewController: OrderItemCancelReturnDelegate {
     
-    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem) {
+    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, andAction action: SUOrderItemAction) {
         
-        // create order item action
-        // update ui
-        
-        
+        if let tappedButtonRow = rowForTappedCancelReturnButton {
+            
+            let reloadIndexPath = IndexPath(row: tappedButtonRow, section: 0)
+            tableView.reloadRows(at: [reloadIndexPath], with: .automatic)
+        }
     }
 }

@@ -1011,7 +1011,7 @@ extension APIClient {
         }
     }
     
-    func cancelReturn(orderItemId: UUID, action: String, quantity: Int, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func cancelReturn(orderItemId: UUID, action: String, quantity: Int, completion: @escaping (SUOrderItem?, SUOrderItemAction?, Error?) -> Void) {
         
         currentUser.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -1033,38 +1033,49 @@ extension APIClient {
                                 
                                 guard let orderItem = orderItemData["orderItem"] as? [String: Any] else {
                                     let error = APIClientError.error("Failed to get order item data")
-                                    completion(nil, error)
+                                    completion(nil, nil, error)
                                     return
                                 }
                                 
                                 guard let orderItemAction = orderItemData["orderItemAction"] as? [String: Any] else {
                                     let error = APIClientError.error("Failed to get order item action data")
-                                    completion(nil, error)
+                                    completion(nil, nil, error)
                                     return
                                 }
                                 
                                 let orderItemId = UUID(uuidString: orderItem["id"] as! String)!
                                 let orderItemStatus = orderItem["orderItemStatus"] as! String
                                 
-                                if let updatedOrderItem = SUOrderItem.updateObjectWithId(orderItemId, withStatus: orderItemStatus) {
-                                    
-                                    completion(updatedOrderItem, nil)
-                                    
-                                } else {
+                                guard let updatedOrderItem = SUOrderItem.updateObjectWithId(orderItemId, withStatus: orderItemStatus) else {
                                     
                                     let error = APIClientError.error("Failed to update order item status to: \(orderItemStatus)")
-                                    completion(nil, error)
+                                    completion(nil, nil, error)
+                                    return
                                 }
+                                
+                                let apiActionId = UUID(uuidString: orderItemAction["id"] as! String)!
+                                let apiAction = orderItemAction["action"] as! String
+                                let apiActionQuantity = orderItemAction["quantity"] as! Int32
+                                
+                                let actionObject = SUOrderItemAction(context: self.context)
+                                actionObject.id = apiActionId
+                                actionObject.action = apiAction
+                                actionObject.quantity = apiActionQuantity
+                                actionObject.orderItem = updatedOrderItem
+                                
+                                self.saveContext()
+                                
+                                completion(updatedOrderItem, actionObject, nil)
                                 
                             } else {
                                 
                                 let error = APIClientError.error("Failed to get order item and action data")
-                                completion(nil, error)
+                                completion(nil, nil, error)
                             }
                             
                         case .failure(let error):
                             
-                            completion(nil, error)
+                            completion(nil, nil, error)
                         }
                     }
                 }

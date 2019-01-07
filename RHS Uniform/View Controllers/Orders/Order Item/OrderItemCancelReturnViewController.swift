@@ -10,7 +10,7 @@ import UIKit
 import AlamofireImage
 
 protocol OrderItemCancelReturnDelegate {
-    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, quantity: Int, ofType type: CancelReturnItem)
+    func orderItemCancelReturnDidFinish(withOrderItem orderItem: SUOrderItem, andAction action: SUOrderItemAction)
 }
 
 enum CancelReturnItem: String {
@@ -149,7 +149,7 @@ class OrderItemCancelReturnViewController: UIViewController {
             requestButton.isEnabled = false
             activityIndicator.startAnimating()
             
-            APIClient.shared.cancelReturn(orderItemId: orderItem.id!, action: cancelReturnItem.rawValue, quantity: cancelReturnQuantity!) { updatedOrderItem, error in
+            APIClient.shared.cancelReturn(orderItemId: orderItem.id!, action: cancelReturnItem.rawValue, quantity: cancelReturnQuantity!) { orderItem, orderItemAction, error in
                 
                 if let error = error as NSError? {
                     
@@ -163,13 +163,14 @@ class OrderItemCancelReturnViewController: UIViewController {
                     
                 } else {
                     
-                    if let updatedOrderItem = updatedOrderItem {
+                    if let updatedOrderItem = orderItem,
+                        let action = orderItemAction {
                         
                         DispatchQueue.main.async {
                             
                             self.activityIndicator.stopAnimating()
                             
-                            self.delegate?.orderItemCancelReturnDidFinish(withOrderItem: updatedOrderItem, quantity: self.cancelReturnQuantity!, ofType: cancelReturnItem)
+                            self.delegate?.orderItemCancelReturnDidFinish(withOrderItem: updatedOrderItem, andAction: action)
                             self.dismiss(animated: true, completion: nil)
                         }
                     }
