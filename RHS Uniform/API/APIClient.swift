@@ -829,8 +829,8 @@ extension APIClient {
             guard let order = orderJSON["order"] as? [String: Any] else {
                 fatalError("Error getting order JSON")
             }
-            guard let orderItems = orderJSON["orderItems"] as? [[String: Any]] else {
-                fatalError("Error getting order items JSON")
+            guard let orderItemsWithActions = orderJSON["orderItemsWithActions"] as? [[String: Any]] else {
+                fatalError("Error getting order items and actions JSON")
             }
             guard let customerId = order["customerID"] as? String else {
                 fatalError("Failed to get customer id from order JSON")
@@ -855,7 +855,7 @@ extension APIClient {
                     
                 } else {
                     
-                    create(orderItems: orderItems, forOrder: existingOrder)
+                    create(orderItemsAndActions: orderItemsWithActions, forOrder: existingOrder)
                 }
                 
             } else {
@@ -877,12 +877,12 @@ extension APIClient {
                 tempOrder.timestamp = timestampDate
                 tempOrder.customer = customer
                 
-                create(orderItems: orderItems, forOrder: tempOrder)
+                create(orderItemsAndActions: orderItemsWithActions, forOrder: tempOrder)
             }
         }
     }
     
-    private func create(orderItems orderItemsJSON: [[String: Any]], forOrder order: SUOrder) {
+    private func create(orderItemsAndActions orderItemsAndActionsJSON: [[String: Any]], forOrder order: SUOrder) {
         
         // Delete existing order items
         let fetchRequest: NSFetchRequest<SUOrderItem> = SUOrderItem.fetchRequest()
@@ -903,7 +903,11 @@ extension APIClient {
         }
         
         // Create order items
-        for orderItemJSON in orderItemsJSON {
+        for orderItemAndActionJSON in orderItemsAndActionsJSON {
+            
+            guard let orderItemJSON = orderItemAndActionJSON["orderItem"] as? [String: Any] else {
+                fatalError("Failed to get order item JSON")
+            }
             
             guard let itemId = orderItemJSON["itemID"] as? String else {
                 fatalError("Failed to get item id from order item JSON")
@@ -926,6 +930,11 @@ extension APIClient {
             orderItem.order = order
             orderItem.item = item
             orderItem.size = size
+            
+            if let orderItemActionJSON = orderItemAndActionJSON["orderItemAction"] as? [String: Any] {
+                
+                
+            }
         }
     }
     
