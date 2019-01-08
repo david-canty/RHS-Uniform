@@ -194,9 +194,8 @@ class OrderDetailViewController: UITableViewController {
                 cancelCount = cancelAction.quantity
             }
             
-            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel = \(cancelCount!)"
+            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel x \(cancelCount!)"
             
-            //cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
             cell.cancelButton.setTitle(cancelButtonTitle, for: .normal)
             cell.cancelButton.tag = indexPath.row
             cell.cancelButton.isEnabled = false
@@ -220,7 +219,14 @@ class OrderDetailViewController: UITableViewController {
         if orderItem.orderItemStatus == OrderStatus.returnRequested.rawValue &&
             (orderStatus != OrderStatus.ordered && orderStatus != OrderStatus.awaitingStock && orderStatus != OrderStatus.readyForCollection) {
             
-            cell.returnButton.setTitle(OrderStatus.returnRequested.rawValue, for: .normal)
+            var returnCount: Int32?
+            if let returnAction = orderItem.orderItemAction {
+                returnCount = returnAction.quantity
+            }
+            
+            let returnButtonTitle = returnCount == nil ? "Requested return" : "Requested return x \(returnCount!)"
+            
+            cell.returnButton.setTitle(returnButtonTitle, for: .normal)
             cell.returnButton.tag = indexPath.row
             cell.returnButton.isEnabled = false
             cell.returnButton.isHidden = false
