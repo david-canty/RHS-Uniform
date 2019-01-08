@@ -194,7 +194,7 @@ class OrderDetailViewController: UITableViewController {
                 cancelCount = cancelAction.quantity
             }
             
-            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel x \(cancelCount!)"
+            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel = \(cancelCount!)"
             
             //cell.cancelButton.setTitle(OrderStatus.cancellationRequested.rawValue, for: .normal)
             cell.cancelButton.setTitle(cancelButtonTitle, for: .normal)

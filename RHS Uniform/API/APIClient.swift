@@ -891,10 +891,10 @@ extension APIClient {
 
         do {
 
-            let fetchedOrderItems = try self.context.fetch(fetchRequest)
+            let fetchedOrderItems = try context.fetch(fetchRequest)
 
             for fetchedOrderItem in fetchedOrderItems {
-                self.context.delete(fetchedOrderItem)
+                context.delete(fetchedOrderItem)
             }
 
         } catch {
@@ -908,7 +908,6 @@ extension APIClient {
             guard let orderItemJSON = orderItemAndActionJSON["orderItem"] as? [String: Any] else {
                 fatalError("Failed to get order item JSON")
             }
-            
             guard let itemId = orderItemJSON["itemID"] as? String else {
                 fatalError("Failed to get item id from order item JSON")
             }
@@ -931,9 +930,34 @@ extension APIClient {
             orderItem.item = item
             orderItem.size = size
             
-            if let orderItemActionJSON = orderItemAndActionJSON["orderItemAction"] as? [String: Any] {
+            OrderItemActionIf: if let orderItemActionJSON = orderItemAndActionJSON["orderItemAction"] as? [String: Any] {
                 
+                guard let actionId = orderItemActionJSON["id"] as? String else {
+                    print("Failed to get action id from order item JSON")
+                    break OrderItemActionIf
+                }
+                guard let actionOrderItemId = orderItemActionJSON["orderItemID"] as? String else {
+                    print("Failed to get action order item id from order item JSON")
+                    break OrderItemActionIf
+                }
+                if actionOrderItemId != orderItem.id?.uuidString {
+                    print("Invalid action order item id from order item JSON")
+                    break OrderItemActionIf
+                }
+                guard let action = orderItemActionJSON["action"] as? String else {
+                    print("Failed to get action from order item JSON")
+                    break OrderItemActionIf
+                }
+                guard let actionQuantity = orderItemActionJSON["quantity"] as? Int32 else {
+                    print("Failed to get action quantity from order item JSON")
+                    break OrderItemActionIf
+                }
                 
+                let orderItemAction = SUOrderItemAction(context: context)
+                orderItemAction.id = UUID(uuidString: actionId)!
+                orderItemAction.action = action
+                orderItemAction.quantity = actionQuantity
+                orderItemAction.orderItem = orderItem
             }
         }
     }
