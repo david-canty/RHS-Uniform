@@ -194,7 +194,7 @@ class OrderDetailViewController: UITableViewController {
                 cancelCount = cancelAction.quantity
             }
             
-            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel x \(cancelCount!)"
+            let cancelButtonTitle = cancelCount == nil ? "Requested cancel" : "Requested cancel: \(cancelCount!)"
             
             cell.cancelButton.setTitle(cancelButtonTitle, for: .normal)
             cell.cancelButton.tag = indexPath.row
@@ -224,7 +224,7 @@ class OrderDetailViewController: UITableViewController {
                 returnCount = returnAction.quantity
             }
             
-            let returnButtonTitle = returnCount == nil ? "Requested return" : "Requested return x \(returnCount!)"
+            let returnButtonTitle = returnCount == nil ? "Requested return" : "Requested return: \(returnCount!)"
             
             cell.returnButton.setTitle(returnButtonTitle, for: .normal)
             cell.returnButton.tag = indexPath.row
