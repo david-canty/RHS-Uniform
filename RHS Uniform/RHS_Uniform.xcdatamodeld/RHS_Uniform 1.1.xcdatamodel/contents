@@ -81,6 +81,7 @@
         <attribute name="itemGender" attributeType="String" syncable="YES"/>
         <attribute name="itemName" attributeType="String" syncable="YES"/>
         <attribute name="itemPrice" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="itemStatus" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="bagItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SUBagItem" inverseName="item" inverseEntity="SUBagItem" syncable="YES"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="SUCategory" inverseName="items" inverseEntity="SUCategory" syncable="YES"/>
@@ -114,10 +115,10 @@
         <element name="SUItemSize" positionX="36" positionY="-403" width="128" height="120"/>
         <element name="SUOrder" positionX="-21.078125" positionY="-784.28125" width="128" height="163"/>
         <element name="SUOrderItem" positionX="19.41796875" positionY="-576.3515625" width="128" height="148"/>
+        <element name="SUOrderItemAction" positionX="187.140625" positionY="-756.078125" width="128" height="103"/>
         <element name="SUSchool" positionX="225" positionY="-236" width="128" height="120"/>
-        <element name="SUShopItem" positionX="-137" positionY="-419" width="128" height="238"/>
+        <element name="SUShopItem" positionX="-137" positionY="-419" width="128" height="253"/>
         <element name="SUSize" positionX="228" positionY="-403" width="128" height="150"/>
         <element name="SUYear" positionX="34" positionY="-251" width="128" height="135"/>
-        <element name="SUOrderItemAction" positionX="187.140625" positionY="-756.078125" width="128" height="103"/>
     </elements>
 </model>

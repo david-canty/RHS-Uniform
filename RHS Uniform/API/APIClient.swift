@@ -376,6 +376,7 @@ final class APIClient {
                 tempItem.itemColor = item["itemColor"] as? String
                 tempItem.itemGender = item["itemGender"] as? String
                 tempItem.itemPrice = item["itemPrice"] as! Double
+                tempItem.itemStatus = item["itemStatus"] as? String
                 tempItem.timestamp = timestampDate
                 
                 // Item category relationship

@@ -11,6 +11,12 @@ import UIKit
 import CoreData
 import AlamofireImage
 
+enum ShopItemStatus: String {
+    case active = "Active"
+    case inactive = "Inactive"
+    case noLongerAvailable = "No Longer Available"
+}
+
 enum ModalSelectMode {
     case none, size, qty
 }
