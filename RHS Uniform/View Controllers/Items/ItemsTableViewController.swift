@@ -204,6 +204,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         fetchRequest.sortDescriptors = [categorySortDescriptor, nameSortDescriptor]
         
         var predicateArray = [NSPredicate]()
+        predicateArray.append(NSPredicate(format: "itemStatus == %@", ShopItemStatus.active.rawValue))
         
         if genderFilterString != "All" {
             

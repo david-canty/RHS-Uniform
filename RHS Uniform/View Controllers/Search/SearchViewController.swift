@@ -116,17 +116,23 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         let nameSortDescriptor = NSSortDescriptor(key: "itemName", ascending: true)
         fetchRequest.sortDescriptors = [nameSortDescriptor]
         
-        let namePredicate = NSPredicate(format: "itemName CONTAINS[c] %@", searchString)
-        let descriptionPredicate = NSPredicate(format: "itemDescription CONTAINS[c] %@", searchString)
-        let genderPredicate = NSPredicate(format: "itemGender CONTAINS[c] %@", searchString)
-        let colorPredicate = NSPredicate(format: "itemColor CONTAINS[c] %@", searchString)
         
-        let categoryPredicate = NSPredicate(format: "category.categoryName CONTAINS[c] %@", searchString)
-        let yearPredicate = NSPredicate(format: "ANY years.yearName CONTAINS[c] %@", searchString)
-        let sizePredicate = NSPredicate(format: "ANY sizes.#size.sizeName CONTAINS[c] %@", searchString)
+        let itemStatusPredicate = NSPredicate(format: "itemStatus == %@", ShopItemStatus.active.rawValue)
         
-        let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [namePredicate, descriptionPredicate, genderPredicate, colorPredicate, categoryPredicate, yearPredicate, sizePredicate])
-        fetchRequest.predicate = predicate
+        var searchCriteriaPredicateArray = [NSPredicate]()
+        searchCriteriaPredicateArray.append(NSPredicate(format: "itemName CONTAINS[c] %@", searchString))
+        searchCriteriaPredicateArray.append(NSPredicate(format: "itemDescription CONTAINS[c] %@", searchString))
+        searchCriteriaPredicateArray.append(NSPredicate(format: "itemGender CONTAINS[c] %@", searchString))
+        searchCriteriaPredicateArray.append(NSPredicate(format: "itemColor CONTAINS[c] %@", searchString))
+        
+        searchCriteriaPredicateArray.append(NSPredicate(format: "category.categoryName CONTAINS[c] %@", searchString))
+        searchCriteriaPredicateArray.append(NSPredicate(format: "ANY years.yearName CONTAINS[c] %@", searchString))
+        searchCriteriaPredicateArray.append(NSPredicate(format: "ANY sizes.#size.sizeName CONTAINS[c] %@", searchString))
+        
+        let searchCriteriaPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: searchCriteriaPredicateArray)
+        
+        let combinedPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [itemStatusPredicate, searchCriteriaPredicate])
+        fetchRequest.predicate = combinedPredicate
         
         let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self

@@ -289,7 +289,19 @@ class OrderDetailViewController: UITableViewController {
     @objc func cellBuyAgainButtonTapped(_ sender: UIButton) {
         
         rowForTappedBuyAgainButton = sender.tag
-        performSegue(withIdentifier: "buyAgain", sender: self)
+        let orderItem = orderItems[rowForTappedBuyAgainButton!]
+        
+        if let itemStatus = ShopItemStatus(rawValue: orderItem.item!.itemStatus!) {
+        
+            switch itemStatus {
+            case .active:
+                performSegue(withIdentifier: "buyAgain", sender: self)
+            case .inactive:
+                self.showAlert(title: "Currently Unavailable", message: "This item is currently unavailable.")
+            case .noLongerAvailable:
+                self.showAlert(title: "No Longer Available", message: "This item is no longer available.")
+            }
+        }
     }
     
     @IBAction func cancelOrderTapped(_ sender: UIButton) {
@@ -348,7 +360,7 @@ class OrderDetailViewController: UITableViewController {
     }
     
     // MARK: - Segues
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "buyAgain" {
