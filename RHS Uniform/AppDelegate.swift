@@ -83,6 +83,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             showSignInViewController()
         }
         
+        // Handle notifications received while app is not running
+        let notificationOption = launchOptions?[.remoteNotification]
+        if let notification = notificationOption as? [String: Any],
+            let aps = notification["aps"] as? [String: Any],
+            let custom = notification["custom"] as? [String: Any] {
+         
+            APNSController.shared.handleNotification(withAPS: aps, andCustom: custom)
+        }
+        
         return true
     }
     
@@ -296,7 +305,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        guard let aps = userInfo["aps"] as? [String : Any] else {
+            completionHandler(.failed)
+            return
+        }
+        guard let custom = userInfo["custom"] as? [String : Any] else {
+            completionHandler(.failed)
+            return
+        }
         
+        APNSController.shared.handleNotification(withAPS: aps, andCustom: custom)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

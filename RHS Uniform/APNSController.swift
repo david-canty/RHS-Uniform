@@ -16,5 +16,8 @@ final class APNSController {
     
     private init() {}
     
+    func handleNotification(withAPS aps: [String: Any], andCustom custom: [String: Any]) {
     
+        
+    }
 }
