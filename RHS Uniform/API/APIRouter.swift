@@ -24,6 +24,7 @@ public enum APIRouter: URLRequestConvertible {
     
     case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String, chargeId: String?)
     case orders(userIdToken: String, customerId: String)
+    case orderGet(userIdToken: String, orderId: Int32)
     case orderCancel(userIdToken: String, orderId: Int32)
     case orderItemCancelReturn(userIdToken: String, orderItemId: String, action: String, quantity: Int)
     
@@ -69,7 +70,7 @@ public enum APIRouter: URLRequestConvertible {
         case .orderCreate:
             return .post
             
-        case .orders:
+        case .orders, .orderGet:
             return .get
             
         case .orderCancel:
@@ -134,6 +135,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .orders (_, let customerId):
             return "/customers/\(customerId)/orders"
+            
+        case .orderGet (_, let orderId):
+            return "/orders/\(orderId)"
             
         case .orderCancel(_, let orderId):
             return "/orders/\(orderId)/cancel"
@@ -254,6 +258,9 @@ public enum APIRouter: URLRequestConvertible {
                 return idToken
                 
             case .orders (let idToken, _):
+                return idToken
+                
+            case .orderGet (let idToken, _):
                 return idToken
             
             case .orderCancel (let idToken, _):

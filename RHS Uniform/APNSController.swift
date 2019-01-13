@@ -26,13 +26,22 @@ final class APNSController {
             
         }?.value) as? [String: Any] {
             
-            let orderId = orderIdDict["orderId"] as? String
-            print(orderId)
+            if let orderId = orderIdDict["orderId"] as? String,
+                let id = Int32(orderId) {
+                
+                updateOrder(withId: id)
+            }
         }
     }
     
     func updateOrder(withId id: Int32) {
         
-        
+        APIClient.shared.fetchOrder(withId: id) { (order, error) in
+            
+            if let error = error as NSError? {
+                
+                print("Error fetching order with id \(id): \(error.localizedDescription)")
+            }
+        }
     }
 }

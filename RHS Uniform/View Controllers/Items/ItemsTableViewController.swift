@@ -32,7 +32,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         
         super.viewDidLoad()
         
-        notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "apiPollDidFinish"), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(apiUpdated(notification:)), name: NSNotification.Name(rawValue: "coreDataUpdatedFromAPI"), object: nil)
     }
     
     @objc func apiUpdated(notification: NSNotification) {

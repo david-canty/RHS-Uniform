@@ -163,7 +163,7 @@ final class APIClient {
         
         // Post notification
         let notificationCenter = NotificationCenter.default
-        let notification = Notification(name: Notification.Name(rawValue: "apiPollDidFinish"))
+        let notification = Notification(name: Notification.Name(rawValue: "coreDataUpdatedFromAPI"))
         notificationCenter.post(notification)
     }
     
@@ -988,6 +988,55 @@ extension APIClient {
         } catch {
             
             print("Failed to fetch orders for deletion: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchOrder(withId id: Int32, completion: @escaping (SUOrder?, Error?) -> Void) {
+        
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.orderGet(userIdToken: token, orderId: id)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let orderDetails = response.result.value as? [String: Any] {
+                                
+                                self.createOrdersWith(ordersJSON: [orderDetails])
+                                self.saveContextAndPostNotification()
+                                
+                                if let order = SUOrder.getObjectWithId(id) {
+                                    
+                                    completion(order, nil)
+                                    
+                                } else {
+                                    
+                                    let error = APIClientError.error("Failed to get order")
+                                    completion(nil, error)
+                                }
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get order details")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            
+                            completion(nil, error)
+                        }
+                    }
+                }
+            }
         }
     }
     
