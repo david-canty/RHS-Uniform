@@ -909,58 +909,79 @@ extension APIClient {
             guard let orderItemJSON = orderItemAndActionJSON["orderItem"] as? [String: Any] else {
                 fatalError("Failed to get order item JSON")
             }
-            guard let itemId = orderItemJSON["itemID"] as? String else {
-                fatalError("Failed to get item id from order item JSON")
-            }
-            guard let item = SUShopItem.getObjectWithId(UUID(uuidString: itemId)!) else {
-                fatalError("Failed to get item to create order item")
-            }
-            guard let sizeId = orderItemJSON["sizeID"] as? String else {
-                fatalError("Failed to get size id from order item JSON")
-            }
-            guard let size = SUSize.getObjectWithId(UUID(uuidString: sizeId)!) else {
-                fatalError("Failed to get size to create order item")
-            }
             
-            let orderItem = SUOrderItem(context: context)
-            orderItem.id = UUID(uuidString: orderItemJSON["id"] as! String)!
-            orderItem.quantity = orderItemJSON["quantity"] as! Int32
-            orderItem.orderItemStatus = orderItemJSON["orderItemStatus"] as? String
+            if let orderItem = createOrderItem(withData: orderItemJSON) {
             
-            orderItem.order = order
-            orderItem.item = item
-            orderItem.size = size
-            
-            OrderItemActionIf: if let orderItemActionJSON = orderItemAndActionJSON["orderItemAction"] as? [String: Any] {
-                
-                guard let actionId = orderItemActionJSON["id"] as? String else {
-                    print("Failed to get action id from order item JSON")
-                    break OrderItemActionIf
+                OrderItemActionIf: if let orderItemActionJSON = orderItemAndActionJSON["orderItemAction"] as? [String: Any] {
+                    
+                    guard let actionId = orderItemActionJSON["id"] as? String else {
+                        print("Failed to get action id from order item JSON")
+                        break OrderItemActionIf
+                    }
+                    guard let actionOrderItemId = orderItemActionJSON["orderItemID"] as? String else {
+                        print("Failed to get action order item id from order item JSON")
+                        break OrderItemActionIf
+                    }
+                    if actionOrderItemId != orderItem.id?.uuidString {
+                        print("Invalid action order item id from order item JSON")
+                        break OrderItemActionIf
+                    }
+                    guard let action = orderItemActionJSON["action"] as? String else {
+                        print("Failed to get action from order item JSON")
+                        break OrderItemActionIf
+                    }
+                    guard let actionQuantity = orderItemActionJSON["quantity"] as? Int32 else {
+                        print("Failed to get action quantity from order item JSON")
+                        break OrderItemActionIf
+                    }
+                    
+                    let orderItemAction = SUOrderItemAction(context: context)
+                    orderItemAction.id = UUID(uuidString: actionId)!
+                    orderItemAction.action = action
+                    orderItemAction.quantity = actionQuantity
+                    orderItemAction.orderItem = orderItem
                 }
-                guard let actionOrderItemId = orderItemActionJSON["orderItemID"] as? String else {
-                    print("Failed to get action order item id from order item JSON")
-                    break OrderItemActionIf
-                }
-                if actionOrderItemId != orderItem.id?.uuidString {
-                    print("Invalid action order item id from order item JSON")
-                    break OrderItemActionIf
-                }
-                guard let action = orderItemActionJSON["action"] as? String else {
-                    print("Failed to get action from order item JSON")
-                    break OrderItemActionIf
-                }
-                guard let actionQuantity = orderItemActionJSON["quantity"] as? Int32 else {
-                    print("Failed to get action quantity from order item JSON")
-                    break OrderItemActionIf
-                }
-                
-                let orderItemAction = SUOrderItemAction(context: context)
-                orderItemAction.id = UUID(uuidString: actionId)!
-                orderItemAction.action = action
-                orderItemAction.quantity = actionQuantity
-                orderItemAction.orderItem = orderItem
             }
         }
+    }
+    
+    func createOrderItem(withData data: [String: Any]) -> SUOrderItem? {
+        
+        guard let orderId = data["orderID"] as? Int32 else {
+            print("Failed to get order id from order item data")
+            return nil
+        }
+        guard let order = SUOrder.getObjectWithId(orderId) else {
+            print("Failed to get order to create order item")
+            return nil
+        }
+        guard let itemId = data["itemID"] as? String else {
+            print("Failed to get item id from order item data")
+            return nil
+        }
+        guard let item = SUShopItem.getObjectWithId(UUID(uuidString: itemId)!) else {
+            print("Failed to get item to create order item")
+            return nil
+        }
+        guard let sizeId = data["sizeID"] as? String else {
+            print("Failed to get size id from order item data")
+            return nil
+        }
+        guard let size = SUSize.getObjectWithId(UUID(uuidString: sizeId)!) else {
+            print("Failed to get size to create order item")
+            return nil
+        }
+        
+        let orderItem = SUOrderItem(context: context)
+        orderItem.id = UUID(uuidString: data["id"] as! String)!
+        orderItem.quantity = data["quantity"] as! Int32
+        orderItem.orderItemStatus = data["orderItemStatus"] as? String
+        
+        orderItem.order = order
+        orderItem.item = item
+        orderItem.size = size
+        
+        return orderItem
     }
     
     private func deleteOrders(with ordersJSON: [[String: Any]]) {
@@ -1159,6 +1180,58 @@ extension APIClient {
                         case .failure(let error):
                             
                             completion(nil, nil, error)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchOrderItem(withId id: UUID, completion: @escaping (SUOrderItem?, Error?) -> Void) {
+     
+        currentUser.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error {
+                
+                fatalError("Error getting user ID token: \(error)")
+                
+            } else {
+                
+                if let token = idToken {
+                    
+                    Alamofire.request(APIRouter.orderItemGet(userIdToken: token, orderItemId: id.uuidString)).responseJSON { response in
+                        
+                        switch response.result {
+                            
+                        case .success:
+                            
+                            if let orderItemData = response.result.value as? [String: Any] {
+                                
+                                if let oldOrderItem = SUOrderItem.getObjectWithId(id) {
+                                    
+                                    self.context.delete(oldOrderItem)
+                                }
+                                
+                                if let newOrderItem = self.createOrderItem(withData: orderItemData) {
+                                    
+                                    self.saveContextAndPostNotification()
+                                    completion(newOrderItem, nil)
+                                    
+                                } else {
+                                 
+                                    let error = APIClientError.error("Failed to create order item")
+                                    completion(nil, error)
+                                }
+                                
+                            } else {
+                                
+                                let error = APIClientError.error("Failed to get order item details")
+                                completion(nil, error)
+                            }
+                            
+                        case .failure(let error):
+                            
+                            completion(nil, error)
                         }
                     }
                 }

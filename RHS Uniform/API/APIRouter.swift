@@ -26,6 +26,7 @@ public enum APIRouter: URLRequestConvertible {
     case orders(userIdToken: String, customerId: String)
     case orderGet(userIdToken: String, orderId: Int32)
     case orderCancel(userIdToken: String, orderId: Int32)
+    case orderItemGet(userIdToken: String, orderItemId: String)
     case orderItemCancelReturn(userIdToken: String, orderItemId: String, action: String, quantity: Int)
     
     case stripeEphemeralKey(userIdToken: String, customerId: String, apiVersion: String)
@@ -70,7 +71,7 @@ public enum APIRouter: URLRequestConvertible {
         case .orderCreate:
             return .post
             
-        case .orders, .orderGet:
+        case .orders, .orderGet, .orderItemGet:
             return .get
             
         case .orderCancel:
@@ -141,6 +142,9 @@ public enum APIRouter: URLRequestConvertible {
             
         case .orderCancel(_, let orderId):
             return "/orders/\(orderId)/cancel"
+            
+        case .orderItemGet (_, let orderItemId):
+            return "/order-items/\(orderItemId)"
             
         case .orderItemCancelReturn(_, let orderItemId, _, _):
             return "/order-items/\(orderItemId)/cancel-return"
@@ -264,6 +268,9 @@ public enum APIRouter: URLRequestConvertible {
                 return idToken
             
             case .orderCancel (let idToken, _):
+                return idToken
+                
+            case .orderItemGet (let idToken, _):
                 return idToken
                 
             case .orderItemCancelReturn (let idToken, _, _, _):
