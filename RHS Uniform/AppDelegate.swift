@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             containerViewController.managedObjectContext = self.persistentContainer.viewContext
             containerViewController.delegate = self
-            self.window!.rootViewController = containerViewController
+            self.window?.rootViewController = containerViewController
             
             UIView.transition(with: self.window!, duration: 0.25, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
         }

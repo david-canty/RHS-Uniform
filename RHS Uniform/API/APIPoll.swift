@@ -21,8 +21,8 @@ class APIPoll {
         
         fetchData()
         
-//        let apiPollInterval: TimeInterval = AppConfig.shared.apiPollInterval()
-//        apiPollTimer = Timer.scheduledTimer(timeInterval: apiPollInterval, target: self, selector: #selector(fetchData), userInfo: nil, repeats: true)
+        let apiPollInterval: TimeInterval = AppConfig.shared.apiPollInterval()
+        apiPollTimer = Timer.scheduledTimer(timeInterval: apiPollInterval, target: self, selector: #selector(fetchData), userInfo: nil, repeats: true)
     }
     
     func stopPolling() {
