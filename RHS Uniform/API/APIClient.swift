@@ -42,7 +42,8 @@ final class APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                return
                 
             } else {
                 
@@ -109,7 +110,7 @@ final class APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -170,18 +171,19 @@ final class APIClient {
     // MARK: - Schools
     private func createSchoolsWith(schoolsJSON: [[String: Any]]) {
         
-        for schoolJSON in schoolsJSON {
+        schoolLoop: for schoolJSON in schoolsJSON {
             
-            guard let school = schoolJSON["school"] as? [String: Any] else {
-                fatalError("Error getting school JSON")
-            }
-            guard let years = schoolJSON["years"] as? [[String: Any]] else {
-                fatalError("Error getting school years JSON")
+            guard let school = schoolJSON["school"] as? [String: Any],
+                let years = schoolJSON["years"] as? [[String: Any]] else {
+                    
+                print("Error getting school and years JSON")
+                continue schoolLoop
             }
             
             let timestampString = school["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue schoolLoop
             }
             
             var tempSchool: SUSchool?
@@ -218,11 +220,12 @@ final class APIClient {
     // MARK: - Years
     private func create(years: [[String: Any]], forSchool school: SUSchool) {
         
-        for year in years {
+        yearLoop: for year in years {
             
             let timestampString = year["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue yearLoop
             }
             
             var tempYear: SUYear?
@@ -257,11 +260,12 @@ final class APIClient {
     // MARK: - Categories
     private func createCategoriesWith(categoriesJSON: [[String: Any]]) {
         
-        for category in categoriesJSON {
+        categoryLoop: for category in categoriesJSON {
             
             let timestampString = category["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue categoryLoop
             }
             
             var tempCategory: SUCategory?
@@ -292,11 +296,12 @@ final class APIClient {
     // MARK: - Sizes
     private func createSizesWith(sizesJSON: [[String: Any]]) {
         
-        for size in sizesJSON {
+        sizeLoop: for size in sizesJSON {
             
             let timestampString = size["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue sizeLoop
             }
             
             var tempSize: SUSize?
@@ -328,24 +333,29 @@ final class APIClient {
     // MARK: - Items
     private func createItemsWith(itemsJSON: [[String: Any]]) {
         
-        for itemJSON in itemsJSON {
+        itemLoop: for itemJSON in itemsJSON {
             
             guard let item = itemJSON["item"] as? [String : Any] else {
-                fatalError("Failed to fetch item JSON")
+                print("Failed to fetch item JSON")
+                continue itemLoop
             }
             guard let sizes = itemJSON["sizes"] as? [[String : Any]] else {
-                fatalError("Failed to fetch item sizes JSON")
+                print("Failed to fetch item sizes JSON")
+                continue itemLoop
             }
             guard let years = itemJSON["years"] as? [[String : Any]] else {
-                fatalError("Failed to fetch item years JSON")
+                print("Failed to fetch item years JSON")
+                continue itemLoop
             }
             guard let images = itemJSON["images"] as? [[String : Any]] else {
-                fatalError("Failed to fetch item images JSON")
+                print("Failed to fetch item images JSON")
+                continue itemLoop
             }
             
             let timestampString = item["timestamp"] as? String
             guard let timestampDate = dateFormatter.date(from: timestampString!) else {
-                fatalError("Failed to convert date due to mismatched format")
+                print("Failed to convert date due to mismatched format")
+                continue itemLoop
             }
             
             var tempItem: SUShopItem?
@@ -445,11 +455,12 @@ final class APIClient {
     // MARK: - Item Sizes
     private func create(sizes: [[String: Any]], forItem item: SUShopItem) {
         
-        for itemSize in sizes {
+        sizeLoop: for itemSize in sizes {
             
             let timestampString = itemSize["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue sizeLoop
             }
             
             let id = UUID(uuidString: itemSize["id"] as! String)!
@@ -490,16 +501,19 @@ extension APIClient {
     private func deleteItemsWith(itemsJSON: [[String: Any]]) {
         
         var itemIds = [UUID]()
-        for itemJSON in itemsJSON {
+        itemLoop: for itemJSON in itemsJSON {
             
             guard let item = itemJSON["item"] as? [String : Any] else {
-                fatalError("Error getting item JSON")
+                print("Error getting item JSON")
+                continue itemLoop
             }
             guard let itemSizes = itemJSON["sizes"] as? [[String: Any]] else {
-                fatalError("Error getting item sizes JSON")
+                print("Error getting item sizes JSON")
+                continue itemLoop
             }
             guard let itemYears = itemJSON["years"] as? [[String: Any]] else {
-                fatalError("Error getting item years JSON")
+                print("Error getting item years JSON")
+                continue itemLoop
             }
             
             let itemId = UUID(uuidString: item["id"] as! String)!
@@ -522,7 +536,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch items for deletion: \(error)")
+            
+            print("Failed to fetch items for deletion: \(error)")
         }
     }
     
@@ -551,7 +566,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch item sizes for deletion: \(error)")
+            
+            print("Failed to fetch item sizes for deletion: \(error)")
         }
     }
     
@@ -559,7 +575,8 @@ extension APIClient {
     private func deleteItemYearsWith(itemYearsJSON: [[String: Any]], forItemId itemId: UUID) {
         
         guard let itemObject = SUShopItem.getObjectWithId(itemId) else {
-            fatalError("Failed to get item with id \(itemId)")
+            print("Failed to get item with id \(itemId)")
+            return
         }
         
         if let existingYearRelationships = itemObject.years {
@@ -600,7 +617,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch sizes for deletion: \(error)")
+            
+            print("Failed to fetch sizes for deletion: \(error)")
         }
     }
     
@@ -627,7 +645,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch categories for deletion: \(error)")
+            
+            print("Failed to fetch categories for deletion: \(error)")
         }
     }
     
@@ -635,13 +654,15 @@ extension APIClient {
     private func deleteSchoolsWith(schoolsJSON: [[String: Any]]) {
         
         var schoolIds = [UUID]()
-        for schoolJSON in schoolsJSON {
+        schoolLoop: for schoolJSON in schoolsJSON {
             
             guard let school = schoolJSON["school"] as? [String: Any] else {
-                fatalError("Error getting school JSON")
+                print("Error getting school JSON")
+                continue schoolLoop
             }
             guard let years = schoolJSON["years"] as? [[String: Any]] else {
-                fatalError("Error getting school years JSON")
+                print("Error getting school years JSON")
+                continue schoolLoop
             }
             
             let schoolId = UUID(uuidString: school["id"] as! String)!
@@ -663,7 +684,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch schools for deletion: \(error)")
+            
+            print("Failed to fetch schools for deletion: \(error)")
         }
     }
     
@@ -693,7 +715,8 @@ extension APIClient {
             }
             
         } catch {
-            fatalError("Failed to fetch years for deletion: \(error)")
+            
+            print("Failed to fetch years for deletion: \(error)")
         }
     }
     
@@ -705,7 +728,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -742,7 +766,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -786,7 +811,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -825,24 +851,29 @@ extension APIClient {
     
     private func createOrdersWith(ordersJSON: [[String: Any]]) {
         
-        for orderJSON in ordersJSON {
+        orderLoop: for orderJSON in ordersJSON {
             
             guard let order = orderJSON["order"] as? [String: Any] else {
-                fatalError("Error getting order JSON")
+                print("Error getting order JSON")
+                continue orderLoop
             }
             guard let orderItemsWithActions = orderJSON["orderItemsWithActions"] as? [[String: Any]] else {
-                fatalError("Error getting order items and actions JSON")
+                print("Error getting order items and actions JSON")
+                continue orderLoop
             }
             guard let customerId = order["customerID"] as? String else {
-                fatalError("Failed to get customer id from order JSON")
+                print("Failed to get customer id from order JSON")
+                continue orderLoop
             }
             guard let customer = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) else {
-                fatalError("Failed to get customer to create order")
+                print("Failed to get customer to create order")
+                continue orderLoop
             }
             
             let timestampString = order["timestamp"] as! String
             guard let timestampDate = dateFormatter.date(from: timestampString) else {
-                fatalError("Date conversion failed due to mismatched format")
+                print("Date conversion failed due to mismatched format")
+                continue orderLoop
             }
             
             var tempOrder: SUOrder?
@@ -868,17 +899,16 @@ extension APIClient {
             if let tempOrder = tempOrder {
                 
                 let orderDateString = order["orderDate"] as! String
-                guard let orderDate = dateFormatter.date(from: orderDateString) else {
-                    fatalError("Date conversion failed due to mismatched format")
+                if let orderDate = dateFormatter.date(from: orderDateString) {
+                    
+                    tempOrder.orderDate = orderDate
+                    tempOrder.orderStatus = order["orderStatus"] as? String
+                    tempOrder.paymentMethod = order["paymentMethod"] as? String
+                    tempOrder.timestamp = timestampDate
+                    tempOrder.customer = customer
+                    
+                    create(orderItemsAndActions: orderItemsWithActions, forOrder: tempOrder)
                 }
-                
-                tempOrder.orderDate = orderDate
-                tempOrder.orderStatus = order["orderStatus"] as? String
-                tempOrder.paymentMethod = order["paymentMethod"] as? String
-                tempOrder.timestamp = timestampDate
-                tempOrder.customer = customer
-                
-                create(orderItemsAndActions: orderItemsWithActions, forOrder: tempOrder)
             }
         }
     }
@@ -904,10 +934,11 @@ extension APIClient {
         }
         
         // Create order items
-        for orderItemAndActionJSON in orderItemsAndActionsJSON {
+        orderItemLoop: for orderItemAndActionJSON in orderItemsAndActionsJSON {
             
             guard let orderItemJSON = orderItemAndActionJSON["orderItem"] as? [String: Any] else {
-                fatalError("Failed to get order item JSON")
+                print("Failed to get order item JSON")
+                continue orderItemLoop
             }
             
             if let orderItem = createOrderItem(withData: orderItemJSON) {
@@ -1018,7 +1049,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -1067,7 +1099,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -1086,7 +1119,10 @@ extension APIClient {
                                 let timestampString = order["timestamp"] as! String
                                 
                                 guard let timestampDate = self.dateFormatter.date(from: timestampString) else {
-                                    fatalError("Date conversion failed due to mismatched format")
+                                    
+                                    let error = APIClientError.error("Date conversion failed due to mismatched format")
+                                    completion(nil, error)
+                                    return
                                 }
                                 
                                 if let updatedOrder = SUOrder.updateObjectWithId(orderId, withStatus: orderStatus, andTimestamp: timestampDate) {
@@ -1121,7 +1157,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -1193,7 +1230,8 @@ extension APIClient {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
