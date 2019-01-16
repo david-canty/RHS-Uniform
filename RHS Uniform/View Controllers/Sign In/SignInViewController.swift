@@ -308,7 +308,7 @@ class SignInViewController: UIViewController {
                             
                         } else {
                             
-                            if let customerDict = customer {
+                            customerIf: if let customerDict = customer {
                                 
                                 let id = UUID(uuidString: customerDict["id"] as! String)
                                 let firebaseUserId = customerDict["firebaseUserId"] as! String
@@ -318,7 +318,8 @@ class SignInViewController: UIViewController {
                                 let dateFormatter = DateFormatter()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                                 guard let timestampDate = dateFormatter.date(from: timestamp) else {
-                                    fatalError("Failed to convert date due to mismatched format")
+                                    print("Failed to convert date due to mismatched format")
+                                    break customerIf
                                 }
                                 
                                 let newCustomer = SUCustomer(context: self.context)
@@ -331,7 +332,7 @@ class SignInViewController: UIViewController {
                                     try self.context.save()
                                 } catch {
                                     let nserror = error as NSError
-                                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                                    print("Unresolved error \(nserror), \(nserror.userInfo)")
                                 }
                             }
                         }

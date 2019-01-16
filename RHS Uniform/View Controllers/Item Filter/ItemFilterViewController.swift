@@ -86,7 +86,7 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
         } catch {
             
             let nserror = error as NSError
-            fatalError("Error with years fetch request: \(nserror), \(nserror.userInfo)")
+            print("Error with years fetch request: \(nserror), \(nserror.userInfo)")
         }
     }
     
@@ -108,7 +108,7 @@ class ItemFilterViewController: UIViewController, UITableViewDataSource, UITable
         } catch {
             
             let nserror = error as NSError
-            fatalError("Error with categories fetch request: \(nserror), \(nserror.userInfo)")
+            print("Error with categories fetch request: \(nserror), \(nserror.userInfo)")
         }
     }
     

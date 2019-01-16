@@ -318,7 +318,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
         } catch {
             
             let nserror = error as NSError
-            fatalError("Error deleting bag items: \(nserror), \(nserror.userInfo)")
+            print("Error deleting bag items: \(nserror), \(nserror.userInfo)")
         }
     }
 
