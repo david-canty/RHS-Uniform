@@ -1158,7 +1158,7 @@ extension APIClient {
             if let error = error {
                 
                 print("Error getting user ID token: \(error)")
-                completion(nil, error)
+                completion(nil, nil, error)
                 
             } else {
                 

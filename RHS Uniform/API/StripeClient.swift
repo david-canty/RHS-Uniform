@@ -41,7 +41,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -74,7 +75,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(Result.failure(error))
                 
             } else {
                 
@@ -134,7 +136,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -164,7 +167,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -197,7 +201,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -231,7 +236,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
             
             if let error = error {
                 
-                fatalError("Error getting user ID token: \(error)")
+                print("Error getting user ID token: \(error)")
+                completion(nil, error)
                 
             } else {
                 
@@ -277,7 +283,8 @@ final class StripeClient: NSObject, STPEphemeralKeyProvider {
 //
 //            if let error = error {
 //
-//                fatalError("Error getting user ID token: \(error)")
+//                print("Error getting user ID token: \(error)")
+//                completion(nil, error)
 //
 //            } else {
 //

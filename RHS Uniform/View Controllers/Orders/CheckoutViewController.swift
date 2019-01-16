@@ -389,11 +389,13 @@ extension CheckoutViewController: PaymentInformationDelegate {
     func placeOrder(withChargeId chargeId: String? = nil) {
         
         guard let orderItems = delegate?.getOrderItems() else {
-            fatalError("Failed to get order items")
+            print("Failed to get order items")
+            return
         }
         
         guard var paymentMethod = paymentInfoVC.paymentMethod?.getDescription() else {
-            fatalError("Failed to get payment method")
+            print("Failed to get payment method")
+            return
         }
         
         if case .card? = paymentInfoVC.paymentMethod {
@@ -406,7 +408,8 @@ extension CheckoutViewController: PaymentInformationDelegate {
         APIClient.shared.createOrder(withOrderItems: orderItems, paymentMethod: paymentMethod, chargeId: chargeId) { (orderInfo, error) in
             
             if let error = error as NSError? {
-                fatalError("Error creating order: \(error), \(error.userInfo)")
+                print("Error creating order: \(error), \(error.userInfo)")
+                return
             }
             
             if let orderInfo = orderInfo {
@@ -428,15 +431,18 @@ extension CheckoutViewController: PaymentInformationDelegate {
         guard let customerData = orderInfo["customer"] as? [String: Any],
             let orderData = orderInfo["order"] as? [String: Any],
             let orderItemsData = orderInfo["orderItems"] as? [[String: Any]] else {
-            fatalError("Failed to get order data")
+                print("Failed to get order data")
+                return
         }
 
         guard let customerId = customerData["id"] as? String else {
-            fatalError("Failed to customer id")
+            print("Failed to customer id")
+            return
         }
         
         guard let customer = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) else {
-            fatalError("Failed to get customer")
+            print("Failed to get customer")
+            return
         }
         
         guard let id = orderData["id"] as? Int,
@@ -444,7 +450,8 @@ extension CheckoutViewController: PaymentInformationDelegate {
             let paymentMethod = orderData["paymentMethod"] as? String,
             let orderDateString = orderData["orderDate"] as? String,
             let timestampString = orderData["timestamp"] as? String else {
-                fatalError("Failed to get order info")
+                print("Failed to get order info")
+                return
         }
         
         let chargeId = orderData["chargeId"] as? String
@@ -452,12 +459,10 @@ extension CheckoutViewController: PaymentInformationDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
 
-        guard let orderDate = dateFormatter.date(from: orderDateString) else {
-            fatalError("Failed to convert order date due to mismatched format")
-        }
-
-        guard let timestampDate = dateFormatter.date(from: timestampString) else {
-            fatalError("Failed to convert order timestamp due to mismatched format")
+        guard let orderDate = dateFormatter.date(from: orderDateString),
+            let timestampDate = dateFormatter.date(from: timestampString) else {
+            print("Failed to convert order date due to mismatched format")
+            return
         }
         
         // Create order
@@ -471,21 +476,25 @@ extension CheckoutViewController: PaymentInformationDelegate {
         order.customer = customer
         
         // Create order items
-        for orderItemData in orderItemsData {
+        orderItemLoop: for orderItemData in orderItemsData {
             
             guard let idString = orderItemData["id"] as? String,
                 let itemIdString = orderItemData["itemID"] as? String,
                 let sizeIdString = orderItemData["sizeID"] as? String,
                 let quantity = orderItemData["quantity"] as? Int else {
-                  fatalError("Failed to get order item info")
+                    
+                print("Failed to get order item info")
+                continue orderItemLoop
             }
             
             guard let item = SUShopItem.getObjectWithId(UUID(uuidString: itemIdString)!) else {
-                fatalError("Failed to get item for order")
+                print("Failed to get item for order")
+                continue orderItemLoop
             }
             
             guard let size = SUSize.getObjectWithId(UUID(uuidString: sizeIdString)!) else {
-                fatalError("Failed to get size for order")
+                print("Failed to get size for order")
+                continue orderItemLoop
             }
             
             // Attributes
