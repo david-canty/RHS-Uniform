@@ -21,7 +21,7 @@ class KeychainController {
             
         } catch {
             
-            fatalError("Error saving item to keychain: \(error)")
+            print("Error saving item to keychain: \(error)")
         }
     }
     
@@ -50,7 +50,7 @@ class KeychainController {
             
             if let error = error as NSError? {
                 
-                fatalError("Error getting id token: \(error)")
+                print("Error getting id token: \(error)")
                 
             } else {
 
@@ -64,7 +64,7 @@ class KeychainController {
                         
                     } catch {
                         
-                        fatalError("Error updating keychain: \(error)")
+                        print("Error updating keychain: \(error)")
                     }
                 }
             }
@@ -83,7 +83,7 @@ class KeychainController {
 //
 //            } catch {
 //
-//                fatalError("Error deleting old secured item: \(error)")
+//                print("Error deleting old secured item: \(error)")
 //            }
 //        }
 //
@@ -95,7 +95,7 @@ class KeychainController {
 //
 //        } catch {
 //
-//            fatalError("Error updating keychain: \(error)")
+//            print("Error updating keychain: \(error)")
 //        }
         
         let securedItemEmail = KeychainSecuredItem(service: KeychainConfiguration.serviceName, account: "RHSUniformEmail", accessGroup: KeychainConfiguration.accessGroup)
@@ -106,7 +106,7 @@ class KeychainController {
 
         } catch {
 
-            fatalError("Error saving email to keychain: \(error)")
+            print("Error saving email to keychain: \(error)")
         }
         
         let securedItemPassword = KeychainSecuredItem(service: KeychainConfiguration.serviceName, account: "RHSUniformPassword", accessGroup: KeychainConfiguration.accessGroup)
@@ -117,7 +117,7 @@ class KeychainController {
             
         } catch {
             
-            fatalError("Error saving password to keychain: \(error)")
+            print("Error saving password to keychain: \(error)")
         }
         
     }

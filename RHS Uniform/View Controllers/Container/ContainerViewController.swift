@@ -88,7 +88,7 @@ class ContainerViewController: UIViewController {
             
         } catch {
             
-            fatalError("Error fetching bag items: \(error)")
+            print("Error fetching bag items: \(error)")
         }
     }
     

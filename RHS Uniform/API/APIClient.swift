@@ -391,10 +391,9 @@ final class APIClient {
                 
                 // Item category relationship
                 let categoryId = UUID(uuidString: item["categoryID"] as! String)!
-                guard let category = SUCategory.getObjectWithId(categoryId) else {
-                    fatalError("Failed to get category with id \(String(describing: categoryId))")
+                if let category = SUCategory.getObjectWithId(categoryId) {
+                    tempItem.category = category
                 }
-                tempItem.category = category
                 
                 // Item years relationships
                 if let existingYearRelationships = tempItem.years {
@@ -405,10 +404,9 @@ final class APIClient {
                     
                     let yearId = UUID(uuidString: year["id"] as! String)!
                     
-                    guard let yearObject = SUYear.getObjectWithId(yearId) else {
-                        fatalError("Failed to get year with id \(yearId)")
+                    if let yearObject = SUYear.getObjectWithId(yearId) {
+                        tempItem.addToYears(yearObject)
                     }
-                    tempItem.addToYears(yearObject)
                 }
                 
                 // Item images
@@ -480,16 +478,15 @@ final class APIClient {
                 newItemSize.timestamp = timestampDate
                 
                 let itemId = UUID(uuidString: itemSize["itemID"] as! String)!
-                guard let item = SUShopItem.getObjectWithId(itemId) else {
-                    fatalError("Failed to get item with id \(itemId)")
+                if let item = SUShopItem.getObjectWithId(itemId) {
+                    newItemSize.item = item
                 }
-                newItemSize.item = item
+                
                 
                 let sizeId = UUID(uuidString: itemSize["sizeID"] as! String)!
-                guard let size = SUSize.getObjectWithId(sizeId) else {
-                    fatalError("Failed to get size with id \(sizeId)")
+                if let size = SUSize.getObjectWithId(sizeId) {
+                    newItemSize.size = size
                 }
-                newItemSize.size = size
             }
         }
     }
@@ -587,10 +584,10 @@ extension APIClient {
             
             let yearId = UUID(uuidString: itemYearJSON["id"] as! String)!
             
-            guard let yearObject = SUYear.getObjectWithId(yearId) else {
-                fatalError("Failed to get year with id \(yearId)")
+            if let yearObject = SUYear.getObjectWithId(yearId)  {
+                
+                itemObject.addToYears(yearObject)
             }
-            itemObject.addToYears(yearObject)
         }
     }
     

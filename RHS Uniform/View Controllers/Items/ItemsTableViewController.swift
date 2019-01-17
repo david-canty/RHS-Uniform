@@ -232,7 +232,7 @@ class ItemsTableViewController: UITableViewController, NSFetchedResultsControlle
             try _fetchedResultsController!.performFetch()
         } catch {
             let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
         return _fetchedResultsController!

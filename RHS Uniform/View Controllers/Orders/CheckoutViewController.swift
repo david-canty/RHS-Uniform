@@ -60,10 +60,10 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
 
         navigationController?.navigationBar.shadowImage = UIImage(named: "nav_shadow")
         
-        guard let orderAmount = delegate?.getOrderAmount() else {
-            fatalError("Failed to get order amount")
+        if let orderAmount = delegate?.getOrderAmount() {
+            
+            self.orderAmount = orderAmount
         }
-        self.orderAmount = orderAmount
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,7 +198,7 @@ class CheckoutViewController: UITableViewController, NSFetchedResultsControllerD
             try _fetchedResultsController!.performFetch()
         } catch {
             let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
         return _fetchedResultsController!
@@ -513,7 +513,7 @@ extension CheckoutViewController: PaymentInformationDelegate {
             try self.managedObjectContext.save()
         } catch {
             let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
 }

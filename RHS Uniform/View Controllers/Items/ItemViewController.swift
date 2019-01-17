@@ -256,7 +256,7 @@ class ItemViewController: UIViewController {
             
         } catch {
          
-            fatalError("Error fetching item with id \(String(describing: item.id)): \(error)")
+            print("Error fetching item with id \(String(describing: item.id)): \(error)")
         }
     }
     
@@ -356,7 +356,7 @@ class ItemViewController: UIViewController {
             
         } catch {
             let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
         self.navigationController?.popViewController(animated: true)
