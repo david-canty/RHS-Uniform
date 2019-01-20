@@ -21,6 +21,7 @@ public enum APIRouter: URLRequestConvertible {
     
     case customerCreate(userIdToken: String, firebaseUserId: String, email: String)
     case customerAPNSDeviceToken(userIdToken: String, customerId: String, apnsDeviceToken: String)
+    case customerOneSignalPlayer(userIdToken: String, customerId: String, playerId: String)
     
     case orderCreate(userIdToken: String, customerId: String, orderItems: [[String: Any]], paymentMethod: String, chargeId: String?)
     case orders(userIdToken: String, customerId: String)
@@ -65,7 +66,7 @@ public enum APIRouter: URLRequestConvertible {
         case .customerCreate:
             return .post
             
-        case .customerAPNSDeviceToken:
+        case .customerAPNSDeviceToken, .customerOneSignalPlayer:
             return .patch
             
         case .orderCreate:
@@ -131,6 +132,9 @@ public enum APIRouter: URLRequestConvertible {
         case .customerAPNSDeviceToken (_, let customerId, _):
             return "/customers/\(customerId)/apns-token"
             
+        case .customerOneSignalPlayer (_, let customerId, _):
+            return "/customers/\(customerId)/onesignal-player"
+            
         case .orderCreate:
             return "/orders"
             
@@ -183,6 +187,10 @@ public enum APIRouter: URLRequestConvertible {
             case let .customerAPNSDeviceToken(_, _, apnsDeviceToken):
                 
                 return ["token": apnsDeviceToken]
+                
+            case let .customerOneSignalPlayer(_, _, playerId):
+                
+                return ["id": playerId]
                 
             case let .orderCreate(_, customerId, orderItems, paymentMethod, chargeId):
                 
@@ -255,7 +263,8 @@ public enum APIRouter: URLRequestConvertible {
             case .customerCreate (let idToken, _, _):
                 return idToken
                 
-            case .customerAPNSDeviceToken (let idToken, _, _):
+            case .customerAPNSDeviceToken(let idToken, _, _),
+                 .customerOneSignalPlayer(let idToken, _, _):
                 return idToken
                 
             case .orderCreate (let idToken, _, _, _, _):
@@ -303,7 +312,11 @@ public enum APIRouter: URLRequestConvertible {
         request.timeoutInterval = TimeInterval(10 * 1000)
         
         switch self {
-        case .orderCreate, .orderItemCancelReturn, .customerCreate, .customerAPNSDeviceToken:
+        case .orderCreate,
+             .orderItemCancelReturn,
+             .customerCreate,
+             .customerAPNSDeviceToken,
+             .customerOneSignalPlayer:
             return try JSONEncoding.default.encode(request, with: parameters)
         default:
             return try URLEncoding.default.encode(request, with: parameters)

@@ -17,13 +17,14 @@ import OneSignal
 import FTLinearActivityIndicator
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, OSSubscriptionObserver {
 
     var window: UIWindow?
     var reachabilityManager: NetworkReachabilityManager?
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
     var apnsToken: String?
+    var oneSignalPlayedId: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -92,7 +93,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             APNSController.shared.handleNotification(withAPS: aps, andCustom: custom)
         }
         
+        // Add OneSignal observer to get player id
+        OneSignal.add(self as OSSubscriptionObserver)
+        
         return true
+    }
+    
+    func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
+
+        if let playerId = stateChanges.to.userId {
+            
+            self.oneSignalPlayedId = playerId
+            self.saveOneSignalPlayerId()
+        }
     }
     
     func isFirstLaunch() -> Bool {
@@ -295,6 +308,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
             self.apnsToken = nil
+        }
+    }
+    
+    func saveOneSignalPlayerId() {
+        
+        guard let playerId = self.oneSignalPlayedId else { return }
+        
+        APIClient.shared.save(oneSignalPlayerId: playerId) { (customer, error) in
+            
+            if let error = error as NSError? {
+                
+                print("Error saving player id: \(error)")
+                
+            } else {
+                
+                if let customerData = customer {
+                    
+                    if let customerId = customerData["id"] as? String {
+                        
+                        if let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) {
+                            
+                            let oneSignalPlayerId = customerData["oneSignalPlayerId"] as! String
+                            customerObject.oneSignalPlayerId = oneSignalPlayerId
+                            
+                            self.saveContext()
+                        }
+                    }
+                }
+            }
+            
+            self.oneSignalPlayedId = nil
         }
     }
     
