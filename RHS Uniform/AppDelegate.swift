@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var firebaseAuth: Auth?
     var authHandle: AuthStateDidChangeListenerHandle?
     var apnsToken: String?
-    var oneSignalPlayedId: String?
+    var oneSignalPlayerId: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -100,11 +100,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func onOSSubscriptionChanged(_ stateChanges: OSSubscriptionStateChanges!) {
-
+        
         if let playerId = stateChanges.to.userId {
             
-            self.oneSignalPlayedId = playerId
-            self.saveOneSignalPlayerId()
+            self.oneSignalPlayerId = playerId
+            saveOneSignalPlayerId()
         }
     }
     
@@ -280,11 +280,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.apnsToken = token
     }
     
-    func saveAPNSToken() {
+    func saveAPNSToken(forCustomer customer: SUCustomer) {
         
         guard let token = self.apnsToken else { return }
         
-        APIClient.shared.save(apnsDeviceToken: token) { (customer, error) in
+        APIClient.shared.save(apnsDeviceToken: token) { (customerData, error) in
             
             if let error = error as NSError? {
                 
@@ -292,19 +292,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
             } else {
                 
-                if let customerData = customer {
-                    
-                    if let customerId = customerData["id"] as? String {
-                        
-                        if let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) {
-                            
-                            let apnsDeviceToken = customerData["apnsDeviceToken"] as! String
-                            customerObject.apnsDeviceToken = apnsDeviceToken
-                            
-                            self.saveContext()
-                        }
-                    }
-                }
+                customer.apnsDeviceToken = token
+                self.saveContext()
             }
             
             self.apnsToken = nil
@@ -313,32 +302,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func saveOneSignalPlayerId() {
         
-        guard let playerId = self.oneSignalPlayedId else { return }
+        guard let playerId = self.oneSignalPlayerId else { return }
         
         APIClient.shared.save(oneSignalPlayerId: playerId) { (customer, error) in
             
             if let error = error as NSError? {
                 
-                print("Error saving player id: \(error)")
+                print("Error saving OneSignal player id: \(error)")
                 
             } else {
                 
-                if let customerData = customer {
+                if let customer = customer,
+                    let customerId = customer["id"] as? String,
+                    let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!),
+                    let oneSignalPlayerId = customer["oneSignalPlayerId"] as? String {
                     
-                    if let customerId = customerData["id"] as? String {
-                        
-                        if let customerObject = SUCustomer.getObjectWithId(UUID(uuidString: customerId)!) {
-                            
-                            let oneSignalPlayerId = customerData["oneSignalPlayerId"] as! String
-                            customerObject.oneSignalPlayerId = oneSignalPlayerId
-                            
-                            self.saveContext()
-                        }
-                    }
+                    customerObject.oneSignalPlayerId = oneSignalPlayerId
+                    self.saveContext()
                 }
             }
             
-            self.oneSignalPlayedId = nil
+            self.oneSignalPlayerId = nil
         }
     }
     
@@ -396,7 +380,7 @@ extension AppDelegate: ContainerViewControllerDelegate {
 
 extension AppDelegate: SignInViewControllerDelegate {
     
-    func didSignIn() {
+    func didSignIn(withCustomer customer: SUCustomer) {
         
         APIPoll.shared.startPolling()
         
@@ -406,11 +390,11 @@ extension AppDelegate: SignInViewControllerDelegate {
             
             print("User accepted notifications: \(accepted)")
             
-//            if let currentUser = Auth.auth().currentUser {
-//                OneSignal.setEmail(currentUser.email!)
-//            }
+            //            if let currentUser = Auth.auth().currentUser {
+            //                OneSignal.setEmail(currentUser.email!)
+            //            }
             
-            self.saveAPNSToken()
+            self.saveAPNSToken(forCustomer: customer)
         })
         
         showContainerViewController()

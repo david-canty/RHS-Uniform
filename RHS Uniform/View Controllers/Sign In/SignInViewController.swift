@@ -10,9 +10,13 @@ import UIKit
 import CoreData
 import FirebaseAuth
 
+enum SignInError: Error {
+    case error(String)
+}
+
 protocol SignInViewControllerDelegate {
     
-    func didSignIn()
+    func didSignIn(withCustomer customer: SUCustomer)
 }
 
 class SignInViewController: UIViewController {
@@ -271,7 +275,6 @@ class SignInViewController: UIViewController {
                 }
                 
                 self.triggerErrorFeedback()
-                
                 self.hideActivityIndicator()
                 self.enableInput()
                 
@@ -282,15 +285,27 @@ class SignInViewController: UIViewController {
                 
                 if let uid = Auth.auth().currentUser?.uid {
                 
-                    self.createCustomer(withEmail: email, firebaseUserId: uid)
+                    self.createCustomer(withEmail: email, firebaseUserId: uid) { customer, error in
+                        
+                        if let error = error as NSError? {
+                            
+                            self.displayAlert(withTitle: "Error Signing In", message: error.localizedDescription)
+                            self.triggerErrorFeedback()
+                            self.hideActivityIndicator()
+                            self.enableInput()
+                        }
+                        
+                        if let customer = customer {
+                            
+                            self.delegate?.didSignIn(withCustomer: customer)
+                        }
+                    }
                 }
-                
-                self.delegate?.didSignIn()
             }
         }
     }
     
-    func createCustomer(withEmail email: String, firebaseUserId uid: String) {
+    func createCustomer(withEmail email: String, firebaseUserId uid: String, completion: @escaping (SUCustomer?, Error?) -> Void) {
         
         if SUCustomer.getObjectWithEmail(email) == nil {
             
@@ -305,6 +320,10 @@ class SignInViewController: UIViewController {
                         if let error = error as NSError? {
                             
                             print("Error creating customer with email '\(email)': \(error.localizedDescription)")
+                            
+                            let signInError = SignInError.error("Could not sign in: \(error.localizedDescription)")
+                            completion(nil, signInError)
+                            return
                             
                         } else {
                             
@@ -334,6 +353,8 @@ class SignInViewController: UIViewController {
                                     let nserror = error as NSError
                                     print("Unresolved error \(nserror), \(nserror.userInfo)")
                                 }
+                                
+                                completion(newCustomer, nil)
                             }
                         }
                     })
@@ -341,6 +362,9 @@ class SignInViewController: UIViewController {
                 case .failure(let error):
                     
                     print("Error creating Stripe customer with email '\(email)': \(error.localizedDescription)")
+                    
+                    let signInError = SignInError.error("Could not sign in: \(error.localizedDescription)")
+                    completion(nil, signInError)
                 }
             }
         }
