@@ -23,6 +23,13 @@ final class AppConfig {
     
     private init() {}
     
+    func appVersion() -> String {
+        guard let appVersion = configValueForKey("APP_VERSION") else {
+            fatalError("Failed to get app version")
+        }
+        return appVersion
+    }
+    
     func schoolAdminEmail() -> String {
         guard let email = configValueForKey("SCHOOL_ADMIN_EMAIL") else {
             fatalError("Failed to get school admin email")

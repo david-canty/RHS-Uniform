@@ -32,12 +32,20 @@ class SideMenuViewController: UIViewController {
     let tableCellIdentifier = "sideMenuTableCell"
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var versionLabel: UILabel!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         notificationCenter.addObserver(self, selector: #selector(dismissSideMenu(_:)), name:NSNotification.Name(rawValue: "sideMenuChromeTapped"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        versionLabel.text = "Version: \(AppConfig.shared.appVersion())"
     }
     
     deinit {

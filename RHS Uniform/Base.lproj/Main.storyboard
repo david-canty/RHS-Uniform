@@ -2630,6 +2630,27 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="0.79607843140000001" green="0.031372549020000001" blue="0.074509803920000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="iWz-dh-XzS" userLabel="Footer View">
+                                    <rect key="frame" x="0.0" y="117.33333333333334" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQe-df-LcK">
+                                            <rect key="frame" x="16" y="14" width="47" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="wCf-7c-yER"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="bQe-df-LcK" firstAttribute="leading" secondItem="iWz-dh-XzS" secondAttribute="leading" constant="16" id="XeZ-Ab-jAB"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bQe-df-LcK" secondAttribute="trailing" constant="20" symbolic="YES" id="kUX-25-f2L"/>
+                                        <constraint firstItem="bQe-df-LcK" firstAttribute="top" secondItem="iWz-dh-XzS" secondAttribute="top" constant="14" id="rlP-hq-3EQ"/>
+                                        <constraint firstAttribute="bottom" secondItem="bQe-df-LcK" secondAttribute="bottom" constant="14" id="x5g-YG-VH0"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="sideMenuTableCell" textLabel="Xzk-ts-Ooy" style="IBUITableViewCellStyleDefault" id="XeS-sJ-thj">
                                         <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="44"/>
@@ -2676,6 +2697,7 @@
                     <navigationItem key="navigationItem" id="2Ow-bz-6fv"/>
                     <connections>
                         <outlet property="tableView" destination="rB1-ST-jhy" id="KfT-ak-jIR"/>
+                        <outlet property="versionLabel" destination="bQe-df-LcK" id="JiG-bb-Idb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHp-td-S0s" userLabel="First Responder" sceneMemberID="firstResponder"/>
