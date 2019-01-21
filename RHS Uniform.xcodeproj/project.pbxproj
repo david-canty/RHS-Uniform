@@ -274,10 +274,10 @@
 			children = (
 				1F1598F42177863A001A70A5 /* BagViewController.swift */,
 				1F9A549C2179EA1E0078492B /* CheckoutViewController.swift */,
-				1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */,
 				1F9A54AE217BB4F10078492B /* PaymentInformationViewController.swift */,
 				1F9A5A64217D05C20078492B /* PaymentMethodsViewController.swift */,
 				1F19B6CD2192DC9100D98F96 /* OrderConfirmationViewController.swift */,
+				1F9A54A8217B9D700078492B /* OrderSummaryViewController.swift */,
 				1F19BCD62198B0A900D98F96 /* OrdersViewController.swift */,
 				1FBCDD22219F2D8100958511 /* OrderDetailViewController.swift */,
 				1FD3CBDB21DBEC920032DE2F /* Order Item */,

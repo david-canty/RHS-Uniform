@@ -136,14 +136,35 @@ class OrderDetailViewController: UITableViewController {
     }
     
     @objc func apiUpdated(notification: NSNotification) {
+    
+        guard let order = SUOrder.getObjectWithId(order.id) else {
+            DispatchQueue.main.async {
+                self.showOrderUnavailableAlert()
+            }
+            return
+        }
+            
+        self.order = order
+        self.orderItems = order.orderItems?.allObjects as? [SUOrderItem]
         
-        order = SUOrder.getObjectWithId(order.id)
-        orderItems = order.orderItems?.allObjects as? [SUOrderItem]
-
         DispatchQueue.main.async {
             self.displayOrder()
             self.tableView.reloadData()
         }
+    }
+    
+    func showOrderUnavailableAlert() {
+        
+        let alertController = UIAlertController(title: "Order Unavailable", message: "This order is no longer available.", preferredStyle: .alert)
+        alertController.view.tintColor = UIColor(red: 203.0/255.0, green: 8.0/255.0, blue: 19.0/255.0, alpha: 1.0)
+        
+        let alertAction = UIAlertAction(title: "Close", style: .default) { (action) in
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 
     // MARK: - Table View
