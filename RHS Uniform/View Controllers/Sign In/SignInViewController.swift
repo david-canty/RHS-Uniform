@@ -307,7 +307,11 @@ class SignInViewController: UIViewController {
     
     func createCustomer(withEmail email: String, firebaseUserId uid: String, completion: @escaping (SUCustomer?, Error?) -> Void) {
         
-        if SUCustomer.getObjectWithEmail(email) == nil {
+        if let existingCustomer = SUCustomer.getObjectWithEmail(email) {
+            
+            completion(existingCustomer, nil)
+            
+        } else {
             
             StripeClient.shared.createCustomer(withEmail: email) { result in
                 
@@ -323,7 +327,6 @@ class SignInViewController: UIViewController {
                             
                             let signInError = SignInError.error("Could not sign in: \(error.localizedDescription)")
                             completion(nil, signInError)
-                            return
                             
                         } else {
                             
